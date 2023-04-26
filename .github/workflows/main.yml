@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-#       - name: Execute automated tests
-#=         uses: ...
+      - name: Execute automated tests
+        uses: ...
       - name: Python setup
         if: always()
         uses: actions/setup-python@v3
@@ -31,4 +31,4 @@ jobs:
             --case-fields "refs:TEST-2" \
             --milestone-id "1" \
             --run-description ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} \
-            -f "./js/test-results/junit-report.xml"
+            -f "./test-results/junit-report.xml"
