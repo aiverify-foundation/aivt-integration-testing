@@ -1,4 +1,4 @@
-name: Send-results-to-testrail
+name: send-results-to-testrail
 on: [workflow_dispatch]
 env:
   TESTRAIL_USERNAME: ${{ secrets.TESTRAIL_USERNAME }}
@@ -21,11 +21,15 @@ jobs:
         run: |
           pip install trcli
           trcli -y \
-            -h https://t2t2.testrail.io/ \
-            --project "Test Project" \
+            -h https://imdabtg.testrail.io/ \
+            --project "AI Verify" \
             -u $TESTRAIL_USERNAME \
             -p $TESTRAIL_PASSWORD \
             parse_junit \
-            --title "Playwright Automated Test Run" \
+            --title "AI Verify" \
+            --result-fields "os:Ubuntu 22.04" \
+            --case-fields "refs:TEST-2" \
+            --milestone-id "1" \
+            --run-id "3" \
             --run-description ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} \
             -f "./js/test-results/junit-report.xml"
