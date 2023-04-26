@@ -1,0 +1,780 @@
+<testsuites id="" name="" tests="101" failures="18" skipped="9" errors="0" time="3.484861000000499">
+<testsuite name="api-endpoint/api.spec.js" timestamp="1682479440841" hostname="" tests="8" failures="1" skipped="5" time="0.118" errors="0">
+<testcase name="Get Report" classname="[chromium] › api-endpoint/api.spec.js › Get Report" time="0.001">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Export As Plugin" classname="[chromium] › api-endpoint/api.spec.js › Export As Plugin" time="0.001">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Upload Dataset" classname="[chromium] › api-endpoint/api.spec.js › Upload Dataset" time="0.001">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Upload Model" classname="[chromium] › api-endpoint/api.spec.js › Upload Model" time="0.001">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="List Plugins" classname="[chromium] › api-endpoint/api.spec.js › List Plugins" time="0.001">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Upload Plugins Upload Plugins" classname="[chromium] › api-endpoint/api.spec.js › Upload Plugins › Upload Plugins" time="0.054">
+<failure message="api.spec.js:512:5 Upload Plugins" type="FAILURE">
+<![CDATA[  [chromium] › api-endpoint/api.spec.js:512:5 › Upload Plugins › Upload Plugins ====================
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 400
+
+      525 |         })
+      526 |
+    > 527 |         expect.soft(response.status).toBe(200)
+          |                                      ^
+      528 |     })
+      529 |
+      530 |
+
+        at /home/benflop/GitHub/frontend-testing/tests/api-endpoint/api.spec.js:527:38
+]]>
+</failure>
+</testcase>
+<testcase name="Upload Plugins Upload Invalid File" classname="[chromium] › api-endpoint/api.spec.js › Upload Plugins › Upload Invalid File" time="0.05">
+</testcase>
+<testcase name="Upload Plugins Corrupted Meta JSON File" classname="[chromium] › api-endpoint/api.spec.js › Upload Plugins › Corrupted Meta JSON File" time="0.009">
+</testcase>
+</testsuite>
+<testsuite name="graphql/dataset/mutations.spec.js" timestamp="1682479440841" hostname="" tests="3" failures="1" skipped="2" time="0.001" errors="0">
+<testcase name="Delete Datasets Delete Dataset With Valid Dataset ID" classname="[chromium] › graphql/dataset/mutations.spec.js › Delete Datasets › Delete Dataset With Valid Dataset ID" time="0">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Delete Datasets Delete Dataset with Invalid Dataset ID" classname="[chromium] › graphql/dataset/mutations.spec.js › Delete Datasets › Delete Dataset with Invalid Dataset ID" time="0.001">
+<failure message="mutations.spec.js:76:5 Delete Dataset with Invalid Dataset ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/dataset/mutations.spec.js:76:5 › Delete Datasets › Delete Dataset with Invalid Dataset ID 
+
+    Error: ENOENT: no such file or directory, open '/home/benflop/GitLab/front-end-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'
+
+        at Function.AxiosError.from (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/core/AxiosError.js:89:14)
+        at RedirectableRequest.handleRequestError (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/adapters/http.js:526:25)
+]]>
+</failure>
+</testcase>
+<testcase name="Delete Datasets Delete Dataset with Empty Dataset ID" classname="[chromium] › graphql/dataset/mutations.spec.js › Delete Datasets › Delete Dataset with Empty Dataset ID" time="0">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="graphql/dataset/queries.spec.js" timestamp="1682479440841" hostname="" tests="1" failures="1" skipped="0" time="0.001" errors="0">
+<testcase name="Get Datasets Get All Datasets" classname="[chromium] › graphql/dataset/queries.spec.js › Get Datasets › Get All Datasets" time="0.001">
+<failure message="queries.spec.js:31:5 Get All Datasets" type="FAILURE">
+<![CDATA[  [chromium] › graphql/dataset/queries.spec.js:31:5 › Get Datasets › Get All Datasets ==============
+
+    Error: ENOENT: no such file or directory, open '/home/benflop/GitLab/front-end-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'
+
+        at Function.AxiosError.from (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/core/AxiosError.js:89:14)
+        at RedirectableRequest.handleRequestError (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/adapters/http.js:526:25)
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="graphql/model/mutations.spec.js" timestamp="1682479440841" hostname="" tests="3" failures="1" skipped="2" time="0" errors="0">
+<testcase name="Delete Datasets Delete Model With Valid Model ID" classname="[chromium] › graphql/model/mutations.spec.js › Delete Datasets › Delete Model With Valid Model ID" time="0">
+<failure message="mutations.spec.js:39:5 Delete Model With Valid Model ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/model/mutations.spec.js:39:5 › Delete Datasets › Delete Model With Valid Model ID 
+
+    Error: ENOENT: no such file or directory, open '/home/benflop/GitLab/front-end-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'
+
+        at Function.AxiosError.from (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/core/AxiosError.js:89:14)
+        at RedirectableRequest.handleRequestError (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/adapters/http.js:526:25)
+]]>
+</failure>
+</testcase>
+<testcase name="Delete Datasets Delete Model with Invalid Model ID" classname="[chromium] › graphql/model/mutations.spec.js › Delete Datasets › Delete Model with Invalid Model ID" time="0">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Delete Datasets Delete Dataset with Empty Dataset ID" classname="[chromium] › graphql/model/mutations.spec.js › Delete Datasets › Delete Dataset with Empty Dataset ID" time="0">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="graphql/model/queries.spec.js" timestamp="1682479440841" hostname="" tests="1" failures="1" skipped="0" time="0.002" errors="0">
+<testcase name="Get Models Get All Models" classname="[chromium] › graphql/model/queries.spec.js › Get Models › Get All Models" time="0.002">
+<failure message="queries.spec.js:31:5 Get All Models" type="FAILURE">
+<![CDATA[  [chromium] › graphql/model/queries.spec.js:31:5 › Get Models › Get All Models ====================
+
+    Error: ENOENT: no such file or directory, open '/home/benflop/GitLab/front-end-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'
+
+        at Function.AxiosError.from (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/core/AxiosError.js:89:14)
+        at RedirectableRequest.handleRequestError (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/adapters/http.js:526:25)
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="graphql/project/mutations.spec.js" timestamp="1682479440841" hostname="" tests="50" failures="5" skipped="0" time="2.609" errors="0">
+<testcase name="Create Project Create Project with Valid Inputs" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Valid Inputs" time="0.097">
+</testcase>
+<testcase name="Create Project Create Project with Invalid Project Information" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Invalid Project Information" time="0.078">
+<failure message="mutations.spec.js:39:5 Create Project with Invalid Project Information" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project/mutations.spec.js:39:5 › Create Project › Create Project with Invalid Project Information 
+
+    TypeError: Cannot read properties of undefined (reading '0')
+
+      75 |
+      76 |         // Assert Response
+    > 77 |         expect(errorMessage[0].extensions.code).toBe('INTERNAL_SERVER_ERROR')
+         |                            ^
+      78 |
+      79 |     })
+      80 |
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project/mutations.spec.js:77:28
+]]>
+</failure>
+</testcase>
+<testcase name="Create Project Create Project with Empty Project Information" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Empty Project Information" time="0.041">
+</testcase>
+<testcase name="Create Project Create Project with Invalid Global Variables" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Invalid Global Variables" time="0.055">
+</testcase>
+<testcase name="Create Project Create Project with Empty Global Variables" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Empty Global Variables" time="0.042">
+</testcase>
+<testcase name="Create Project Create Project with Invalid Pages" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Invalid Pages" time="0.056">
+</testcase>
+<testcase name="Create Project Create Project with Empty Pages" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Empty Pages" time="0.052">
+</testcase>
+<testcase name="Create Project Create Project with Malformed Input Block Data" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Malformed Input Block Data" time="0.002">
+</testcase>
+<testcase name="Create Project Create Project with Invalid Model &amp; Datasets Input" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Invalid Model &amp; Datasets Input" time="0.017">
+</testcase>
+<testcase name="Create Project Create Project with Empty Model &amp; Datasets Input" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Empty Model &amp; Datasets Input" time="0.008">
+</testcase>
+<testcase name="Create Project Create Project with Invalid Test Information Input Data" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Invalid Test Information Input Data" time="0.016">
+</testcase>
+<testcase name="Create Project Create Project with Empty Test Information Input Data" classname="[chromium] › graphql/project/mutations.spec.js › Create Project › Create Project with Empty Test Information Input Data" time="0.008">
+</testcase>
+<testcase name="Create Project From Template Create Project From Template with Valid Input and Template ID" classname="[chromium] › graphql/project/mutations.spec.js › Create Project From Template › Create Project From Template with Valid Input and Template ID" time="0.056">
+<failure message="mutations.spec.js:611:5 Create Project From Template with Valid Input and Template ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project/mutations.spec.js:611:5 › Create Project From Template › Create Project From Template with Valid Input and Template ID 
+
+    AxiosError: Request failed with status code 400
+
+        at settle (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/core/settle.js:19:12)
+        at IncomingMessage.handleStreamEnd (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/adapters/http.js:505:11)
+]]>
+</failure>
+</testcase>
+<testcase name="Create Project From Template Create Project From Template with Empty Input and Template ID" classname="[chromium] › graphql/project/mutations.spec.js › Create Project From Template › Create Project From Template with Empty Input and Template ID" time="0.055">
+<failure message="mutations.spec.js:636:5 Create Project From Template with Empty Input and Template ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project/mutations.spec.js:636:5 › Create Project From Template › Create Project From Template with Empty Input and Template ID 
+
+    AxiosError: Request failed with status code 400
+
+        at settle (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/core/settle.js:19:12)
+        at IncomingMessage.handleStreamEnd (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/adapters/http.js:505:11)
+]]>
+</failure>
+</testcase>
+<testcase name="Create Project From Template Create Project From Template with Valid Input and Invalid Template ID" classname="[chromium] › graphql/project/mutations.spec.js › Create Project From Template › Create Project From Template with Valid Input and Invalid Template ID" time="0.002">
+</testcase>
+<testcase name="Create Project From Template Create Project From Template with Valid Input and Empty Template ID" classname="[chromium] › graphql/project/mutations.spec.js › Create Project From Template › Create Project From Template with Valid Input and Empty Template ID" time="0.057">
+<failure message="mutations.spec.js:654:5 Create Project From Template with Valid Input and Empty Template ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project/mutations.spec.js:654:5 › Create Project From Template › Create Project From Template with Valid Input and Empty Template ID 
+
+    AxiosError: Request failed with status code 400
+
+        at settle (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/core/settle.js:19:12)
+        at IncomingMessage.handleStreamEnd (/home/benflop/GitHub/frontend-testing/node_modules/axios/lib/adapters/http.js:505:11)
+]]>
+</failure>
+</testcase>
+<testcase name="Update Project Update Project with Valid Inputs" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Valid Inputs" time="0.069">
+</testcase>
+<testcase name="Update Project Update Project with Invalid Project Information" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Invalid Project Information" time="0.031">
+<failure message="mutations.spec.js:780:5 Update Project with Invalid Project Information" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project/mutations.spec.js:780:5 › Update Project › Update Project with Invalid Project Information 
+
+    TypeError: Cannot read properties of undefined (reading '0')
+
+      837 |
+      838 |         // Assert Response
+    > 839 |         expect(errorMessage[0].extensions.code).toBe('BAD_USER_INPUT')
+          |                            ^
+      840 |
+      841 |     })
+      842 |
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project/mutations.spec.js:839:28
+]]>
+</failure>
+</testcase>
+<testcase name="Update Project Update Project with Empty Project Information" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Empty Project Information" time="0.021">
+</testcase>
+<testcase name="Update Project Update Project with Invalid Global Variables" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Invalid Global Variables" time="0.019">
+</testcase>
+<testcase name="Update Project Update Project with Empty Global Variables" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Empty Global Variables" time="0.013">
+</testcase>
+<testcase name="Update Project Update Project with Invalid Pages" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Invalid Pages" time="0.017">
+</testcase>
+<testcase name="Update Project Update Project with Empty Pages" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Empty Pages" time="0.008">
+</testcase>
+<testcase name="Update Project Update Project with Malformed Input Block Data" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Malformed Input Block Data" time="0.002">
+</testcase>
+<testcase name="Update Project Update Project with Invalid Model &amp; Datasets Input" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Invalid Model &amp; Datasets Input" time="0.01">
+</testcase>
+<testcase name="Update Project Update Project with Empty Model &amp; Datasets Input" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Empty Model &amp; Datasets Input" time="0.009">
+</testcase>
+<testcase name="Update Project Update Project with Invalid Test Information Input Data" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Invalid Test Information Input Data" time="0.021">
+</testcase>
+<testcase name="Update Project Update Project with Empty Test Information Input Data" classname="[chromium] › graphql/project/mutations.spec.js › Update Project › Update Project with Empty Test Information Input Data" time="0.005">
+</testcase>
+<testcase name="Delete Project Delete Project with Valid Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Delete Project › Delete Project with Valid Project ID" time="0.048">
+</testcase>
+<testcase name="Delete Project Delete Project with Invalid Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Delete Project › Delete Project with Invalid Project ID" time="0.012">
+</testcase>
+<testcase name="Delete Project Delete Project with Empty Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Delete Project › Delete Project with Empty Project ID" time="0.011">
+</testcase>
+<testcase name="Clone Project Clone Project with Valid Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Clone Project › Clone Project with Valid Project ID" time="0.074">
+</testcase>
+<testcase name="Clone Project Clone Project with Invalid Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Clone Project › Clone Project with Invalid Project ID" time="0.058">
+</testcase>
+<testcase name="Clone Project Clone Project with Empty Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Clone Project › Clone Project with Empty Project ID" time="0.014">
+</testcase>
+<testcase name="Generate Report Generate Report with Valid Inputs" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report with Valid Inputs" time="0.088">
+</testcase>
+<testcase name="Generate Report Generate Report when Report Generation In Progress" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report when Report Generation In Progress" time="0.118">
+</testcase>
+<testcase name="Generate Report Generate Report with Invalid Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report with Invalid Project ID" time="0.083">
+</testcase>
+<testcase name="Generate Report Generate Report with Empty Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report with Empty Project ID" time="0.048">
+</testcase>
+<testcase name="Generate Report Generate Report with Invalid Algorithms" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report with Invalid Algorithms" time="0.106">
+</testcase>
+<testcase name="Generate Report Generate Report with Empty Algorithm" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report with Empty Algorithm" time="0.078">
+</testcase>
+<testcase name="Generate Report Generate Report with Invalid Model and Datasets" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report with Invalid Model and Datasets" time="0.203">
+<system-out>
+<![CDATA[{
+  status: [33m200[39m,
+  statusText: [32m'OK'[39m,
+  headers: AxiosHeaders {
+    [32m'x-powered-by'[39m: [32m'Express'[39m,
+    [32m'access-control-allow-origin'[39m: [32m'*'[39m,
+    [32m'cache-control'[39m: [32m'no-store'[39m,
+    [32m'content-type'[39m: [32m'application/json; charset=utf-8'[39m,
+    [32m'content-length'[39m: [32m'93'[39m,
+    etag: [32m'W/"5d-aX6blPAMesl2N42BaCQLoiX8Ykc"'[39m,
+    date: [32m'Wed, 26 Apr 2023 03:24:01 GMT'[39m,
+    connection: [32m'close'[39m
+  },
+  config: {
+    transitional: {
+      silentJSONParsing: [33mtrue[39m,
+      forcedJSONParsing: [33mtrue[39m,
+      clarifyTimeoutError: [33mfalse[39m
+    },
+    adapter: [ [32m'xhr'[39m, [32m'http'[39m ],
+    transformRequest: [ [36m[Function: transformRequest][39m ],
+    transformResponse: [ [36m[Function: transformResponse][39m ],
+    timeout: [33m0[39m,
+    xsrfCookieName: [32m'XSRF-TOKEN'[39m,
+    xsrfHeaderName: [32m'X-XSRF-TOKEN'[39m,
+    maxContentLength: [33m-1[39m,
+    maxBodyLength: [33m-1[39m,
+    env: { FormData: [36m[Function][39m, Blob: [36m[class Blob][39m },
+    validateStatus: [36m[Function: validateStatus][39m,
+    headers: AxiosHeaders {
+      Accept: [32m'application/json, text/plain, */*'[39m,
+      [32m'Content-Type'[39m: [32m'application/json'[39m,
+      [32m'User-Agent'[39m: [32m'axios/1.2.1'[39m,
+      [32m'Content-Length'[39m: [32m'561'[39m,
+      [32m'Accept-Encoding'[39m: [32m'gzip, compress, deflate, br'[39m
+    },
+    method: [32m'post'[39m,
+    url: [32m'http://localhost:4000/graphql'[39m,
+    data: [32m'{"query":"mutation GenerateReport($projectId: ObjectID!, $algorithms: [String]!, $modelAndDatasets: ModelAndDatasetsReportInput) {\\n  generateReport(projectID: $projectId, algorithms: $algorithms, modelAndDatasets: $modelAndDatasets) {\\n    projectID\\n    status\\n  }\\n}","variables":{"projectId":"6448995134ef97feab6beee3","algorithms":"aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox","modelAndDatasets":{"modelFileName":null,"testDatasetFileName":null,"groundTruthDatasetFileName":null,"modelType":null,"groundTruthColumn":null}}}'[39m
+  },
+  request: [36m<ref *1>[39m ClientRequest {
+    _events: [Object: null prototype] {
+      abort: [36m[Function (anonymous)][39m,
+      aborted: [36m[Function (anonymous)][39m,
+      connect: [36m[Function (anonymous)][39m,
+      error: [36m[Function (anonymous)][39m,
+      socket: [36m[Function (anonymous)][39m,
+      timeout: [36m[Function (anonymous)][39m,
+      finish: [36m[Function: requestOnFinish][39m
+    },
+    _eventsCount: [33m7[39m,
+    _maxListeners: [90mundefined[39m,
+    outputData: [],
+    outputSize: [33m0[39m,
+    writable: [33mtrue[39m,
+    destroyed: [33mfalse[39m,
+    _last: [33mtrue[39m,
+    chunkedEncoding: [33mfalse[39m,
+    shouldKeepAlive: [33mfalse[39m,
+    maxRequestsOnConnectionReached: [33mfalse[39m,
+    _defaultKeepAlive: [33mtrue[39m,
+    useChunkedEncodingByDefault: [33mtrue[39m,
+    sendDate: [33mfalse[39m,
+    _removedConnection: [33mfalse[39m,
+    _removedContLen: [33mfalse[39m,
+    _removedTE: [33mfalse[39m,
+    strictContentLength: [33mfalse[39m,
+    _contentLength: [32m'561'[39m,
+    _hasBody: [33mtrue[39m,
+    _trailer: [32m''[39m,
+    finished: [33mtrue[39m,
+    _headerSent: [33mtrue[39m,
+    _closed: [33mfalse[39m,
+    socket: Socket {
+      connecting: [33mfalse[39m,
+      _hadError: [33mfalse[39m,
+      _parent: [1mnull[22m,
+      _host: [32m'localhost'[39m,
+      _closeAfterHandlingError: [33mfalse[39m,
+      _readableState: [36m[ReadableState][39m,
+      _events: [36m[Object: null prototype][39m,
+      _eventsCount: [33m7[39m,
+      _maxListeners: [90mundefined[39m,
+      _writableState: [36m[WritableState][39m,
+      allowHalfOpen: [33mfalse[39m,
+      _sockname: [1mnull[22m,
+      _pendingData: [1mnull[22m,
+      _pendingEncoding: [32m''[39m,
+      server: [1mnull[22m,
+      _server: [1mnull[22m,
+      parser: [1mnull[22m,
+      _httpMessage: [36m[Circular *1][39m,
+      [[32mSymbol(async_id_symbol)[39m]: [33m667[39m,
+      [[32mSymbol(kHandle)[39m]: [36m[TCP][39m,
+      [[32mSymbol(lastWriteQueueSize)[39m]: [33m0[39m,
+      [[32mSymbol(timeout)[39m]: [1mnull[22m,
+      [[32mSymbol(kBuffer)[39m]: [1mnull[22m,
+      [[32mSymbol(kBufferCb)[39m]: [1mnull[22m,
+      [[32mSymbol(kBufferGen)[39m]: [1mnull[22m,
+      [[32mSymbol(kCapture)[39m]: [33mfalse[39m,
+      [[32mSymbol(kSetNoDelay)[39m]: [33mtrue[39m,
+      [[32mSymbol(kSetKeepAlive)[39m]: [33mtrue[39m,
+      [[32mSymbol(kSetKeepAliveInitialDelay)[39m]: [33m60[39m,
+      [[32mSymbol(kBytesRead)[39m]: [33m0[39m,
+      [[32mSymbol(kBytesWritten)[39m]: [33m0[39m
+    },
+    _header: [32m'POST /graphql HTTP/1.1\r\n'[39m +
+      [32m'Accept: application/json, text/plain, */*\r\n'[39m +
+      [32m'Content-Type: application/json\r\n'[39m +
+      [32m'User-Agent: axios/1.2.1\r\n'[39m +
+      [32m'Content-Length: 561\r\n'[39m +
+      [32m'Accept-Encoding: gzip, compress, deflate, br\r\n'[39m +
+      [32m'Host: localhost:4000\r\n'[39m +
+      [32m'Connection: close\r\n'[39m +
+      [32m'\r\n'[39m,
+    _keepAliveTimeout: [33m0[39m,
+    _onPendingData: [36m[Function: nop][39m,
+    agent: Agent {
+      _events: [36m[Object: null prototype][39m,
+      _eventsCount: [33m2[39m,
+      _maxListeners: [90mundefined[39m,
+      defaultPort: [33m80[39m,
+      protocol: [32m'http:'[39m,
+      options: [36m[Object: null prototype][39m,
+      requests: [Object: null prototype] {},
+      sockets: [36m[Object: null prototype][39m,
+      freeSockets: [Object: null prototype] {},
+      keepAliveMsecs: [33m1000[39m,
+      keepAlive: [33mfalse[39m,
+      maxSockets: [33mInfinity[39m,
+      maxFreeSockets: [33m256[39m,
+      scheduling: [32m'lifo'[39m,
+      maxTotalSockets: [33mInfinity[39m,
+      totalSocketCount: [33m1[39m,
+      [[32mSymbol(kCapture)[39m]: [33mfalse[39m
+    },
+    socketPath: [90mundefined[39m,
+    method: [32m'POST'[39m,
+    maxHeaderSize: [90mundefined[39m,
+    insecureHTTPParser: [90mundefined[39m,
+    joinDuplicateHeaders: [90mundefined[39m,
+    path: [32m'/graphql'[39m,
+    _ended: [33mtrue[39m,
+    res: IncomingMessage {
+      _readableState: [36m[ReadableState][39m,
+      _events: [36m[Object: null prototype][39m,
+      _eventsCount: [33m4[39m,
+      _maxListeners: [90mundefined[39m,
+      socket: [36m[Socket][39m,
+      httpVersionMajor: [33m1[39m,
+      httpVersionMinor: [33m1[39m,
+      httpVersion: [32m'1.1'[39m,
+      complete: [33mtrue[39m,
+      rawHeaders: [36m[Array][39m,
+      rawTrailers: [],
+      joinDuplicateHeaders: [90mundefined[39m,
+      aborted: [33mfalse[39m,
+      upgrade: [33mfalse[39m,
+      url: [32m''[39m,
+      method: [1mnull[22m,
+      statusCode: [33m200[39m,
+      statusMessage: [32m'OK'[39m,
+      client: [36m[Socket][39m,
+      _consuming: [33mfalse[39m,
+      _dumped: [33mfalse[39m,
+      req: [36m[Circular *1][39m,
+      responseUrl: [32m'http://localhost:4000/graphql'[39m,
+      redirects: [],
+      [[32mSymbol(kCapture)[39m]: [33mfalse[39m,
+      [[32mSymbol(kHeaders)[39m]: [36m[Object][39m,
+      [[32mSymbol(kHeadersCount)[39m]: [33m16[39m,
+      [[32mSymbol(kTrailers)[39m]: [1mnull[22m,
+      [[32mSymbol(kTrailersCount)[39m]: [33m0[39m
+    },
+    aborted: [33mfalse[39m,
+    timeoutCb: [1mnull[22m,
+    upgradeOrConnect: [33mfalse[39m,
+    parser: [1mnull[22m,
+    maxHeadersCount: [1mnull[22m,
+    reusedSocket: [33mfalse[39m,
+    host: [32m'localhost'[39m,
+    protocol: [32m'http:'[39m,
+    _redirectable: Writable {
+      _writableState: [36m[WritableState][39m,
+      _events: [36m[Object: null prototype][39m,
+      _eventsCount: [33m3[39m,
+      _maxListeners: [90mundefined[39m,
+      _options: [36m[Object][39m,
+      _ended: [33mtrue[39m,
+      _ending: [33mtrue[39m,
+      _redirectCount: [33m0[39m,
+      _redirects: [],
+      _requestBodyLength: [33m561[39m,
+      _requestBodyBuffers: [],
+      _onNativeResponse: [36m[Function (anonymous)][39m,
+      _currentRequest: [36m[Circular *1][39m,
+      _currentUrl: [32m'http://localhost:4000/graphql'[39m,
+      [[32mSymbol(kCapture)[39m]: [33mfalse[39m
+    },
+    [[32mSymbol(kCapture)[39m]: [33mfalse[39m,
+    [[32mSymbol(kBytesWritten)[39m]: [33m0[39m,
+    [[32mSymbol(kEndCalled)[39m]: [33mtrue[39m,
+    [[32mSymbol(kNeedDrain)[39m]: [33mfalse[39m,
+    [[32mSymbol(corked)[39m]: [33m0[39m,
+    [[32mSymbol(kOutHeaders)[39m]: [Object: null prototype] {
+      accept: [36m[Array][39m,
+      [32m'content-type'[39m: [36m[Array][39m,
+      [32m'user-agent'[39m: [36m[Array][39m,
+      [32m'content-length'[39m: [36m[Array][39m,
+      [32m'accept-encoding'[39m: [36m[Array][39m,
+      host: [36m[Array][39m
+    },
+    [[32mSymbol(errored)[39m]: [1mnull[22m,
+    [[32mSymbol(kUniqueHeaders)[39m]: [1mnull[22m
+  },
+  data: { data: { generateReport: [36m[Object][39m } }
+}
+{
+  errors: [
+    {
+      message: [32m'Unexpected error value: "Previous report generation still running"'[39m,
+      locations: [36m[Array][39m,
+      path: [36m[Array][39m,
+      extensions: [36m[Object][39m
+    }
+  ],
+  data: { generateReport: [1mnull[22m }
+}
+]]>
+</system-out>
+</testcase>
+<testcase name="Generate Report Generate Report with Empty Model and Datasets" classname="[chromium] › graphql/project/mutations.spec.js › Generate Report › Generate Report with Empty Model and Datasets" time="0.071">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with Valid Project ID &amp; With Report Generation" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with Valid Project ID &amp; With Report Generation" time="0.19">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with Invalid Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with Invalid Project ID" time="0.133">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with Empty Project ID" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with Empty Project ID" time="0.074">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with Invalid Algorithm" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with Invalid Algorithm" time="0.058">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with Empty Algorithm" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with Empty Algorithm" time="0.062">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with No Report" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with No Report" time="0.059">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with Generating Report" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with Generating Report" time="0.136">
+</testcase>
+<testcase name="Cancel Test Run Cancel Test Run with Pending Test" classname="[chromium] › graphql/project/mutations.spec.js › Cancel Test Run › Cancel Test Run with Pending Test" time="0.018">
+</testcase>
+</testsuite>
+<testsuite name="graphql/project/queries.spec.js" timestamp="1682479440841" hostname="" tests="8" failures="2" skipped="0" time="0.256" errors="0">
+<testcase name="Get Projects Get Projects" classname="[chromium] › graphql/project/queries.spec.js › Get Projects › Get Projects" time="0.086">
+</testcase>
+<testcase name="Get Projects Get Project By Project ID" classname="[chromium] › graphql/project/queries.spec.js › Get Projects › Get Project By Project ID" time="0.026">
+</testcase>
+<testcase name="Get Projects Get Project By Invalid Project ID" classname="[chromium] › graphql/project/queries.spec.js › Get Projects › Get Project By Invalid Project ID" time="0.013">
+</testcase>
+<testcase name="Get Projects Get Project By Empty Project ID" classname="[chromium] › graphql/project/queries.spec.js › Get Projects › Get Project By Empty Project ID" time="0.006">
+</testcase>
+<testcase name="Get Reports Get Report By Project ID" classname="[chromium] › graphql/project/queries.spec.js › Get Reports › Get Report By Project ID" time="0.034">
+<failure message="queries.spec.js:145:3 Get Report By Project ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project/queries.spec.js:145:3 › Get Reports › Get Report By Project ID ======
+
+    TypeError: Cannot read properties of null (reading 'projectId')
+
+      163 |
+      164 |     // Assert Response
+    > 165 |     expect(reportInfo.projectId).toBe(reportInfo._id)
+          |                       ^
+      166 |     expect(reportInfo.status).toBe(reportInfoObj.status)
+      167 |     expect(Date(reportInfo.timeStart)).toBe(Date(reportInfoObj.timeStart))
+      168 |     expect(reportInfo.timeTaken).toBe(reportInfoObj.timeTaken)
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project/queries.spec.js:165:23
+]]>
+</failure>
+</testcase>
+<testcase name="Get Reports Get Report By Invalid Project ID" classname="[chromium] › graphql/project/queries.spec.js › Get Reports › Get Report By Invalid Project ID" time="0.026">
+</testcase>
+<testcase name="Get Reports Get Report By Empty Project ID" classname="[chromium] › graphql/project/queries.spec.js › Get Reports › Get Report By Empty Project ID" time="0.016">
+</testcase>
+<testcase name="Get Reports Get Non-Generated Report with Valid Project ID" classname="[chromium] › graphql/project/queries.spec.js › Get Reports › Get Non-Generated Report with Valid Project ID" time="0.049">
+<failure message="queries.spec.js:213:3 Get Non-Generated Report with Valid Project ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project/queries.spec.js:213:3 › Get Reports › Get Non-Generated Report with Valid Project ID 
+
+    TypeError: Cannot read properties of null (reading 'report')
+
+      227 |     // Get Report directly from MongoDB
+      228 |     const query = { _id: ObjectId(projectId) }
+    > 229 |     const reportId = (await projects.findOne(query)).report
+          |                                                      ^
+      230 |
+      231 |     const query2 = { _id: ObjectId(reportId) }
+      232 |     const reportInfoObj = (await reports.findOne(query2))
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project/queries.spec.js:229:54
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="graphql/project-template/mutations.spec.js" timestamp="1682479440841" hostname="" tests="23" failures="5" skipped="0" time="0.876" errors="0">
+<testcase name="Create Project Template Create Project Template with Valid Inputs" classname="[chromium] › graphql/project-template/mutations.spec.js › Create Project Template › Create Project Template with Valid Inputs" time="0.04">
+</testcase>
+<testcase name="Create Project Template Create Project Template with Invalid Project Information" classname="[chromium] › graphql/project-template/mutations.spec.js › Create Project Template › Create Project Template with Invalid Project Information" time="0.064">
+<failure message="mutations.spec.js:52:5 Create Project Template with Invalid Project Information" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project-template/mutations.spec.js:52:5 › Create Project Template › Create Project Template with Invalid Project Information 
+
+    TypeError: Cannot read properties of undefined (reading '0')
+
+      92 |
+      93 |         // Assert Response
+    > 94 |         expect(errorMessage[0].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.name\"; String cannot represent a non string value: 0")
+         |                            ^
+      95 |         expect(errorMessage[1].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.description\"; String cannot represent a non string value: 0")
+      96 |         expect(errorMessage[2].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.reportTitle\"; String cannot represent a non string value: 0")
+      97 |         expect(errorMessage[3].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.company\"; String cannot represent a non string value: 0")
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project-template/mutations.spec.js:94:28
+]]>
+</failure>
+<system-out>
+<![CDATA[{
+  id: [32m'6448995334ef97feab6bf1f8'[39m,
+  projectInfo: { name: [32m'0'[39m, description: [32m'0'[39m, reportTitle: [32m'0'[39m, company: [32m'0'[39m },
+  globalVars: [],
+  pages: [],
+  createdAt: [32m'2023-04-26T03:24:03.320Z'[39m,
+  updatedAt: [32m'2023-04-26T03:24:03.320Z'[39m
+}
+]]>
+</system-out>
+</testcase>
+<testcase name="Create Project Template Create Project Template with Empty Project Information" classname="[chromium] › graphql/project-template/mutations.spec.js › Create Project Template › Create Project Template with Empty Project Information" time="0.154">
+<failure message="mutations.spec.js:107:5 Create Project Template with Empty Project Information" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project-template/mutations.spec.js:107:5 › Create Project Template › Create Project Template with Empty Project Information 
+
+    TypeError: Cannot read properties of undefined (reading 'createProjectTemplate')
+
+      126 |
+      127 |         // FIXME JIRA 185
+    > 128 |         const projectTemplateInfo = response.data.data.createProjectTemplate
+          |                                                        ^
+      129 |         const projectTemplateId = projectTemplateInfo.id
+      130 |
+      131 |         // Get Project Info directly from MongoDB
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project-template/mutations.spec.js:128:56
+]]>
+</failure>
+</testcase>
+<testcase name="Create Project Template Create Project Template with Invalid Global Variable" classname="[chromium] › graphql/project-template/mutations.spec.js › Create Project Template › Create Project Template with Invalid Global Variable" time="0.012">
+</testcase>
+<testcase name="Create Project Template Create Project Template with Empty Global Variable" classname="[chromium] › graphql/project-template/mutations.spec.js › Create Project Template › Create Project Template with Empty Global Variable" time="0.088">
+<failure message="mutations.spec.js:190:5 Create Project Template with Empty Global Variable" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project-template/mutations.spec.js:190:5 › Create Project Template › Create Project Template with Empty Global Variable 
+
+    TypeError: Cannot read properties of undefined (reading 'createProjectTemplate')
+
+      209 |         const errorMessage = response.data.errors
+      210 |
+    > 211 |         const projectTemplateInfo = response.data.data.createProjectTemplate
+          |                                                        ^
+      212 |         const projectTemplateId = projectTemplateInfo.id
+      213 |
+      214 |         // Get Project Info directly from MongoDB
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project-template/mutations.spec.js:211:56
+]]>
+</failure>
+</testcase>
+<testcase name="Create Project Template Create Project Template with Invalid Pages" classname="[chromium] › graphql/project-template/mutations.spec.js › Create Project Template › Create Project Template with Invalid Pages" time="0.037">
+</testcase>
+<testcase name="Create Project Template Create Project Template with Empty Pages" classname="[chromium] › graphql/project-template/mutations.spec.js › Create Project Template › Create Project Template with Empty Pages" time="0.016">
+</testcase>
+<testcase name="Clone Project Template Clone Project Template by Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Clone Project Template › Clone Project Template by Project Template ID" time="0.017">
+</testcase>
+<testcase name="Clone Project Template Clone Project Template by Invalid Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Clone Project Template › Clone Project Template by Invalid Project Template ID" time="0.015">
+</testcase>
+<testcase name="Clone Project Template Clone Project Template by Empty Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Clone Project Template › Clone Project Template by Empty Project Template ID" time="0.006">
+</testcase>
+<testcase name="Delete Project Template Delete Project Template by Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Delete Project Template › Delete Project Template by Project Template ID" time="0.014">
+</testcase>
+<testcase name="Delete Project Template Delete Project Template by Invalid Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Delete Project Template › Delete Project Template by Invalid Project Template ID" time="0.039">
+</testcase>
+<testcase name="Delete Project Template Delete Project Template by Empty Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Delete Project Template › Delete Project Template by Empty Project Template ID" time="0.012">
+</testcase>
+<testcase name="Update Project Template Update Project Template by Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template by Project Template ID" time="0.015">
+<failure message="mutations.spec.js:621:5 Update Project Template by Project Template ID" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project-template/mutations.spec.js:621:5 › Update Project Template › Update Project Template by Project Template ID 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Template 10"
+    Received: "Template 3"
+
+      645 |
+      646 |         // Assert Response
+    > 647 |         expect(updatedProjectTemplateObj.projectInfo.name).toBe(data)
+          |                                                            ^
+      648 |         expect(updatedProjectTemplateObj.projectInfo.description).toBe(data)
+      649 |
+      650 |     })
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project-template/mutations.spec.js:647:60
+]]>
+</failure>
+</testcase>
+<testcase name="Update Project Template Update Project Template with Invalid Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Invalid Project Template ID" time="0.08">
+</testcase>
+<testcase name="Update Project Template Update Project Template with Empty Project Template ID" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Empty Project Template ID" time="0.05">
+</testcase>
+<testcase name="Update Project Template Update Project Template with Valid Inputs" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Valid Inputs" time="0.03">
+<system-out>
+<![CDATA[{
+  id: [32m'6448995334ef97feab6bf1c4'[39m,
+  fromPlugin: [33mfalse[39m,
+  projectInfo: {
+    name: [32m'Template 10'[39m,
+    description: [32m'Template 6'[39m,
+    reportTitle: [32m'Template 3'[39m,
+    company: [32m'Template 3'[39m
+  },
+  globalVars: [ { key: [32m'Time'[39m, value: [32m'30'[39m } ],
+  pages: [ { layouts: [], reportWidgets: [36m[Array][39m } ],
+  createdAt: [32m'2023-04-26T03:24:03.084Z'[39m,
+  updatedAt: [32m'2023-04-26T03:24:03.084Z'[39m
+}
+]]>
+</system-out>
+</testcase>
+<testcase name="Update Project Template Update Project Template with Invalid Project Information" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Invalid Project Information" time="0.046">
+</testcase>
+<testcase name="Update Project Template Update Project Template with Empty Project Information" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Empty Project Information" time="0.008">
+</testcase>
+<testcase name="Update Project Template Update Project Template with Invalid Global Variables" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Invalid Global Variables" time="0.006">
+<failure message="mutations.spec.js:929:5 Update Project Template with Invalid Global Variables" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project-template/mutations.spec.js:929:5 › Update Project Template › Update Project Template with Invalid Global Variables 
+
+    ReferenceError: Cannot access 'errorMessage' before initialization
+
+      945 |         })
+      946 |
+    > 947 |         errorMessage = response.data.errors
+          |                     ^
+      948 |
+      949 |         // Assert Response
+      950 |         expect(errorMessage[0].message).toBe("Variable \"$projectTemplate\" got invalid value null at \"projectTemplate.globalVars[0].key\"; Expected non-nullable type \"key_String_NotNull_minLength_1_maxLength_128!\" not to be null.")
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project-template/mutations.spec.js:947:21
+]]>
+</failure>
+</testcase>
+<testcase name="Update Project Template Update Project Template with Empty Global Variables" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Empty Global Variables" time="0.046">
+</testcase>
+<testcase name="Update Project Template Update Project Template with Invalid Pages" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Invalid Pages" time="0.033">
+</testcase>
+<testcase name="Update Project Template Update Project Template with Empty Pages" classname="[chromium] › graphql/project-template/mutations.spec.js › Update Project Template › Update Project Template with Empty Pages" time="0.048">
+</testcase>
+</testsuite>
+<testsuite name="graphql/project-template/queries.spec.js" timestamp="1682479440841" hostname="" tests="4" failures="1" skipped="0" time="0.122" errors="0">
+<testcase name="Get Project Template Get Project Templates" classname="[chromium] › graphql/project-template/queries.spec.js › Get Project Template › Get Project Templates" time="0.034">
+<failure message="queries.spec.js:33:3 Get Project Templates" type="FAILURE">
+<![CDATA[  [chromium] › graphql/project-template/queries.spec.js:33:3 › Get Project Template › Get Project Templates 
+
+    TypeError: Cannot read properties of undefined (reading 'id')
+
+      39 |
+      40 |     const output = response.data.data.projectTemplates
+    > 41 |     let projectTemplateId = output[33].id
+         |                                        ^
+      42 |
+      43 |     // Get 34th Project Template Info directly from MongoDB
+      44 |     let query = { _id: ObjectId(projectTemplateId) }
+
+        at /home/benflop/GitHub/frontend-testing/tests/graphql/project-template/queries.spec.js:41:40
+]]>
+</failure>
+</testcase>
+<testcase name="Get Project Template Get Project Template by Project Template Id" classname="[chromium] › graphql/project-template/queries.spec.js › Get Project Template › Get Project Template by Project Template Id" time="0.058">
+</testcase>
+<testcase name="Get Project Template Get Project Template by Invalid Project Template Id" classname="[chromium] › graphql/project-template/queries.spec.js › Get Project Template › Get Project Template by Invalid Project Template Id" time="0.021">
+</testcase>
+<testcase name="Get Project Template Get Project Template by Empty Project Template Id" classname="[chromium] › graphql/project-template/queries.spec.js › Get Project Template › Get Project Template by Empty Project Template Id" time="0.009">
+</testcase>
+</testsuite>
+</testsuites>
