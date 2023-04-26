@@ -334,7 +334,7 @@ test.skip('Upload Dataset', () => {
     test('Upload Dataset with Valid Dataset', async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -355,7 +355,7 @@ test.skip('Upload Dataset', () => {
         const form_data = new FormData()
 
         // TODO Need invalid dataset
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -392,7 +392,7 @@ test.skip('Upload Dataset', () => {
     test('Upload Unsupported File Format Dataset', async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/combine_all.sh'));
+        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/combine_all.sh'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -414,7 +414,7 @@ test.skip('Upload Model', () => {
     test('Upload Model with Valid Model', async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
             headers: {
@@ -435,7 +435,7 @@ test.skip('Upload Model', () => {
         const form_data = new FormData()
 
         // TODO Need invalid model
-        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
             headers: {
@@ -472,7 +472,7 @@ test.skip('Upload Model', () => {
     test('Upload Model Unsupported File Format Model', async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/combine_all.sh'));
+        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/combine_all.sh'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
             headers: {
@@ -489,7 +489,7 @@ test.skip('Upload Model', () => {
     })
 })
 
-test.describe('List Plugins', () => {
+test.skip('List Plugins', () => {
 
     test('List All Plugins', async () => {
         const response = await axios.post(API_ENDPOINT + '/api/plugins/list')
@@ -509,7 +509,44 @@ test.describe('List Plugins', () => {
 
 test.describe('Upload Plugins', () => {
 
-    test('Upload Plugin', async () => {
-        const response = await axios.post(API_ENDPOINT + '/api/plugins/')
+    test('Upload Plugins', async () => {
+
+        const form_data = new FormData()
+        form_data.append('plugins', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/aiverify.stock.process-checklist-test.zip'));
+
+        const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
+            headers: {
+                ...form_data.getHeaders()
+            },
+            data: form_data,
+            validateStatus: function (status) {
+                return status < 600; // Resolve only if the status code is less than 600
+            }
+        })
+
+        expect.soft(response.status).toBe(200)
+    })
+
+
+    test('Upload Invalid File', async () => {
+
+        const form_data = new FormData()
+        form_data.append('plugins', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/combine_all.sh'));
+
+        const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
+            headers: {
+                ...form_data.getHeaders()
+            },
+            data: form_data,
+            validateStatus: function (status) {
+                return status < 600; // Resolve only if the status code is less than 600
+            }
+        })
+
+        expect.soft(response.status).toBe(400)
+    })
+
+    test('Corrupted Meta JSON File', async () => {
+        
     })
 })

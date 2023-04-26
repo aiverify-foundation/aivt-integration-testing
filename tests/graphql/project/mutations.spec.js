@@ -13,9 +13,9 @@ const database = mongoClient.db('aiverify')
 const projects = database.collection('projecttemplatemodels')
 const reports = database.collection('reportmodels')
 
-test.skip('Create Project', () => {
+test.describe('Create Project', () => {
 
-    test.skip('Create Project with Valid Inputs', async () => {
+    test('Create Project with Valid Inputs', async () => {
 
         // Send Request
         const response = await axios.post(ENDPOINT, {
@@ -36,7 +36,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Invalid Project Information', async () => {
+    test('Create Project with Invalid Project Information', async () => {
 
         // NULL Project Information
         let response = await axios.post(ENDPOINT, {
@@ -79,7 +79,7 @@ test.skip('Create Project', () => {
     })
 
 
-    test.skip('Create Project with Empty Project Information', async () => {
+    test('Create Project with Empty Project Information', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT,
@@ -100,7 +100,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Invalid Global Variables', async () => {
+    test('Create Project with Invalid Global Variables', async () => {
 
         // NULL Global Variables
         let response = await axios.post(ENDPOINT, {
@@ -148,7 +148,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Empty Global Variables', async () => {
+    test('Create Project with Empty Global Variables', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT,
@@ -173,7 +173,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Invalid Pages', async () => {
+    test('Create Project with Invalid Pages', async () => {
 
         // Null Pages
         let response = await axios.post(ENDPOINT, {
@@ -283,7 +283,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Empty Pages', async () => {
+    test('Create Project with Empty Pages', async () => {
         
         const response = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT,
@@ -339,11 +339,11 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Malformed Input Block Data', async () => {
+    test('Create Project with Malformed Input Block Data', async () => {
 
     })
 
-    test.skip('Create Project with Invalid Model & Datasets Input', async () => {
+    test('Create Project with Invalid Model & Datasets Input', async () => {
 
         // NULL Model & Datasets
         let response = await axios.post(ENDPOINT, {
@@ -461,7 +461,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Empty Model & Datasets Input', async () => {
+    test('Create Project with Empty Model & Datasets Input', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT,
@@ -521,7 +521,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Invalid Test Information Input Data', async () => {
+    test('Create Project with Invalid Test Information Input Data', async () => {
 
         // Null Test Information Data
         let response = await axios.post(ENDPOINT, {
@@ -568,7 +568,7 @@ test.skip('Create Project', () => {
 
     })
 
-    test.skip('Create Project with Empty Test Information Input Data', async () => {
+    test('Create Project with Empty Test Information Input Data', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT,
@@ -594,7 +594,7 @@ test.skip('Create Project', () => {
 
 })
 
-test.skip('Create Project From Template', () => {
+test.describe('Create Project From Template', () => {
 
     let templateId
 
@@ -633,7 +633,7 @@ test.skip('Create Project From Template', () => {
 
     })
 
-    test.skip('Create Project From Template with Empty Input and Template ID', async () => {
+    test('Create Project From Template with Empty Input and Template ID', async () => {
 
         const projectFromTemplate = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT_FROM_TEMPLATE,
@@ -647,11 +647,11 @@ test.skip('Create Project From Template', () => {
         expect(errorMessage[0].message).toBe('Variable "$project" got invalid value ""; Expected type "ProjectInput" to be an object.')
     })
 
-    test.skip('Create Project From Template with Valid Input and Invalid Template ID', async () => {
+    test('Create Project From Template with Valid Input and Invalid Template ID', async () => {
 
     })
 
-    test.skip('Create Project From Template with Valid Input and Empty Template ID', async () => {
+    test('Create Project From Template with Valid Input and Empty Template ID', async () => {
         const projectFromTemplate = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT_FROM_TEMPLATE,
             variables: {
@@ -667,7 +667,7 @@ test.skip('Create Project From Template', () => {
     })
 })
 
-test.skip('Update Project', () => {
+test.describe('Update Project', () => {
 
     let project, projectId
 
@@ -684,7 +684,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Valid Inputs', async () => {
+    test('Update Project with Valid Inputs', async () => {
 
         // Send Request
         const response = await axios.post(ENDPOINT, {
@@ -840,7 +840,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Empty Project Information', async () => {
+    test('Update Project with Empty Project Information', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.UPDATE_PROJECT,
@@ -863,7 +863,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Invalid Global Variables', async () => {
+    test('Update Project with Invalid Global Variables', async () => {
 
         // NULL Global Variables
         let response = await axios.post(ENDPOINT, {
@@ -913,7 +913,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Empty Global Variables', async () => {
+    test('Update Project with Empty Global Variables', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.UPDATE_PROJECT,
@@ -939,7 +939,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Invalid Pages', async () => {
+    test('Update Project with Invalid Pages', async () => {
 
         // Null Pages
         let response = await axios.post(ENDPOINT, {
@@ -1051,7 +1051,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Empty Pages', async () => {
+    test('Update Project with Empty Pages', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.UPDATE_PROJECT,
@@ -1108,11 +1108,11 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Malformed Input Block Data', async () => {
+    test('Update Project with Malformed Input Block Data', async () => {
 
     })
 
-    test.skip('Update Project with Invalid Model & Datasets Input', async () => {
+    test('Update Project with Invalid Model & Datasets Input', async () => {
 
         // NULL Model & Datasets
         let response = await axios.post(ENDPOINT, {
@@ -1232,7 +1232,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Empty Model & Datasets Input', async () => {
+    test('Update Project with Empty Model & Datasets Input', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.UPDATE_PROJECT,
@@ -1293,7 +1293,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Invalid Test Information Input Data', async () => {
+    test('Update Project with Invalid Test Information Input Data', async () => {
 
         // Null Test Information Data
         let response = await axios.post(ENDPOINT, {
@@ -1341,7 +1341,7 @@ test.skip('Update Project', () => {
 
     })
 
-    test.skip('Update Project with Empty Test Information Input Data', async () => {
+    test('Update Project with Empty Test Information Input Data', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: project_data.UPDATE_PROJECT,
@@ -1368,7 +1368,7 @@ test.skip('Update Project', () => {
 
 })
 
-test.skip('Delete Project', () => {
+test.describe('Delete Project', () => {
 
     let project, projectId
 
@@ -1442,7 +1442,7 @@ test.skip('Delete Project', () => {
 
 })
 
-test.skip('Clone Project', () => {
+test.describe('Clone Project', () => {
 
     let project, projectId
 
@@ -1533,7 +1533,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test.skip('Generate Report with Valid Inputs', async () => {
+    test('Generate Report with Valid Inputs', async () => {
 
         // Generate Report into Generating Report State
         const generateReport = await axios.post(ENDPOINT, {
@@ -1554,7 +1554,7 @@ test.describe('Generate Report', () => {
         expect(generateReport.data.data.generateReport.status).toBe("RunningTests") //Change to Report Generated
     })
 
-    test.skip('Generate Report when Report Generation In Progress', async () => {
+    test('Generate Report when Report Generation In Progress', async () => {
 
         // Send Request
         let generateReport = await axios.post(ENDPOINT, {
@@ -1594,7 +1594,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test.skip('Generate Report with Invalid Project ID', async () => {
+    test('Generate Report with Invalid Project ID', async () => {
 
         // Non-Existing Project ID
         let generateReport = await axios.post(ENDPOINT, {
@@ -1655,7 +1655,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test.skip('Generate Report with Empty Project ID', async () => {
+    test('Generate Report with Empty Project ID', async () => {
 
         const generateReport = await axios.post(ENDPOINT, {
             query: project_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
@@ -1679,7 +1679,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test.skip('Generate Report with Invalid Algorithms', async () => {
+    test('Generate Report with Invalid Algorithms', async () => {
 
         // Non-Existing Algorithms
         let generateReport = await axios.post(ENDPOINT, {
@@ -1741,7 +1741,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test.skip('Generate Report with Empty Algorithm', async () => {
+    test('Generate Report with Empty Algorithm', async () => {
 
         const generateReport = await axios.post(ENDPOINT, {
             query: project_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
@@ -1829,7 +1829,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test.skip('Generate Report with Empty Model and Datasets', async () => {
+    test('Generate Report with Empty Model and Datasets', async () => {
 
         const generateReport = await axios.post(ENDPOINT, {
             query: project_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
@@ -1847,7 +1847,7 @@ test.describe('Generate Report', () => {
 
 })
 
-test.skip('Cancel Test Run', () => {
+test.describe('Cancel Test Run', () => {
 
     let project, projectId
 
@@ -2048,7 +2048,7 @@ test.skip('Cancel Test Run', () => {
 
     })
 
-    test.skip('Cancel Test Run with Pending Test', async () => {
+    test('Cancel Test Run with Pending Test', async () => {
 
     })
 

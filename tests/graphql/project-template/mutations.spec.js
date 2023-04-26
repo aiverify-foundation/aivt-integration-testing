@@ -12,7 +12,7 @@ const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const projects = database.collection('projecttemplatemodels')
 
-test.skip('Create Project Template', () => {
+test.describe('Create Project Template', () => {
 
     test('Create Project Template with Valid Inputs', async () => {
 
@@ -401,7 +401,7 @@ test.skip('Create Project Template', () => {
     })
 })
 
-test.skip('Clone Project Template', () => {
+test.describe('Clone Project Template', () => {
 
     let projectTemplateId
     let projectTemplate
@@ -502,7 +502,7 @@ test.skip('Clone Project Template', () => {
 
 })
 
-test.skip('Delete Project Template', () => {
+test.describe('Delete Project Template', () => {
 
     let projectTemplateId
     let projectTemplate
@@ -618,7 +618,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template by Project Template ID', async () => {
+    test('Update Project Template by Project Template ID', async () => {
 
         const data = "Template 10"
 
@@ -649,7 +649,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Invalid Project Template ID', async () => {
+    test('Update Project Template with Invalid Project Template ID', async () => {
 
         const data = "Template 19"
 
@@ -738,7 +738,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Empty Project Template ID', async () => {
+    test('Update Project Template with Empty Project Template ID', async () => {
 
         const data = "Template 45"
 
@@ -771,7 +771,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Valid Inputs', async () => {
+    test('Update Project Template with Valid Inputs', async () => {
 
         const data = {
             "name": "Template 10",
@@ -831,7 +831,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Invalid Project Information', async () => {
+    test('Update Project Template with Invalid Project Information', async () => {
 
         // Test For Null Project Information
         let response = await axios.post(ENDPOINT, {
@@ -893,7 +893,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Empty Project Information', async () => {
+    test('Update Project Template with Empty Project Information', async () => {
 
         const data = ""
 
@@ -992,7 +992,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Empty Global Variables', async () => {
+    test('Update Project Template with Empty Global Variables', async () => {
 
         const data = ""
 
@@ -1028,7 +1028,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Invalid Pages', async () => {
+    test('Update Project Template with Invalid Pages', async () => {
 
         // Test For Null Values in Layouts
         let response = await axios.post(ENDPOINT, {
@@ -1140,7 +1140,7 @@ test.describe('Update Project Template', () => {
 
     })
 
-    test.skip('Update Project Template with Empty Pages', async () => {
+    test('Update Project Template with Empty Pages', async () => {
 
         const data = ""
 
