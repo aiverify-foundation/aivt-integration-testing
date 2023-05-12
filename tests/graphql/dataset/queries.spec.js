@@ -16,7 +16,7 @@ test.describe('Get Datasets', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
         await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -25,10 +25,11 @@ test.describe('Get Datasets', () => {
             data: form_data,
         })
 
-        await setTimeout(5000);
     })
 
     test('Get All Datasets', async () => {
+
+        await setTimeout(5000);
 
         const response = await axios.post(ENDPOINT, {
             query: dataset_data.DATASETS,
