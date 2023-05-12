@@ -16,14 +16,16 @@ const datasets = database.collection('datasetmodels')
 const ENDPOINT = "http://localhost:4000/graphql"
 const API_ENDPOINT = "http://localhost:3000"
 
-test.describe('Update Datasets', () => {
+test.describe.configure({ mode: 'serial' });
 
-    let datasetID
+test.describe('Update Dataset', () => {
+
+    let dataset, datasetID
 
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
         await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -32,20 +34,124 @@ test.describe('Update Datasets', () => {
             data: form_data,
         })
 
-        await setTimeout(5000);
+        await setTimeout(3000);
+
+        const response = await axios.post(ENDPOINT, {
+            query: dataset_data.DATASETS,
+        })
+
+        dataset = response.data.data.datasets[0]
+        datasetID = dataset.id
+    })
+
+    test('Update Dataset with Valid Dataset ID', async () => {
+        const response = await axios.post(ENDPOINT, {
+            query: dataset_data.UPDATE_DATASET,
+            variables: {
+                "datasetId": datasetID,
+                "dataset": {
+                    "filename": "test2",
+                    "name": "test2",
+                    "description": "test2"
+                }
+            }
+        })
+
+        const updateDataset = response.data.data.updateDataset
+
+        // Get Dataset directly from MongoDB
+        const query = { _id: ObjectId(datasetID) }
+        const updateDatasetObj = await datasets.findOne(query)
+
+        // Assert Update
+        expect(updateDataset.name).toBe(updateDatasetObj.name)
+        expect(updateDataset.description).toBe(updateDatasetObj.description)
+        expect(updateDataset.filename).toBe(updateDatasetObj.filename)
+        expect(updateDataset.filename).not.toBe('test')
 
     })
 
+    test('Update Dataset with Invalid Dataset ID', async () => {
+
+        // Null Dataset ID
+        let response = await axios.post(ENDPOINT, {
+            query: dataset_data.UPDATE_DATASET,
+            variables: {
+                "datasetId": null,
+                "dataset": {
+                    "filename": "test2",
+                    "name": "test2",
+                    "description": "test2"
+                }
+            }
+        })
+
+        let errorMessage = response.data.errors[0].message
+
+        // Assert Response
+        expect(errorMessage).toBe('Variable "$datasetId" of non-null type "ObjectID!" must not be null.')
+
+        // Non-Existing Dataset ID
+        response = await axios.post(ENDPOINT, {
+            query: dataset_data.UPDATE_DATASET,
+            variables: {
+                "datasetId": "3R&",
+                "dataset": {
+                    "filename": "test2",
+                    "name": "test2",
+                    "description": "test2"
+                }
+            }
+        })
+
+        errorMessage = response.data.errors[0].message
+
+        // Assert Response
+        expect(errorMessage).toBe('Variable "$datasetId" got invalid value "3R&"; Value is not a valid mongodb object id of form: 3R&')
+
+    })
+
+    test('Update Dataset with Empty Dataset ID', async () => {
+
+        const response = await axios.post(ENDPOINT, {
+            query: dataset_data.UPDATE_DATASET,
+            variables: {
+                "datasetId": "",
+                "dataset": {
+                    "filename": "test2",
+                    "name": "test2",
+                    "description": "test2"
+                }
+            }
+        })
+
+        const errorMessage = response.data.errors[0].message
+        
+        // Assert Response
+        expect(errorMessage).toBe('Variable "$datasetId" got invalid value ""; Value is not a valid mongodb object id of form: ')
+
+    })
+
+    test.afterAll(async () => {
+
+        await axios.post(ENDPOINT, {
+            query: dataset_data.DELETE_DATASET,
+            variables: {
+                "deleteDatasetId": datasetID
+            }
+        })
+
+    })
 })
 
-test.describe('Delete Datasets', () => {
+test.describe('Delete Dataset', () => {
 
-    let datasetID
+    let dataset, datasetID
 
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
         await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -54,9 +160,18 @@ test.describe('Delete Datasets', () => {
             data: form_data,
         })
 
+        await setTimeout(3000);
+
+        const response = await axios.post(ENDPOINT, {
+            query: dataset_data.DATASETS,
+        })
+
+        dataset = response.data.data.datasets[0]
+        datasetID = dataset.id
+
     })
 
-    test.skip('Delete Dataset With Valid Dataset ID', async () => {
+    test('Delete Dataset With Valid Dataset ID', async () => {
 
         await axios.post(ENDPOINT, {
             query: dataset_data.DELETE_DATASET,
@@ -83,8 +198,8 @@ test.describe('Delete Datasets', () => {
             }
         })
 
-        let errorMessage = response.data.errors
-        expect(errorMessage).toBe('Variable "$deleteDatasetId" of required type "ObjectID!" was not provided.') // FIXME Verbose Error Message
+        let errorMessage = response.data.errors[0].message
+        expect(errorMessage).toBe('Variable \"$deleteDatasetId\" of non-null type \"ObjectID!\" must not be null.') // FIXME Verbose Error Message
 
         // Non-Existing Dataset ID
         response = await axios.post(ENDPOINT, {
@@ -94,12 +209,12 @@ test.describe('Delete Datasets', () => {
             }
         })
 
-        errorMessage = response.data.errors
-        expect(errorMessage).toBe('Variable "$deleteDatasetId" of required type "ObjectID!" was not provided.')
+        errorMessage = response.data.errors[0].message
+        expect.soft(errorMessage).toBe('Unexpected error value: \"Invalid Dataset ID\"')
 
     })
 
-    test.skip('Delete Dataset with Empty Dataset ID', async () => {
+    test('Delete Dataset with Empty Dataset ID', async () => {
 
         const response = await axios.post(ENDPOINT, {
             query: dataset_data.DELETE_DATASET,
@@ -108,8 +223,8 @@ test.describe('Delete Datasets', () => {
             }
         })
 
-        const errorMessage = response.data.errors
-        expect(errorMessage).toBe('Variable "$deleteDatasetId" got invalid value ""; Value is not a valid mongodb object id of form: ')
+        const errorMessage = response.data.errors[0].message
+        expect(errorMessage).toBe('Variable \"$deleteDatasetId\" got invalid value \"\"; Value is not a valid mongodb object id of form: ')
 
     })
 
