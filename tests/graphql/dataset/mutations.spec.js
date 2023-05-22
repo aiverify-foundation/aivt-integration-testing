@@ -34,7 +34,7 @@ test.describe('Update Dataset', () => {
             data: form_data,
         })
 
-        await setTimeout(3000);
+        await setTimeout(2000);
 
         const response = await axios.post(ENDPOINT, {
             query: dataset_data.DATASETS,
