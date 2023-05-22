@@ -29,7 +29,7 @@ test.describe('Get Datasets', () => {
 
     test('Get All Datasets', async () => {
 
-        await setTimeout(5000);
+        await setTimeout(2000);
 
         const response = await axios.post(ENDPOINT, {
             query: dataset_data.DATASETS,
@@ -39,8 +39,8 @@ test.describe('Get Datasets', () => {
         let dataset2 = response.data.data.datasets[1]
 
         datasetID = dataset1.id
-        expect(dataset1).not.toBeUndefined()
-        expect(dataset2).toBeUndefined()
+        expect(dataset1).toBeDefined()
+        expect(dataset2).toBeDefined()
 
     })
 
