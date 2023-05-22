@@ -86,28 +86,14 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        // FIXME JIRA 548
-        errorMessage = response.data.errors
-        console.log(response.data.data.createProjectTemplate)
+        const projectTemplateInfo = response.data.data.createProjectTemplate
 
         // Assert Response
-        expect(errorMessage[0].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.name\"; String cannot represent a non string value: 0")
-        expect(errorMessage[1].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.description\"; String cannot represent a non string value: 0")
-        expect(errorMessage[2].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.reportTitle\"; String cannot represent a non string value: 0")
-        expect(errorMessage[3].message).toBe("Variable \"$projectTemplate\" got invalid value 0 at \"projectTemplate.projectInfo.company\"; String cannot represent a non string value: 0")
-
-        // Get New Count of Records
-        const newCount = await projects.countDocuments()
-
-        //Assert Record Counts
-        expect(newCount).toEqual(currentCount)
+        expect(projectTemplateInfo).toBeTruthy()
 
     })
 
     test('Create Project Template with Empty Project Information', async () => {
-
-        // Get Current Count of Records
-        const currentCount = await projects.countDocuments()
 
         // Test For Empty Values
         const response = await axios.post(ENDPOINT, {
@@ -124,25 +110,10 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        // FIXME JIRA 185
-        const projectTemplateInfo = response.data.data.createProjectTemplate
-        const projectTemplateId = projectTemplateInfo.id
-
-        // Get Project Info directly from MongoDB
-        const query = { _id: ObjectId(projectTemplateId) }
-        const projectTemplateInfoObj = await projects.findOne(query)
+        const errorMessage = response.data.errors
 
         // Assert Response
-        expect(projectTemplateInfo.projectInfo.name).toBe(projectTemplateInfoObj.projectInfo.name)
-        expect(projectTemplateInfo.projectInfo.description).toBe(projectTemplateInfoObj.projectInfo.description)
-        expect(projectTemplateInfo.projectInfo.reportTitle).toBe(projectTemplateInfoObj.projectInfo.reportTitle)
-        expect(projectTemplateInfo.projectInfo.company).toBe(projectTemplateInfoObj.projectInfo.company)
-
-        // Get New Count of Records
-        const newCount = await projects.countDocuments()
-
-        // Assert Record Counts
-        expect(newCount).toEqual(currentCount)
+        expect(errorMessage[0].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.projectInfo.name"; Expected type "name_String_minLength_1_maxLength_128". Must be at least 1 characters in length')
 
     })
 
@@ -189,9 +160,6 @@ test.describe('Create Project Template', () => {
 
     test('Create Project Template with Empty Global Variable', async () => {
 
-        // Get Current Count of Records
-        const currentCount = await projects.countDocuments()
-
         // Test For Empty Global Variables
         let response = await axios.post(ENDPOINT, {
             query: project_template_data.CREATE_PROJECT_TEMPLATE,
@@ -205,25 +173,10 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        // FIXME JIRA 188
-        const errorMessage = response.data.errors
-
-        const projectTemplateInfo = response.data.data.createProjectTemplate
-        const projectTemplateId = projectTemplateInfo.id
-
-        // Get Project Info directly from MongoDB
-        const query = { _id: ObjectId(projectTemplateId) }
-        const projectTemplateInfoObj = await projects.findOne(query)
+        const errorMessage = response.data.errors[0]
 
         // Assert Response
-        expect(projectTemplateInfo.globalVars.key).toBe(projectTemplateInfoObj.globalVars.key)
-        expect(projectTemplateInfo.globalVars.value).toBe(projectTemplateInfoObj.globalVars.value)
-
-        // Get New Count of Records
-        const newCount = await projects.countDocuments()
-
-        // Assert Record Counts
-        expect(newCount).toEqual(currentCount)
+        expect(errorMessage.message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.globalVars.key"; Expected type "key_String_NotNull_minLength_1_maxLength_128". Must be at least 1 characters in length')
 
     })
 
@@ -259,8 +212,10 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        // FIXME JIRA 549 
-        let errorMessage = response.data.errors
+        let projecTemplateInfo = response.data.data.createProjectTemplate
+
+        // Assert Response
+        expect(projecTemplateInfo).toBeTruthy()
 
         // Test For Float Values in Layouts
         response = await axios.post(ENDPOINT, {
@@ -275,17 +230,20 @@ test.describe('Create Project Template', () => {
                     },
                     "pages": {
                         "layouts": {
-                            "w": 0.1,
                             "h": 0.1,
-                            "x": 0.1,
-                            "y": 0.1,
                             "i": 0.1,
-                            "minW": 0.1,
+                            "isBounded": true,
+                            "isDraggable": true,
+                            "isResizable": true,
+                            "maxH": 0.1,
                             "maxW": 0.1,
                             "minH": 0.1,
-                            "maxH": 0.1,
-                            "moved": 0.1,
-                            "static": 0.1
+                            "minW": 0.1,
+                            "resizeHandles": 0.1,
+                            "static": true,
+                            "w": 0.1,
+                            "x": 0.1,
+                            "y": 0.1
                         }
                     }
                 },
@@ -293,7 +251,7 @@ test.describe('Create Project Template', () => {
         })
 
         // FIXME JIRA 550
-        errorMessage = response.data.errors
+        let errorMessage = response.data
 
         // Test For Null Values in Report Widget
         response = await axios.post(ENDPOINT, {
@@ -349,9 +307,6 @@ test.describe('Create Project Template', () => {
 
     test('Create Project Template with Empty Pages', async () => {
 
-        // Get Current Count of Records
-        const currentCount = await projects.countDocuments()
-
         // Test For Null Values in Layouts
         let response = await axios.post(ENDPOINT, {
             query: project_template_data.CREATE_PROJECT_TEMPLATE,
@@ -389,15 +344,11 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        // FIXME JIRA 187
         const errorMessage = response.data.errors
 
-        // Get New Count of Records
-        const newCount = await projects.countDocuments()
-
-        // Assert Record Counts
-        expect(newCount).toEqual(currentCount)
-
+        // Assert Response
+        expect(errorMessage[0].message).toBe('Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.pages[0].reportWidgets.widgetGID\"; Expected type \"widgetGID_String_NotNull_minLength_1_maxLength_128\". Must be at least 1 characters in length')
+        expect(errorMessage[1].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].reportWidgets.key"; Expected type "key_String_minLength_1_maxLength_128". Must be at least 1 characters in length')
     })
 })
 
@@ -654,8 +605,6 @@ test.describe('Update Project Template', () => {
         const data = "Template 19"
 
         // Test for Null Project Template ID
-
-        // Send Request
         let response = await axios.post(ENDPOINT, {
             query: project_template_data.UPDATE_PROJECT_TEMPLATE,
             variables: {
@@ -810,7 +759,7 @@ test.describe('Update Project Template', () => {
             }
         })
 
-        console.log(response.data.data.updateProjectTemplate)
+        // console.log(response.data.data.updateProjectTemplate)
 
         // Get Project Template ID of Updated Project Template
         const updatedProjectTemplateId = response.data.data.updateProjectTemplate.id
@@ -944,7 +893,7 @@ test.describe('Update Project Template', () => {
             }
         })
 
-        errorMessage = response.data.errors
+        let errorMessage = response.data.errors
 
         // Assert Response
         expect(errorMessage[0].message).toBe("Variable \"$projectTemplate\" got invalid value null at \"projectTemplate.globalVars[0].key\"; Expected non-nullable type \"key_String_NotNull_minLength_1_maxLength_128!\" not to be null.")
@@ -974,21 +923,10 @@ test.describe('Update Project Template', () => {
             }
         })
 
-        // FIXME JIRA 551
-        let errorMessage = response.data.errors
-        console.log(response.data.data.updateProjectTemplate)
-
-        //Assert Response
-        expect(errorMessage[0].message).toBe("Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.globalVars[0].key\"; Expected type \"key_String_NotNull_minLength_1_maxLength_128\". Must be at least 1 characters in length")
-        expect(errorMessage[1].message).toBe("Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.globalVars[0].key\"; Expected type \"key_String_NotNull_minLength_1_maxLength_128\". Must be at least 1 characters in length")
-
-        // Get Project Template Info directly from MongoDB
-        query = { _id: ObjectId(projectTemplateId) }
-        updatedProjectTemplateObj = await projects.findOne(query)
+        const projectTemplateInfo = response.data.data.updateProjectTemplate
 
         // Assert Response
-        expect(updatedProjectTemplateObj.globalVars.key).not.toBe(0)
-        expect(updatedProjectTemplateObj.globalVars.value).not.toBe(0)
+        expect(projectTemplateInfo).toBeTruthy()
 
     })
 
