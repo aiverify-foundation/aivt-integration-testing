@@ -9,6 +9,8 @@ import {setTimeout} from "timers/promises"
 const ENDPOINT = "http://localhost:4000/graphql"
 const API_ENDPOINT = "http://localhost:3000"
 
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Get Models', () => {
 
     let modelID
@@ -16,7 +18,7 @@ test.describe('Get Models', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitLab/front-end-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
         await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
             headers: {
@@ -25,7 +27,7 @@ test.describe('Get Models', () => {
             data: form_data,
         })
 
-        await setTimeout(5000);
+        await setTimeout(2000);
     })
 
     test('Get All Models', async () => {
