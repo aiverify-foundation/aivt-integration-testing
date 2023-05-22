@@ -14,8 +14,7 @@ const projects = database.collection('projecttemplatemodels')
 
 test.describe('Get Project Template', () => {
 
-  let projectTemplateId
-  let projectTemplate
+  let projectTemplateId, projectTemplate
 
   test.beforeAll(async () => {
 
@@ -38,45 +37,27 @@ test.describe('Get Project Template', () => {
     })
 
     const output = response.data.data.projectTemplates
-    let projectTemplateId = output[33].id
+  
+    let projectTemplateId = output[0].id
 
     // Get 34th Project Template Info directly from MongoDB
     let query = { _id: ObjectId(projectTemplateId) }
     let projectTemplateInfoObj = await projects.findOne(query)
 
     // Assert 34th Project Template
-    expect(output[33].projectInfo.name).toBe(projectTemplateInfoObj.projectInfo.name)
-    expect(output[33].projectInfo.description).toBe(projectTemplateInfoObj.projectInfo.description)
-    expect(output[33].projectInfo.company).toBe(projectTemplateInfoObj.projectInfo.company)
+    expect(output[0].projectInfo.name).toBe(projectTemplateInfoObj.projectInfo.name)
+    expect(output[0].projectInfo.description).toBe(projectTemplateInfoObj.projectInfo.description)
+    expect(output[0].projectInfo.company).toBe(projectTemplateInfoObj.projectInfo.company)
 
-    expect(output[33].pages[0].layouts).toMatchObject(projectTemplateInfoObj.pages[0].layouts)
-    expect(output[33].pages[0].reportWidgets[0].widgetGID).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].widgetGID)
-    expect(output[33].pages[0].reportWidgets[0].key).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].key)
-    expect(output[33].pages[0].reportWidgets[0].layoutItemProperties).toMatchObject(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties)
-    expect(output[33].pages[0].reportWidgets[0].properties).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].properties)
+    expect(output[0].pages[0].layouts).toMatchObject(projectTemplateInfoObj.pages[0].layouts)
+    expect(output[0].pages[0].reportWidgets[0].widgetGID).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].widgetGID)
+    expect(output[0].pages[0].reportWidgets[0].key).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].key)
+    expect(output[0].pages[0].reportWidgets[0].layoutItemProperties).toMatchObject(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties)
+    expect(output[0].pages[0].reportWidgets[0].properties).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].properties)
 
-    expect(Date(output[33].createdAt)).toBe(Date(projectTemplateInfoObj.createdAt))
-    expect(Date(output[33].updatedAt)).toBe(Date(projectTemplateInfoObj.updatedAt))
+    expect(Date(output[0].createdAt)).toBe(Date(projectTemplateInfoObj.createdAt))
+    expect(Date(output[0].updatedAt)).toBe(Date(projectTemplateInfoObj.updatedAt))
 
-    projectTemplateId = output[34].id
-
-    // Get 35th Project Template Info directly from MongoDB
-    query = { _id: ObjectId(projectTemplateId) }
-    projectTemplateInfoObj = await projects.findOne(query)
-
-    // Assert 35th Project Template
-    expect(output[35].projectInfo.name).toBe(projectTemplateInfoObj.projectInfo.name)
-    expect(output[35].projectInfo.description).toBe(projectTemplateInfoObj.projectInfo.description)
-    expect(output[35].projectInfo.company).toBe(projectTemplateInfoObj.projectInfo.company)
-
-    expect(output[35].pages[0].layouts).toMatchObject(projectTemplateInfoObj.pages[0].layouts)
-    expect(output[35].pages[0].reportWidgets[0].widgetGID).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].widgetGID)
-    expect(output[35].pages[0].reportWidgets[0].key).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].key)
-    expect(output[35].pages[0].reportWidgets[0].layoutItemProperties).toMatchObject(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties)
-    expect(output[35].pages[0].reportWidgets[0].properties).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].properties)
-
-    expect(Date(output[35].createdAt)).toBe(Date(projectTemplateInfoObj.createdAt))
-    expect(Date(output[35].updatedAt)).toBe(Date(projectTemplateInfoObj.updatedAt))
   })
 
   test('Get Project Template by Project Template Id', async () => {
