@@ -41,8 +41,8 @@ test.describe('Get Models', () => {
 
         modelID = model1.id
 
-        expect(model1).not.toBeUndefined()
-        expect(model2).toBeUndefined()
+        expect(model1).toBeDefined()
+        expect(model2).toBeDefined()
 
     })
 
