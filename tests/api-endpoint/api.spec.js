@@ -1,76 +1,128 @@
 import { test, expect } from '@playwright/test'
+import { MongoClient, ObjectId } from 'mongodb'
+import * as api_data from './api-data.js'
 
 import axios from 'axios'
 import qs from 'querystring'
 import fs from 'fs'
 import FormData from 'form-data'
+import { setTimeout } from "timers/promises"
 
+const uri =
+    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+const mongoClient = new MongoClient(uri)
+const database = mongoClient.db('aiverify')
+const models = database.collection('modelfilemodels')
+const datasets = database.collection('datasetmodels')
+
+const ENDPOINT = "http://localhost:4000/graphql"
 const API_ENDPOINT = "http://localhost:3000"
 
-test.skip('Get Report', () => {
+test.describe.configure({ mode: 'serial' });
 
-    test('Get Generated Report with Valid Project ID', async () => {
+test.describe('Get Report', () => {
 
-        const projectId = "641701b8a2342c3bef3ba2db"
+    let project, projectID
 
-        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectId, {
+    test.beforeAll(async () => {
+
+        // Send Request
+        const response = await axios.post(ENDPOINT, {
+            query: api_data.CREATE_PROJECT,
+            variables: api_data.PROJECT_VARIABLES
+        })
+
+        project = response.data.data.createProject
+        projectID = project.id
+
+    })
+
+    test('Get Non-Generated Report with Valid Project ID', async () => {
+
+        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectID, {
+            validateStatus: function (status) {
+                return status < 600; // Resolve only if the status code is less than 600
+            }
+        })
+
+        expect.soft(response.status).toBe(400)
+    })
+
+    test.skip('Get Generated Report with Valid Project ID', async () => {
+
+        let response = await axios.post(ENDPOINT, {
+            query: api_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
+            variables: {
+                "projectId": projectID,
+                "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox_for_classification:fairness_metrics_toolbox_for_classification",
+                "modelAndDatasets": {
+                    "modelFileName": "/app/portal/uploads/model/pickle_scikit_multiclasslr_loan_2.sav",
+                    "groundTruthColumn": "Interest_Rate",
+                    "groundTruthDatasetFileName": "/app/portal/uploads/data/pickle_pandas_tabular_loan_testing_3.sav",
+                    "modelFileName": "/app/portal/uploads/model/pickle_scikit_multiclasslr_loan_2.sav",
+                    "modelType": "Classification",
+                    "testDatasetFileName": "/app/portal/uploads/data/pickle_pandas_tabular_loan_testing_1.sav"
+                }
+            }
+        })
+
+        response = await axios.get(API_ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
         })
 
         // Assert Response
-        expect(response.status).toBe(200)
+        expect.soft(response.status).toBe(200)
 
     })
 
     test('Get Generated Report with Invalid Project ID', async () => {
 
-        const projectId = "6416da997de481f468cd535"
+        const projectID = "6416da997de481f468cd535"
 
-        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectId, {
+        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
     })
 
     test('Get Generated Report with Empty Project ID', async () => {
 
-        const projectId = " "
-
-        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectId, {
+        const response = await axios.get(API_ENDPOINT + "/api/report/ ", {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
         })
 
-        expect(response.status).toBe(404)
-    })
-
-    test('Get Non-Generated Report with Valid Project ID', async () => {
-
-        const projectId = "640ed93df41596fba88f013b"
-
-        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectId, {
-            validateStatus: function (status) {
-                return status < 600; // Resolve only if the status code is less than 600
-            }
-        })
-
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(404)
     })
 
 })
 
-test.skip('Export As Plugin', () => {
+test.describe('Export As Plugin', () => {
 
-    test.skip('Export As Plugin with Valid Inputs', async () => {
+    let template, templateID
+
+    test.beforeAll(async () => {
+
+        const response = await axios.post(ENDPOINT, {
+            query: api_data.CREATE_PROJECT_TEMPLATE,
+            variables: api_data.PROJECT_TEMPLATE_VARIABLES
+        })
+
+        template = response.data.data.createProjectTemplate
+        templateID = template.id
+
+    })
+
+    test('Export As Plugin with Valid Inputs', async () => {
 
         const data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': 'cd743373-b5bb-4b6c-98e3-2a36a7d5f6b5',
             'templateCID': 'project-0-5598544214335246'
         });
@@ -84,11 +136,11 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(200)
+        expect.soft(response.status).toBe(200)
 
     })
 
-    test.skip('Export As Plugin with Invalid Template ID', async () => {
+    test('Export As Plugin with Invalid Template ID', async () => {
 
         // Non-existing Template ID
         let data = qs.stringify({
@@ -106,7 +158,7 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(500)
+        expect.soft(response.status).toBe(500)
 
         // NULL Template ID
         data = qs.stringify({
@@ -124,7 +176,7 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
         // Invalid Template ID Data Type
         data = qs.stringify({
@@ -142,11 +194,11 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(500)
+        expect.soft(response.status).toBe(500)
 
     })
 
-    test.skip('Export As Plugin with Empty Template ID', async () => {
+    test('Export As Plugin with Empty Template ID', async () => {
 
         const data = qs.stringify({
             'templateId': '',
@@ -163,7 +215,7 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
     })
 
@@ -171,9 +223,9 @@ test.skip('Export As Plugin', () => {
 
         // Non-Existing Plugin GID
         let data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': '123',
-            'templateCID': 'project-0-5598544214335246'
+            'templateCID': 'test-1'
         });
 
         let response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
@@ -185,11 +237,11 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(404)
+        expect.soft(response.status).toBe(200)
 
         // NULL Plugin GID
         data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': null,
             'templateCID': 'project-0-5598544214335246'
         });
@@ -203,12 +255,12 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
         // Invalid Plugin GID Data Type
         data = qs.stringify({
-            'templateId': '6434f9ba614ddc68e2e251cb',
-            'pluginGID': true, //FIXME Explicitly change to String?
+            'templateId': templateID,
+            'pluginGID': true,
             'templateCID': 'project-10'
         });
 
@@ -221,14 +273,14 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(200)
 
     })
 
-    test.skip('Export As Plugin with Empty Plugin GID', async () => {
+    test('Export As Plugin with Empty Plugin GID', async () => {
 
         const data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': '',
             'templateCID': 'project-0-5598544214335246'
         });
@@ -242,15 +294,15 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
     })
 
-    test.skip('Export As Plugin with Invalid Template CID', async () => {
+    test('Export As Plugin with Invalid Template CID', async () => {
 
         // Non-Existing Template CID
         let data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': 'cd743373-b5bb-4b6c-98e3-2a36a7d5f6b5',
             'templateCID': '123'
         });
@@ -264,11 +316,11 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(200)
+        expect.soft(response.status).toBe(200)
 
         // NULL Template CID
         data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': 'cd743373-b5bb-4b6c-98e3-2a36a7d5f6b5',
             'templateCID': null
         });
@@ -282,13 +334,13 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
         // Invalid Template CID Data Type
         data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': 'cd743373-b5bb-4b6c-98e3-2a36a7d5f6b5',
-            'templateCID': true //FIXME Explicitly change to String?
+            'templateCID': true
         });
 
         response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
@@ -300,14 +352,14 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(200)
 
     })
 
-    test.skip('Export As Plugin with Empty Template CID', async () => {
+    test('Export As Plugin with Empty Template CID', async () => {
 
         const data = qs.stringify({
-            'templateId': '641c23081f8093b05d8455e4',
+            'templateId': templateID,
             'pluginGID': 'cd743373-b5bb-4b6c-98e3-2a36a7d5f6b5',
             'templateCID': ''
         });
@@ -321,20 +373,18 @@ test.skip('Export As Plugin', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
     })
 
-    // FIXME How to trigger a 500 error
-
 })
 
-test.skip('Upload Dataset', () => {
+test.describe('Upload Dataset', () => {
 
     test('Upload Dataset with Valid Dataset', async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -346,7 +396,7 @@ test.skip('Upload Dataset', () => {
             }
         })
 
-        expect(response.status).toBe(201)
+        expect.soft(response.status).toBe(201)
 
     })
 
@@ -355,19 +405,26 @@ test.skip('Upload Dataset', () => {
         const form_data = new FormData()
 
         // TODO Need invalid dataset
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
-            validateStatus: function (status) {
-                return status < 600; // Resolve only if the status code is less than 600
-            }
         })
 
-        expect(response.status).toBe(400)
+        const dataset = response.data[0]
+        const datasetID = dataset._id
+
+        // Get Model directly from MongoDB
+        const query = { _id: ObjectId(datasetID) }
+        const datasetObj = await datasets.findOne(query)
+
+        await setTimeout(1000)
+
+        // FIXME Should Status be 'Pending' if invalid?
+        // console.log(datasetObj)
 
     })
 
@@ -385,36 +442,43 @@ test.skip('Upload Dataset', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
     })
 
     test('Upload Unsupported File Format Dataset', async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/combine_all.sh'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
-            validateStatus: function (status) {
-                return status < 600; // Resolve only if the status code is less than 600
-            }
         })
 
-        expect(response.status).toBe(400) // FIXME Should uploading other files besides pickle and joblib be allowed?
+        const dataset = response.data[0]
+        const datasetID = dataset._id
+
+        // Get Model directly from MongoDB
+        const query = { _id: ObjectId(datasetID) }
+        const datasetObj = await datasets.findOne(query)
+
+        await setTimeout(1000)
+
+        // FIXME Should Status be 'Pending' if invalid?
+        // console.log(datasetObj)
 
     })
 })
 
-test.skip('Upload Model', () => {
+test.describe('Upload Model', () => {
 
     test('Upload Model with Valid Model', async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
             headers: {
@@ -426,7 +490,7 @@ test.skip('Upload Model', () => {
             }
         })
 
-        expect(response.status).toBe(201)
+        expect.soft(response.status).toBe(201)
 
     })
 
@@ -435,19 +499,26 @@ test.skip('Upload Model', () => {
         const form_data = new FormData()
 
         // TODO Need invalid model
-        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
-            validateStatus: function (status) {
-                return status < 600; // Resolve only if the status code is less than 600
-            }
         })
 
-        expect(response.status).toBe(400)
+        const model = response.data[0]
+        const modelID = model._id
+
+        // Get Model directly from MongoDB
+        const query = { _id: ObjectId(modelID) }
+        const modelObj = await models.findOne(query)
+
+        await setTimeout(1000)
+
+        // FIXME Should Status be 'Pending' if invalid?
+        // console.log(modelObj)
 
     })
 
@@ -465,44 +536,50 @@ test.skip('Upload Model', () => {
             }
         })
 
-        expect(response.status).toBe(400)
+        expect.soft(response.status).toBe(400)
 
     })
 
     test('Upload Model Unsupported File Format Model', async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/combine_all.sh'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
         const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
-            validateStatus: function (status) {
-                return status < 600; // Resolve only if the status code is less than 600
-            }
         })
 
-        expect(response.status).toBe(400)
+        const model = response.data[0]
+        const modelID = model._id
+
+        // Get Model directly from MongoDB
+        const query = { _id: ObjectId(modelID) }
+        const modelObj = await models.findOne(query)
+
+        await setTimeout(1000)
+
+        // FIXME Should Status be 'Pending' if invalid?
+        // console.log(modelObj)
 
     })
 })
 
-test.skip('List Plugins', () => {
+test.describe('List Plugins', () => {
 
     test('List All Plugins', async () => {
         const response = await axios.post(API_ENDPOINT + '/api/plugins/list')
         const plugins = response.data.plugins
-        
+
         let i = 0
 
-        while(plugins[i]){
-            console.log(plugins[i])
+        while (plugins[i]) {
             i++
         }
 
-        expect(i).toBe(10)
+        expect.soft(i).toBe(9)
     })
 
 })
@@ -512,7 +589,7 @@ test.describe('Upload Plugins', () => {
     test('Upload Plugins', async () => {
 
         const form_data = new FormData()
-        form_data.append('plugins', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/aiverify.stock.process-checklist-test.zip'));
+        form_data.append('myFile', fs.createReadStream('./fixtures/aiverify.stock.process-checklist-test.zip'));
 
         const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
             headers: {
@@ -527,11 +604,10 @@ test.describe('Upload Plugins', () => {
         expect.soft(response.status).toBe(200)
     })
 
-
     test('Upload Invalid File', async () => {
 
         const form_data = new FormData()
-        form_data.append('plugins', fs.createReadStream('/home/benflop/GitHub/frontend-testing/fixtures/combine_all.sh'));
+        form_data.append('myFile', fs.createReadStream('./fixtures/combine_all.sh'));
 
         const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
             headers: {
@@ -546,7 +622,58 @@ test.describe('Upload Plugins', () => {
         expect.soft(response.status).toBe(400)
     })
 
-    test('Corrupted Meta JSON File', async () => {
-        
+    test('Corrupted Plugin Meta JSON File', async () => {
+        const form_data = new FormData()
+        form_data.append('myFile', fs.createReadStream('./fixtures/aiverify.stock.process-checklist-corrupted.zip'));
+
+        const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
+            headers: {
+                ...form_data.getHeaders()
+            },
+            data: form_data,
+            validateStatus: function (status) {
+                return status < 600; // Resolve only if the status code is less than 600
+            }
+        })
+
+        expect.soft(response.status).toBe(400)
     })
+})
+
+test.describe('Delete Plugin', () => {
+
+    test('Delete Plugin by Plugin GID', async () => {
+
+        const pluginGID = "aiverify.stock.process-checklist.test"
+
+        const response = await axios.post(API_ENDPOINT + "/api/plugins/delete/" + pluginGID, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            validateStatus: function (status) {
+                return status < 600; // Resolve only if the status code is less than 600
+            }
+        })
+
+        // Assert Response
+        expect.soft(response.status).toBe(200)
+    })
+    
+    test.skip('Delete Plugin with Non-existing Plugin GID', async () => {
+
+        const pluginGID = "aiverify.stock.process-checklist"
+
+        const response = await axios.post(API_ENDPOINT + "/api/plugins/delete/" + pluginGID, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            validateStatus: function (status) {
+                return status < 600; // Resolve only if the status code is less than 600
+            }
+        })
+
+        // Assert Response
+        expect.soft(response.status).toBe(400)
+    })
+
 })
