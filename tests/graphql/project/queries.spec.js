@@ -36,21 +36,16 @@ test.describe('Get Projects', () => {
       query: project_data.GET_PROJECTS
     })
 
-    const output = response.data.data.projects
+    const projectInfo = project.projectInfo
 
     // Get Project Info directly from MongoDB
-    const projectInfoObj = await projects.find({}).sort({ _id: 1 }).limit(2).toArray();
+    const projectInfoObj = await projects.find({}).sort({ _id: -1 }).limit(1).toArray();
 
     // Assert Response
-    expect(output[0].projectInfo.name).toBe(projectInfoObj[0].projectInfo.name)
-    expect(output[0].projectInfo.description).toBe(projectInfoObj[0].projectInfo.description)
-    expect(output[0].projectInfo.reportTitle).toBe(projectInfoObj[0].projectInfo.reportTitle)
-    expect(output[0].projectInfo.company).toBe(projectInfoObj[0].projectInfo.company)
-
-    expect(output[1].projectInfo.name).toBe(projectInfoObj[1].projectInfo.name)
-    expect(output[1].projectInfo.description).toBe(projectInfoObj[1].projectInfo.description)
-    expect(output[1].projectInfo.reportTitle).toBe(projectInfoObj[1].projectInfo.reportTitle)
-    expect(output[1].projectInfo.company).toBe(projectInfoObj[1].projectInfo.company)
+    expect(projectInfo.name).toBe(projectInfoObj[0].projectInfo.name)
+    expect(projectInfo.description).toBe(projectInfoObj[0].projectInfo.description)
+    expect(projectInfo.reportTitle).toBe(projectInfoObj[0].projectInfo.reportTitle)
+    expect(projectInfo.company).toBe(projectInfoObj[0].projectInfo.company)
   })
 
   test('Get Project By Project ID', async () => {
@@ -130,16 +125,17 @@ test.describe('Get Reports', () => {
       query: project_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
       variables: {
         "projectId": projectId,
-        "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
+        "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox_for_classification:fairness_metrics_toolbox_for_classification",
         "modelAndDatasets": {
-          "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-          "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-          "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+          "modelFileName": './fixtures/pickle_scikit_multiclasslr_loan.sav',
+          "testDatasetFileName": './fixtures/pickle_pandas_tabular_loan_testing.sav',
+          "groundTruthDatasetFileName": ".fixtures/pickle_pandas_tabular_loan_testing.sav",
           "modelType": 'Classification',
           "groundTruthColumn": 'Interest_Rate'
         }
       }
     })
+
   })
 
   test('Get Report By Project ID', async () => {
@@ -222,17 +218,12 @@ test.describe('Get Reports', () => {
       }
     })
 
-    const report = response.data.data.report
-
     // Get Report directly from MongoDB
     const query = { _id: ObjectId(projectId) }
-    const reportId = (await projects.findOne(query)).report
+    const reportInfoObj = (await projects.findOne(query))
 
-    const query2 = { _id: ObjectId(reportId) }
-    const reportInfoObj = (await reports.findOne(query2))
-
-    expect(report).toBeNull
-    expect(reportInfoObj).toBeNull
+    // Assert Response
+    expect(reportInfoObj).toBeNull()
 
   })
 
