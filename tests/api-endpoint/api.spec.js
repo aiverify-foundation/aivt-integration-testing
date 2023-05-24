@@ -579,7 +579,7 @@ test.describe('List Plugins', () => {
             i++
         }
 
-        expect.soft(i).toBe(9)
+        expect.soft(i).toBe(10)
     })
 
 })
