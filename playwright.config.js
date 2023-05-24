@@ -21,6 +21,7 @@ const testRailOptions = {
  */
 const config = {
   testDir: './tests',
+  testIgnore: ['**/model/**', '**/dataset/**'],
   /* Maximum time one test can run for. */
   timeout: 30 * 100000,
   expect: {
@@ -39,10 +40,10 @@ const config = {
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [ 
+  reporter: [
     ['list'],
-    ['html', { outFolder: 'test-results', open: 'never'}],
-    ['junit', testRailOptions ]
+    ['html', { outFolder: 'test-results', open: 'never' }],
+    ['junit', testRailOptions]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
