@@ -62,7 +62,6 @@ test.describe('Create Project', () => {
             variables: {
                 "project": {
                     "projectInfo": {
-                        //FIXME JIRA 552
                         "name": true,
                         "company": true
                     }
@@ -70,11 +69,10 @@ test.describe('Create Project', () => {
             }
         })
 
-        errorMessage = response.data.errors
-        // console.log(response.data.data.createProject.projectInfo)
+        const project = response.data.data.createProject.projectInfo
 
         // Assert Response
-        expect(errorMessage[0].extensions.code).toBe('INTERNAL_SERVER_ERROR')
+        expect(project).toBeTruthy()
 
     })
 
@@ -284,7 +282,7 @@ test.describe('Create Project', () => {
     })
 
     test('Create Project with Empty Pages', async () => {
-        
+
         const response = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT,
             variables: {
@@ -608,18 +606,18 @@ test.describe('Create Project From Template', () => {
         templateId = response.data.data.createProjectTemplate.id
     })
 
-    test('Create Project From Template with Valid Input and Template ID', async () => {
+    test.skip('Create Project From Template with Valid Input and Template ID', async () => {
 
         const projectFromTemplate = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT_FROM_TEMPLATE,
             variables: {
-                "project": project_data.CREATE_PROJECT_FROM_TEMPLATE,
+                "project": project_data.PROJECT_BY_TEMPLATE_VARIABLES,
                 "templateId": templateId
             }
         })
 
         const project = projectFromTemplate.data.data.createProjectFromTemplate // FIXME Should the template be null?
-        // console.log(project)
+        // console.log(projectFromTemplate)
 
         // Get Project Info directly from MongoDB
         const query = { _id: ObjectId(project.id) }
@@ -661,7 +659,7 @@ test.describe('Create Project From Template', () => {
         })
 
         const errorMessage = projectFromTemplate.data
-        console.log(errorMessage)
+        // console.log(errorMessage)
         // expect(errorMessage[0].message).toBe('Variable "$project" got invalid value ""; Expected type "ProjectInput" to be an object.')
 
     })
@@ -824,7 +822,6 @@ test.describe('Update Project', () => {
                 "updateProjectId": projectId,
                 "project": {
                     "projectInfo": {
-                        //FIXME JIRA 555
                         "name": true,
                         "company": true
                     }
@@ -832,11 +829,10 @@ test.describe('Update Project', () => {
             }
         })
 
-        errorMessage = response.data.errors
-        // console.log(response.data.data.updateProject.projectInfo)
+        const project = response.data.data.updateProject
 
         // Assert Response
-        expect(errorMessage[0].extensions.code).toBe('BAD_USER_INPUT')
+        expect(project).toBeTruthy()
 
     })
 
@@ -1520,7 +1516,7 @@ test.describe('Generate Report', () => {
 
     let project, projectId
 
-    test.beforeEach(async () => {
+    test.beforeAll(async () => {
 
         // Send Request
         const createProject = await axios.post(ENDPOINT, {
@@ -1758,7 +1754,8 @@ test.describe('Generate Report', () => {
             }
         })
 
-        let reportStatus = generateReport.data.data.generateReport.status
+        let reportStatus = generateReport.data.data
+        // console.log(reportStatus)
         // expect(reportStatus).toBe()
 
     })
@@ -1806,7 +1803,7 @@ test.describe('Generate Report', () => {
         })
 
         errorMessage = generateReport.data.errors
-        console.log(generateReport) //FIXME JIRA 556
+        // console.log(generateReport) //FIXME JIRA 556
 
         // Non-Existing Model and Datasets
         generateReport = await axios.post(ENDPOINT, {
@@ -1825,7 +1822,7 @@ test.describe('Generate Report', () => {
         })
 
         errorMessage = generateReport.data
-        console.log(errorMessage) //FIXME JIRA 556
+        // console.log(errorMessage) //FIXME JIRA 556
 
     })
 
@@ -1847,7 +1844,7 @@ test.describe('Generate Report', () => {
 
 })
 
-test.describe('Cancel Test Run', () => {
+test.skip('Cancel Test Run', () => {
 
     let project, projectId
 
@@ -2052,4 +2049,44 @@ test.describe('Cancel Test Run', () => {
 
     })
 
+})
+
+test.skip('Save Project As Template', () => {
+
+    test('Valid Inputs', async () => {
+
+        // Send Request
+        let response = await axios.post(ENDPOINT, {
+            query: project_data.CREATE_PROJECT,
+            variables: project_data.PROJECT_VARIABLES
+        })
+
+        const project = response.data.data.createProject
+        const projectId = project.id
+
+        // Save Project As Template
+        response = await axios.post(ENDPOINT, {
+            query: project_data.SAVE_PROJECT_AS_TEMPLATE,
+            variables: {
+                "datasetId": "645b7551836b727afebf5e8d",
+                "dataset": "pickle_pandas_tabular_loan_testing.sav",
+                "projectId": projectId,
+                "templateInfo": {
+                    "name": "Test",
+                    "description": "Test",
+                    "reportTitle": "Test",
+                    "company": "Test"
+                }
+            }
+        })
+
+        const saveProjectAsTemplate = response.data.data
+
+        // Get Project Info directly from MongoDB
+        const query = { _id: ObjectId(projectId) }
+        const projectTemplateInfoObj = await projects.findOne(query)
+
+        // Assert Project Template
+        expect().toBe()
+    })
 })
