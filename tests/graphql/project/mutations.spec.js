@@ -1844,7 +1844,7 @@ test.describe('Generate Report', () => {
 
 })
 
-test.skip('Cancel Test Run', () => {
+test.describe('Cancel Test Run', () => {
 
     let project, projectId
 
@@ -1861,7 +1861,7 @@ test.skip('Cancel Test Run', () => {
 
     })
 
-    test('Cancel Test Run with Valid Project ID & With Report Generation', async () => {
+    test.skip('Cancel Test Run with Valid Project ID & With Report Generation', async () => {
 
         // Generate Report into Generating Report State
         const generateReport = await axios.post(ENDPOINT, {
@@ -2016,7 +2016,7 @@ test.skip('Cancel Test Run', () => {
 
     })
 
-    test('Cancel Test Run with Generating Report', async () => {
+    test.skip('Cancel Test Run with Generating Report', async () => {
 
         // Generate Report into Generating Report State
         const generateReport = await axios.post(ENDPOINT, {
@@ -2051,7 +2051,7 @@ test.skip('Cancel Test Run', () => {
 
 })
 
-test.skip('Save Project As Template', () => {
+test.describe('Save Project As Template', () => {
 
     test('Valid Inputs', async () => {
 
