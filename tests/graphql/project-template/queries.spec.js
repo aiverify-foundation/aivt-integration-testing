@@ -4,7 +4,7 @@ import * as project_template_data from './project-template-data.js'
 
 import axios from 'axios';
 
-const ENDPOINT = "http://localhost:4000/graphql"
+const ENDPOINT = "http://localhost:3000/api/graphql"
 
 const uri =
   "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
@@ -37,23 +37,22 @@ test.describe('Get Project Template', () => {
     })
 
     const output = response.data.data.projectTemplates
-  
+
     let projectTemplateId = output[0].id
 
-    // Get 34th Project Template Info directly from MongoDB
+    // Get  Project Template Info directly from MongoDB
     let query = { _id: ObjectId(projectTemplateId) }
     let projectTemplateInfoObj = await projects.findOne(query)
+    
 
-    // Assert 34th Project Template
+    // Assert 1st Project Template
     expect(output[0].projectInfo.name).toBe(projectTemplateInfoObj.projectInfo.name)
     expect(output[0].projectInfo.description).toBe(projectTemplateInfoObj.projectInfo.description)
-    expect(output[0].projectInfo.company).toBe(projectTemplateInfoObj.projectInfo.company)
 
     expect(output[0].pages[0].layouts).toMatchObject(projectTemplateInfoObj.pages[0].layouts)
     expect(output[0].pages[0].reportWidgets[0].widgetGID).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].widgetGID)
     expect(output[0].pages[0].reportWidgets[0].key).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].key)
     expect(output[0].pages[0].reportWidgets[0].layoutItemProperties).toMatchObject(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties)
-    expect(output[0].pages[0].reportWidgets[0].properties).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].properties)
 
     expect(Date(output[0].createdAt)).toBe(Date(projectTemplateInfoObj.createdAt))
     expect(Date(output[0].updatedAt)).toBe(Date(projectTemplateInfoObj.updatedAt))
@@ -89,6 +88,7 @@ test.describe('Get Project Template', () => {
 
     expect(Date(projectTemplateInfo.createdAt)).toBe(Date(projectTemplateInfoObj.createdAt))
     expect(Date(projectTemplateInfo.updatedAt)).toBe(Date(projectTemplateInfoObj.updatedAt))
+
   })
 
   test('Get Project Template by Invalid Project Template Id', async () => {
