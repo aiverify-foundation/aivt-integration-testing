@@ -6,8 +6,7 @@ import fs from 'fs'
 import FormData from 'form-data'
 import {setTimeout} from "timers/promises"
 
-const ENDPOINT = "http://localhost:4000/graphql"
-const API_ENDPOINT = "http://localhost:3000"
+const ENDPOINT = "http://localhost:3000"
 
 test.describe('Get Datasets', () => {
 
@@ -18,7 +17,7 @@ test.describe('Get Datasets', () => {
         const form_data = new FormData()
         form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
-        await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
+        await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -31,7 +30,7 @@ test.describe('Get Datasets', () => {
 
         await setTimeout(2000);
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DATASETS,
         })
 
@@ -46,7 +45,7 @@ test.describe('Get Datasets', () => {
 
     test.afterAll(async () => {
 
-        await axios.post(ENDPOINT, {
+        await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DELETE_DATASET,
             variables: {
                 "deleteDatasetId": datasetID
