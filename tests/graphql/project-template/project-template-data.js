@@ -1,6 +1,7 @@
 export const GET_PROJECT_TEMPLATES = `query ProjectTemplates {
   projectTemplates {
     id
+    fromPlugin
     projectInfo {
       name
       description
@@ -12,7 +13,22 @@ export const GET_PROJECT_TEMPLATES = `query ProjectTemplates {
       value
     }
     pages {
-      layouts
+      layouts {
+        i
+        x
+        y
+        w
+        h
+        maxW
+        maxH
+        minW
+        minH
+        static
+        isDraggable
+        isResizable
+        resizeHandles
+        isBounded
+      }
       reportWidgets {
         widgetGID
         key
@@ -30,9 +46,10 @@ export const GET_PROJECT_TEMPLATES = `query ProjectTemplates {
   }
 }`
 
-export const GET_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = `query Project($projectTemplateId: ObjectID!) {
+export const GET_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = `query Query($projectTemplateId: ObjectID!) {
   projectTemplate(id: $projectTemplateId) {
     id
+    fromPlugin
     projectInfo {
       name
       description
@@ -44,7 +61,22 @@ export const GET_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = `query Project($proje
       value
     }
     pages {
-      layouts
+      layouts {
+        i
+        x
+        y
+        w
+        h
+        maxW
+        maxH
+        minW
+        minH
+        static
+        isDraggable
+        isResizable
+        resizeHandles
+        isBounded
+      }
       reportWidgets {
         widgetGID
         key
@@ -65,6 +97,7 @@ export const GET_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = `query Project($proje
 export const CREATE_PROJECT_TEMPLATE = `mutation CreateProjectTemplate($projectTemplate: ProjectTemplateInput!) {
   createProjectTemplate(projectTemplate: $projectTemplate) {
     id
+    fromPlugin
     projectInfo {
       name
       description
@@ -76,7 +109,22 @@ export const CREATE_PROJECT_TEMPLATE = `mutation CreateProjectTemplate($projectT
       value
     }
     pages {
-      layouts
+      layouts {
+        i
+        x
+        y
+        w
+        h
+        maxW
+        maxH
+        minW
+        minH
+        static
+        isDraggable
+        isResizable
+        resizeHandles
+        isBounded
+      }
       reportWidgets {
         widgetGID
         key
@@ -95,73 +143,104 @@ export const CREATE_PROJECT_TEMPLATE = `mutation CreateProjectTemplate($projectT
 }`
 
 export const CLONE_PROJECT_TEMPLATE = `mutation CloneProjectTemplate($cloneProjectTemplateId: ObjectID!) {
-    cloneProjectTemplate(id: $cloneProjectTemplateId) {
-      id
-      projectInfo {
-        name
-        description
-        reportTitle
-        company
-      }
-      globalVars {
-        key
-        value
-      }
-      pages {
-        layouts
-        reportWidgets {
-          widgetGID
-          key
-          layoutItemProperties {
-            justifyContent
-            alignItems
-            color
-            bgcolor
-          }
-          properties
-        }
-      }
-      createdAt
-      updatedAt
+  cloneProjectTemplate(id: $cloneProjectTemplateId) {
+    id
+    fromPlugin
+    projectInfo {
+      name
+      description
+      reportTitle
+      company
     }
-  }`
+    globalVars {
+      key
+      value
+    }
+    pages {
+      layouts {
+        i
+        x
+        y
+        w
+        h
+        maxW
+        maxH
+        minW
+        minH
+        static
+        isDraggable
+        isResizable
+        resizeHandles
+        isBounded
+      }
+      reportWidgets {
+        widgetGID
+        key
+        layoutItemProperties {
+          justifyContent
+          alignItems
+          color
+          bgcolor
+        }
+        properties
+      }
+    }
+    createdAt
+    updatedAt
+  }
+}`
 
 export const DELETE_PROJECT_TEMPLATE = `mutation DeleteProjectTemplate($deleteProjectTemplateId: ObjectID!) {
-    deleteProjectTemplate(id: $deleteProjectTemplateId)
-  }`
+  deleteProjectTemplate(id: $deleteProjectTemplateId)
+}`
 
 export const UPDATE_PROJECT_TEMPLATE = `mutation UpdateProjectTemplate($updateProjectTemplateId: ObjectID!, $projectTemplate: ProjectTemplateInput!) {
-    updateProjectTemplate(id: $updateProjectTemplateId, projectTemplate: $projectTemplate) {
-      id
-      fromPlugin
-      projectInfo {
-        name
-        description
-        reportTitle
-        company
-      }
-      globalVars {
-        key
-        value
-      }
-      pages {
-        layouts
-        reportWidgets {
-          widgetGID
-          key
-          layoutItemProperties {
-            justifyContent
-            alignItems
-            color
-            bgcolor
-          }
-          properties
-        }
-      }
-      createdAt
-      updatedAt
+  updateProjectTemplate(id: $updateProjectTemplateId, projectTemplate: $projectTemplate) {
+    id
+    fromPlugin
+    projectInfo {
+      name
+      description
+      reportTitle
+      company
     }
-  }`
+    globalVars {
+      key
+      value
+    }
+    pages {
+      layouts {
+        i
+        x
+        y
+        w
+        h
+        maxW
+        maxH
+        minW
+        minH
+        static
+        isDraggable
+        isResizable
+        resizeHandles
+        isBounded
+      }
+      reportWidgets {
+        widgetGID
+        key
+        layoutItemProperties {
+          justifyContent
+          alignItems
+          color
+          bgcolor
+        }
+        properties
+      }
+    }
+    createdAt
+    updatedAt
+  }
+}`
 
 export const PROJECT_TEMPLATE_VARIABLES = {
   "projectTemplate": {
@@ -192,8 +271,7 @@ export const PROJECT_TEMPLATE_VARIABLES = {
           "minW": 1,
           "maxW": 12,
           "minH": 4,
-          "maxH": 37,
-          "moved": false,
+          "maxH": 35,
           "static": false
         },
         "reportWidgets": {
