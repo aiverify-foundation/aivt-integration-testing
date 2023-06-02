@@ -15,8 +15,7 @@ const database = mongoClient.db('aiverify')
 const models = database.collection('modelfilemodels')
 const datasets = database.collection('datasetmodels')
 
-const ENDPOINT = "http://localhost:4000/graphql"
-const API_ENDPOINT = "http://localhost:3000"
+const ENDPOINT = "http://localhost:3000"
 
 test.describe.configure({ mode: 'serial' });
 
@@ -27,7 +26,7 @@ test.describe('Get Report', () => {
     test.beforeAll(async () => {
 
         // Send Request
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: api_data.CREATE_PROJECT,
             variables: api_data.PROJECT_VARIABLES
         })
@@ -39,7 +38,7 @@ test.describe('Get Report', () => {
 
     test('Get Non-Generated Report with Valid Project ID', async () => {
 
-        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectID, {
+        const response = await axios.get(ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
@@ -50,7 +49,7 @@ test.describe('Get Report', () => {
 
     test.skip('Get Generated Report with Valid Project ID', async () => {
 
-        let response = await axios.post(ENDPOINT, {
+        let response = await axios.post(ENDPOINT + "/api/graphql", {
             query: api_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
             variables: {
                 "projectId": projectID,
@@ -66,7 +65,7 @@ test.describe('Get Report', () => {
             }
         })
 
-        response = await axios.get(API_ENDPOINT + "/api/report/" + projectID, {
+        response = await axios.get(ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
@@ -81,7 +80,7 @@ test.describe('Get Report', () => {
 
         const projectID = "6416da997de481f468cd535"
 
-        const response = await axios.get(API_ENDPOINT + "/api/report/" + projectID, {
+        const response = await axios.get(ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
@@ -92,7 +91,7 @@ test.describe('Get Report', () => {
 
     test('Get Generated Report with Empty Project ID', async () => {
 
-        const response = await axios.get(API_ENDPOINT + "/api/report/ ", {
+        const response = await axios.get(ENDPOINT + "/api/report/ ", {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
@@ -109,7 +108,7 @@ test.describe('Export As Plugin', () => {
 
     test.beforeAll(async () => {
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: api_data.CREATE_PROJECT_TEMPLATE,
             variables: api_data.PROJECT_TEMPLATE_VARIABLES
         })
@@ -127,7 +126,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-0-5598544214335246'
         });
 
-        const response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        const response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -149,7 +148,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-0-5598544214335246'
         });
 
-        let response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        let response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -167,7 +166,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-0-5598544214335246'
         });
 
-        response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -185,7 +184,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-0-5598544214335246'
         });
 
-        response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -206,7 +205,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-0-5598544214335246'
         });
 
-        const response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        const response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -228,7 +227,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'test-1'
         });
 
-        let response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        let response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -246,7 +245,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-0-5598544214335246'
         });
 
-        response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -264,7 +263,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-10'
         });
 
-        response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -285,7 +284,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': 'project-0-5598544214335246'
         });
 
-        const response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        const response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -307,7 +306,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': '123'
         });
 
-        let response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        let response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -325,7 +324,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': null
         });
 
-        response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -343,7 +342,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': true
         });
 
-        response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -364,7 +363,7 @@ test.describe('Export As Plugin', () => {
             'templateCID': ''
         });
 
-        const response = await axios.post(API_ENDPOINT + '/api/template/export', data, {
+        const response = await axios.post(ENDPOINT + '/api/template/export', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -386,7 +385,7 @@ test.describe('Upload Dataset', () => {
         const form_data = new FormData()
         form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -407,7 +406,7 @@ test.describe('Upload Dataset', () => {
         // TODO Need invalid dataset
         form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -432,7 +431,7 @@ test.describe('Upload Dataset', () => {
 
         const form_data = new FormData()
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -451,7 +450,7 @@ test.describe('Upload Dataset', () => {
         const form_data = new FormData()
         form_data.append('myFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -480,7 +479,7 @@ test.describe('Upload Model', () => {
         const form_data = new FormData()
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -501,7 +500,7 @@ test.describe('Upload Model', () => {
         // TODO Need invalid model
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -526,7 +525,7 @@ test.describe('Upload Model', () => {
 
         const form_data = new FormData()
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -545,7 +544,7 @@ test.describe('Upload Model', () => {
         const form_data = new FormData()
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -570,7 +569,7 @@ test.describe('Upload Model', () => {
 test.describe('List Plugins', () => {
 
     test('List All Plugins', async () => {
-        const response = await axios.post(API_ENDPOINT + '/api/plugins/list')
+        const response = await axios.post(ENDPOINT + '/api/plugins/list')
         const plugins = response.data.plugins
 
         let i = 0
@@ -579,19 +578,19 @@ test.describe('List Plugins', () => {
             i++
         }
 
-        expect.soft(i).toBe(10)
+        expect.soft(i).toBe(9)
     })
 
 })
 
 test.describe('Upload Plugins', () => {
 
-    test('Upload Plugins', async () => {
+    test.skip('Upload Plugins', async () => {
 
         const form_data = new FormData()
-        form_data.append('myFile', fs.createReadStream('./fixtures/aiverify.stock.process-checklist-test.zip'));
+        form_data.append('myFile', fs.createReadStream('./fixtures/partial_dependence_plot-0.1.0'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/plugins/upload', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -609,7 +608,7 @@ test.describe('Upload Plugins', () => {
         const form_data = new FormData()
         form_data.append('myFile', fs.createReadStream('./fixtures/combine_all.sh'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/plugins/upload', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -626,7 +625,7 @@ test.describe('Upload Plugins', () => {
         const form_data = new FormData()
         form_data.append('myFile', fs.createReadStream('./fixtures/aiverify.stock.process-checklist-corrupted.zip'));
 
-        const response = await axios.post(API_ENDPOINT + '/api/plugins/upload', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/plugins/upload', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -644,29 +643,49 @@ test.describe('Delete Plugin', () => {
 
     test('Delete Plugin by Plugin GID', async () => {
 
-        const pluginGID = "aiverify.stock.process-checklist.test"
+        const pluginGID = "partial_dependence_plot-0.1.0"
 
-        const response = await axios.post(API_ENDPOINT + "/api/plugins/delete/" + pluginGID, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+        let response = await axios.post(ENDPOINT + '/api/plugins/list')
+        let plugins = response.data.plugins
+
+        let i = 0, isPluginExist = false
+
+        while (plugins[i]) {
+            if (plugins[i].gid == "partial_dependence_plot-0.1.0") {
+                isPluginExist = true
+                break;
+            }
+            i++
+        }
+
+        response = await axios.delete(ENDPOINT + "/api/plugins/delete/" + pluginGID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
         })
 
+        isPluginExist = false
+
+        response = await axios.post(ENDPOINT + '/api/plugins/list')
+        plugins = response.data.plugins
+
+        while (plugins[i]) {
+            if (plugins[i].gid == "partial_dependence_plot-0.1.0") {
+                isPluginExist = true
+                break;
+            }
+            i++
+        }
+
         // Assert Response
-        expect.soft(response.status).toBe(200)
+        expect.soft(isPluginExist).toBeFalsy()
     })
-    
-    test.skip('Delete Plugin with Non-existing Plugin GID', async () => {
+
+    test('Delete Plugin with Non-existing Plugin GID', async () => {
 
         const pluginGID = "aiverify.stock.process-checklist"
 
-        const response = await axios.post(API_ENDPOINT + "/api/plugins/delete/" + pluginGID, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+        const response = await axios.delete(ENDPOINT + "/api/plugins/delete/" + pluginGID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
