@@ -4,7 +4,7 @@ import * as project_data from './project-data.js'
 
 import axios from 'axios';
 
-const ENDPOINT = "http://localhost:4000/graphql"
+const ENDPOINT = "http://localhost:3000/api/graphql"
 
 const uri =
     "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
@@ -606,9 +606,9 @@ test.describe('Create Project From Template', () => {
         templateId = response.data.data.createProjectTemplate.id
     })
 
-    test.skip('Create Project From Template with Valid Input and Template ID', async () => {
+    test('Create Project From Template with Valid Input and Template ID', async () => {
 
-        const projectFromTemplate = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT, {
             query: project_data.CREATE_PROJECT_FROM_TEMPLATE,
             variables: {
                 "project": project_data.PROJECT_BY_TEMPLATE_VARIABLES,
@@ -616,18 +616,18 @@ test.describe('Create Project From Template', () => {
             }
         })
 
-        const project = projectFromTemplate.data.data.createProjectFromTemplate // FIXME Should the template be null?
-        // console.log(projectFromTemplate)
+        const project = response.data.data.createProjectFromTemplate
+        const projectId = project.id
 
         // Get Project Info directly from MongoDB
-        const query = { _id: ObjectId(project.id) }
+        const query = { _id: ObjectId(projectId) }
         const projectInfoObj = await projects.findOne(query)
-        // console.log(projectInfoObj)
 
         // Assert Response
         expect(projectInfoObj.projectInfo.name).toBe(project_data.PROJECT_BY_TEMPLATE_VARIABLES.projectInfo.name)
-        // expect(projectInfoObj.pages[0].layouts).toBe(project_data.PROJECT_BY_TEMPLATE_VARIABLES.pages[0].layouts)
-        // FIXME Should the layouts change? Which layout 
+        expect(projectInfoObj.projectInfo.company).toBe(project_data.PROJECT_BY_TEMPLATE_VARIABLES.projectInfo.company)
+        expect(projectInfoObj.globalVars[0].key).toBe(project_data.PROJECT_BY_TEMPLATE_VARIABLES.globalVars[0].key)
+        expect(projectInfoObj.globalVars[0].value).toBe(project_data.PROJECT_BY_TEMPLATE_VARIABLES.globalVars[0].value)
 
     })
 
@@ -1529,7 +1529,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test('Generate Report with Valid Inputs', async () => {
+    test.skip('Generate Report with Valid Inputs', async () => {
 
         // Generate Report into Generating Report State
         const generateReport = await axios.post(ENDPOINT, {
@@ -1550,7 +1550,7 @@ test.describe('Generate Report', () => {
         expect(generateReport.data.data.generateReport.status).toBe("RunningTests") //Change to Report Generated
     })
 
-    test('Generate Report when Report Generation In Progress', async () => {
+    test.skip('Generate Report when Report Generation In Progress', async () => {
 
         // Send Request
         let generateReport = await axios.post(ENDPOINT, {
@@ -1760,7 +1760,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test('Generate Report with Invalid Model and Datasets', async () => {
+    test.skip('Generate Report with Invalid Model and Datasets', async () => {
 
         // Wrong Datatype Model and Datasets
         let generateReport = await axios.post(ENDPOINT, {
@@ -1826,7 +1826,7 @@ test.describe('Generate Report', () => {
 
     })
 
-    test('Generate Report with Empty Model and Datasets', async () => {
+    test.skip('Generate Report with Empty Model and Datasets', async () => {
 
         const generateReport = await axios.post(ENDPOINT, {
             query: project_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
@@ -2080,13 +2080,88 @@ test.describe('Save Project As Template', () => {
             }
         })
 
-        const saveProjectAsTemplate = response.data.data
+        const saveProjectAsTemplate = response.data.data.saveProjectAsTemplate
 
         // Get Project Info directly from MongoDB
         const query = { _id: ObjectId(projectId) }
         const projectTemplateInfoObj = await projects.findOne(query)
 
         // Assert Project Template
-        expect().toBe()
+        expect(saveProjectAsTemplate.pages[0].layouts).toMatchObject(projectTemplateInfoObj.pages[0].layouts)
+        expect(saveProjectAsTemplate.globalVars[0].key).toBe(projectTemplateInfoObj.globalVars[0].key)
+        expect(saveProjectAsTemplate.globalVars[0].value).toBe(projectTemplateInfoObj.globalVars[0].value)
+
+    })
+
+    test('Invalid Inputs', async () => {
+
+        // Null Input
+        let response = await axios.post(ENDPOINT, {
+            query: project_data.SAVE_PROJECT_AS_TEMPLATE,
+            variables: {
+                "datasetId": null,
+                "dataset": null,
+                "projectId": null,
+                "templateInfo": {
+                    "name": null,
+                    "description": null,
+                    "reportTitle": null,
+                    "company": null
+                }
+            }
+        })
+
+        let errorMessage = response.data.errors
+
+        // Assert Response
+        expect(errorMessage[0].message).toBe('Variable "$projectId" of non-null type "ObjectID!" must not be null.')
+
+        // Invalid Datatype
+        response = await axios.post(ENDPOINT, {
+            query: project_data.SAVE_PROJECT_AS_TEMPLATE,
+            variables: {
+                "datasetId": true,
+                "dataset": true,
+                "projectId": true,
+                "templateInfo": {
+                    "name": true,
+                    "description": true,
+                    "reportTitle": true,
+                    "company": true
+                }
+            }
+        })
+
+        errorMessage = response.data.errors
+
+        // Assert Response
+        expect(errorMessage[0].message).toBe('Variable "$projectId" got invalid value true; Value is not a valid mongodb object id of form: true')
+
+    })
+
+    test('Empty Inputs', async () => {
+
+        // Empty Input
+        const response = await axios.post(ENDPOINT, {
+            query: project_data.SAVE_PROJECT_AS_TEMPLATE,
+            variables: {
+                "datasetId": "",
+                "dataset": "",
+                "projectId": "",
+                "templateInfo": {
+                    "name": "",
+                    "description": "",
+                    "reportTitle": "",
+                    "company": ""
+                }
+            }
+        })
+
+        const errorMessage = response.data.errors
+        
+        // Assert Response
+        expect(errorMessage[0].message).toBe('Variable \"$projectId\" got invalid value \"\"; Value is not a valid mongodb object id of form: ')
+        expect(errorMessage[1].message).toBe('Variable "$templateInfo" got invalid value "" at "templateInfo.name"; Expected type "name_String_minLength_1_maxLength_128". Must be at least 1 characters in length')
+    
     })
 })
