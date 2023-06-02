@@ -13,8 +13,7 @@ const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const datasets = database.collection('datasetmodels')
 
-const ENDPOINT = "http://localhost:4000/graphql"
-const API_ENDPOINT = "http://localhost:3000"
+const ENDPOINT = "http://localhost:3000"
 
 test.describe.configure({ mode: 'serial' });
 
@@ -27,7 +26,7 @@ test.describe('Update Dataset', () => {
         const form_data = new FormData()
         form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
-        await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
+        await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -36,7 +35,7 @@ test.describe('Update Dataset', () => {
 
         await setTimeout(2000);
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DATASETS,
         })
 
@@ -45,14 +44,14 @@ test.describe('Update Dataset', () => {
     })
 
     test('Update Dataset with Valid Dataset ID', async () => {
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.UPDATE_DATASET,
             variables: {
                 "datasetId": datasetID,
                 "dataset": {
-                    "filename": "test2",
                     "name": "test2",
-                    "description": "test2"
+                    "description": "test2",
+                    "status": "Pending"
                 }
             }
         })
@@ -74,7 +73,7 @@ test.describe('Update Dataset', () => {
     test('Update Dataset with Invalid Dataset ID', async () => {
 
         // Null Dataset ID
-        let response = await axios.post(ENDPOINT, {
+        let response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.UPDATE_DATASET,
             variables: {
                 "datasetId": null,
@@ -92,7 +91,7 @@ test.describe('Update Dataset', () => {
         expect(errorMessage).toBe('Variable "$datasetId" of non-null type "ObjectID!" must not be null.')
 
         // Non-Existing Dataset ID
-        response = await axios.post(ENDPOINT, {
+        response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.UPDATE_DATASET,
             variables: {
                 "datasetId": "3R&",
@@ -113,7 +112,7 @@ test.describe('Update Dataset', () => {
 
     test('Update Dataset with Empty Dataset ID', async () => {
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.UPDATE_DATASET,
             variables: {
                 "datasetId": "",
@@ -134,7 +133,7 @@ test.describe('Update Dataset', () => {
 
     test.afterAll(async () => {
 
-        await axios.post(ENDPOINT, {
+        await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DELETE_DATASET,
             variables: {
                 "deleteDatasetId": datasetID
@@ -153,7 +152,7 @@ test.describe('Delete Dataset', () => {
         const form_data = new FormData()
         form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
-        await axios.post(API_ENDPOINT + '/api/upload/data', form_data, {
+        await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -162,7 +161,7 @@ test.describe('Delete Dataset', () => {
 
         await setTimeout(3000);
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DATASETS,
         })
 
@@ -173,7 +172,7 @@ test.describe('Delete Dataset', () => {
 
     test('Delete Dataset With Valid Dataset ID', async () => {
 
-        await axios.post(ENDPOINT, {
+        await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DELETE_DATASET,
             variables: {
                 "deleteDatasetId": datasetID
@@ -191,7 +190,7 @@ test.describe('Delete Dataset', () => {
     test('Delete Dataset with Invalid Dataset ID', async () => {
 
         // Null Dataset ID
-        let response = await axios.post(ENDPOINT, {
+        let response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DELETE_DATASET,
             variables: {
                 "deleteDatasetId": null
@@ -199,10 +198,10 @@ test.describe('Delete Dataset', () => {
         })
 
         let errorMessage = response.data.errors[0].message
-        expect(errorMessage).toBe('Variable \"$deleteDatasetId\" of non-null type \"ObjectID!\" must not be null.') // FIXME Verbose Error Message
+        expect(errorMessage).toBe('Variable \"$deleteDatasetId\" of non-null type \"ObjectID!\" must not be null.')
 
         // Non-Existing Dataset ID
-        response = await axios.post(ENDPOINT, {
+        response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DELETE_DATASET,
             variables: {
                 "deleteDatasetId": datasetID
@@ -216,7 +215,7 @@ test.describe('Delete Dataset', () => {
 
     test('Delete Dataset with Empty Dataset ID', async () => {
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DELETE_DATASET,
             variables: {
                 "deleteDatasetId": ""
