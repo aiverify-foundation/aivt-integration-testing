@@ -173,10 +173,11 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        const errorMessage = response.data.errors[0]
+        const errorMessage = response.data.errors
 
         // Assert Response
-        expect(errorMessage.message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.globalVars.key"; Expected type "key_String_NotNull_minLength_1_maxLength_128". Must be at least 1 characters in length')
+        expect(errorMessage[0].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.globalVars.key"; Expected type "key_String_NotNull_minLength_1_maxLength_128". Must be at least 1 characters in length')
+        expect(errorMessage[1].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.globalVars.value"; Expected type "value_String_NotNull_minLength_1_maxLength_128". Must be at least 1 characters in length')
 
     })
 
@@ -204,7 +205,6 @@ test.describe('Create Project Template', () => {
                             "maxW": null,
                             "minH": null,
                             "maxH": null,
-                            "moved": null,
                             "static": null
                         }
                     }
@@ -212,10 +212,13 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        let projecTemplateInfo = response.data.data.createProjectTemplate
+        let errorMessage = response.data.errors
 
         // Assert Response
-        expect(projecTemplateInfo).toBeTruthy()
+        expect(errorMessage[0].message).toBe('Variable "$projectTemplate" got invalid value null at "projectTemplate.pages.layouts.i"; Expected non-nullable type "i_String_NotNull_minLength_1_maxLength_128!" not to be null.')
+        expect(errorMessage[1].message).toBe('Variable "$projectTemplate" got invalid value null at "projectTemplate.pages.layouts.x"; Expected non-nullable type "x_Int_NotNull_min_0_max_12!" not to be null.')
+        expect(errorMessage[2].message).toBe('Variable "$projectTemplate" got invalid value null at "projectTemplate.pages.layouts.y"; Expected non-nullable type "y_Int_NotNull_min_0_max_36!" not to be null.')
+        expect(errorMessage[3].message).toBe('Variable \"$projectTemplate\" got invalid value null at \"projectTemplate.pages.layouts.w\"; Expected non-nullable type \"w_Int_NotNull_min_0_max_12!\" not to be null.')
 
         // Test For Float Values in Layouts
         response = await axios.post(ENDPOINT, {
@@ -250,8 +253,18 @@ test.describe('Create Project Template', () => {
             }
         })
 
-        // FIXME JIRA 550
-        let errorMessage = response.data
+        errorMessage = response.data.errors
+
+        // Assert Response
+        expect(errorMessage[0].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.x"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[1].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.y"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[2].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.w"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[3].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.h"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[4].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.maxW"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[5].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.maxH"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[6].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.minW"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[7].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.minH"; Int cannot represent non-integer value: 0.1')
+        expect(errorMessage[8].message).toBe('Variable "$projectTemplate" got invalid value 0.1 at "projectTemplate.pages.layouts.resizeHandles"; Enum "WidgetLayoutResizeHandleType" cannot represent non-string value: 0.1.')
 
         // Test For Null Values in Report Widget
         response = await axios.post(ENDPOINT, {
@@ -324,7 +337,6 @@ test.describe('Create Project Template', () => {
                                 "maxW": "",
                                 "minH": "",
                                 "maxH": "",
-                                "moved": "",
                                 "static": ""
                             },
                             "reportWidgets": {
@@ -347,8 +359,17 @@ test.describe('Create Project Template', () => {
         const errorMessage = response.data.errors
 
         // Assert Response
-        expect(errorMessage[0].message).toBe('Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.pages[0].reportWidgets.widgetGID\"; Expected type \"widgetGID_String_NotNull_minLength_1_maxLength_128\". Must be at least 1 characters in length')
-        expect(errorMessage[1].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].reportWidgets.key"; Expected type "key_String_minLength_1_maxLength_128". Must be at least 1 characters in length')
+        expect(errorMessage[0].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.i"; Expected type "i_String_NotNull_minLength_1_maxLength_128". Must be at least 1 characters in length')
+        expect(errorMessage[1].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.x"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[2].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.y"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[3].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.w"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[4].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.h"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[5].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.maxW"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[6].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.maxH"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[7].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.minW"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[8].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.minH"; Int cannot represent non-integer value: ""')
+        expect(errorMessage[9].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].layouts.static"; Boolean cannot represent a non boolean value: ""')
+        expect(errorMessage[10].message).toBe('Variable "$projectTemplate" got invalid value "" at "projectTemplate.pages[0].reportWidgets.widgetGID"; Expected type "widgetGID_String_NotNull_minLength_1_maxLength_128". Must be at least 1 characters in length')
     })
 })
 
@@ -579,6 +600,7 @@ test.describe('Update Project Template', () => {
             variables: {
                 "updateProjectTemplateId": projectTemplateId,
                 "projectTemplate": {
+                    "fromPlugin": true,
                     "projectInfo": {
                         "name": data,
                         "description": data,
@@ -1113,8 +1135,8 @@ test.describe('Update Project Template', () => {
         const errorMessage = response.data.errors
 
         // Assert Response
-        expect(errorMessage[0].message).toBe("Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.pages[0].reportWidgets[0].widgetGID\"; Expected type \"widgetGID_String_NotNull_minLength_1_maxLength_128\". Must be at least 1 characters in length")
-        expect(errorMessage[1].message).toBe("Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.pages[0].reportWidgets[0].key\"; Expected type \"key_String_minLength_1_maxLength_128\". Must be at least 1 characters in length")
+        expect(errorMessage[0].message).toBe("Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.pages[0].layouts\"; Expected type \"WidgetLayoutInput\" to be an object.")
+        expect(errorMessage[1].message).toBe("Variable \"$projectTemplate\" got invalid value \"\" at \"projectTemplate.pages[0].reportWidgets[0].widgetGID\"; Expected type \"widgetGID_String_NotNull_minLength_1_maxLength_128\". Must be at least 1 characters in length")
 
         // Get Project Template Info directly from MongoDB
         const query = { _id: ObjectId(projectTemplateId) }
