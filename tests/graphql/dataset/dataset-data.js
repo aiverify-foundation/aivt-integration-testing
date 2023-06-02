@@ -1,4 +1,4 @@
-export const DATASETS = `query Query {
+export const DATASETS = `query Datasets {
   datasets {
     id
     filename
@@ -11,7 +11,6 @@ export const DATASETS = `query Query {
       name
       datatype
       label
-      sensitive
     }
     numRows
     numCols
@@ -24,7 +23,7 @@ export const DATASETS = `query Query {
   }
 }`
 
-export const UPDATE_DATASET = `mutation Mutation($datasetId: ObjectID!, $dataset: DatasetInput) {
+export const UPDATE_DATASET = `mutation UpdateDataset($datasetId: ObjectID!, $dataset: DatasetInput) {
   updateDataset(datasetID: $datasetId, dataset: $dataset) {
     id
     filename
@@ -37,7 +36,6 @@ export const UPDATE_DATASET = `mutation Mutation($datasetId: ObjectID!, $dataset
       name
       datatype
       label
-      sensitive
     }
     numRows
     numCols
