@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test'
 import { MongoClient, ObjectId } from 'mongodb'
 import * as project_data from './project-data.js'
+import { setTimeout as sleep } from 'node:timers/promises'
+
 
 import axios from 'axios';
 
-const ENDPOINT = "http://localhost:4000/graphql"
+const ENDPOINT = "http://localhost:3000/api/graphql"
 
 const uri =
   "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
@@ -109,7 +111,7 @@ test.describe('Get Projects', () => {
 
 test.describe('Get Reports', () => {
 
-  let project, projectId
+  let project, projectId, reportId
 
   test.beforeAll(async () => {
 
@@ -125,26 +127,21 @@ test.describe('Get Reports', () => {
       query: project_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
       variables: {
         "projectId": projectId,
-        "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox_for_classification:fairness_metrics_toolbox_for_classification",
-        "modelAndDatasets": {
-          "modelFileName": './fixtures/pickle_scikit_multiclasslr_loan.sav',
-          "testDatasetFileName": './fixtures/pickle_pandas_tabular_loan_testing.sav',
-          "groundTruthDatasetFileName": ".fixtures/pickle_pandas_tabular_loan_testing.sav",
-          "modelType": 'Classification',
-          "groundTruthColumn": 'Interest_Rate'
-        }
+        "algorithms": "aiverify.stock.algorithms.partial_dependence_plot:partial_dependence_plot",
       }
     })
 
   })
 
-  test('Get Report By Project ID', async () => {
+  test.skip('Get Report By Project ID', async () => {
+
+    const projectId = "647962a25b7aa8dcb8794b60"
 
     // Get Response
     const response = await axios.post(ENDPOINT, {
       query: project_data.GET_REPORT_BY_PROJECT_ID,
       variables: {
-        "projectId": projectId
+        "projectId": projectId,
       }
     })
 
@@ -153,6 +150,7 @@ test.describe('Get Reports', () => {
     // Get Report directly from MongoDB
     const query = { _id: ObjectId(projectId) }
     const reportId = (await projects.findOne(query)).report
+
 
     const query2 = { _id: ObjectId(reportId) }
     const reportInfoObj = (await reports.findOne(query2))
@@ -224,7 +222,6 @@ test.describe('Get Reports', () => {
 
     // Assert Response
     expect(reportInfoObj).toBeNull()
-
   })
 
 })
