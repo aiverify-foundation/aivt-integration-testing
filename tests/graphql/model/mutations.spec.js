@@ -7,8 +7,7 @@ import fs from 'fs'
 import FormData from 'form-data'
 import { setTimeout } from "timers/promises"
 
-const ENDPOINT = "http://localhost:4000/graphql"
-const API_ENDPOINT = "http://localhost:3000"
+const ENDPOINT = "http://localhost:3000"
 
 const uri =
     "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
@@ -27,7 +26,7 @@ test.describe('Update Model', () => {
         const form_data = new FormData()
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
-        await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
+        await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -36,7 +35,7 @@ test.describe('Update Model', () => {
 
         await setTimeout(2000)
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.MODELS,
         })
 
@@ -47,14 +46,14 @@ test.describe('Update Model', () => {
 
     test('Update Model with Valid Model ID', async () => {
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.UPDATE_MODEL,
             variables: {
                 "modelFileId": modelID,
                 "modelFile": {
-                    "filename": "test2",
                     "name": "test2",
-                    "type": "Classification",
+                    "modelType": "Classification",
+                    "status": "Pending",
                     "description": "test2",
                 }
             }
@@ -68,24 +67,23 @@ test.describe('Update Model', () => {
 
         // Assert Update
         expect(updateModel.name).toBe(updateModelObj.name)
-        expect(updateModel.type).toBe(updateModelObj.type)
+        expect(updateModel.modelType).toBe(updateModelObj.modelType)
         expect(updateModel.description).toBe(updateModelObj.description)
-        expect(updateModel.filename).toBe(updateModelObj.filename)
-        expect(updateModel.filename).not.toBe('test')
+        expect(updateModel.status).toBe(updateModelObj.status)
 
     })
 
     test('Update Model with Invalid Model ID', async () => {
 
         // Null Model ID
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.UPDATE_MODEL,
             variables: {
                 "modelFileId": null,
                 "modelFile": {
-                    "filename": "test2",
                     "name": "test2",
-                    "type": "Classification",
+                    "modelType": "Classification",
+                    "status": "true",
                     "description": "test2",
                 }
             }
@@ -95,19 +93,20 @@ test.describe('Update Model', () => {
 
         // Assert Response
         expect(errorMessage[0].message).toBe('Variable "$modelFileId" of non-null type "ObjectID!" must not be null.')
+        expect(errorMessage[1].message).toBe('Variable "$modelFile" got invalid value "true" at "modelFile.status"; Value "true" does not exist in "ModelFileStatusType" enum.')
 
     })
 
     test('Update Model with Empty Model ID', async () => {
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.UPDATE_MODEL,
             variables: {
                 "modelFileId": "",
                 "modelFile": {
-                    "filename": "test2",
                     "name": "test2",
-                    "type": "Classification",
+                    "modelType": "Classification",
+                    "status": "Pending",
                     "description": "test2",
                 }
             }
@@ -122,61 +121,74 @@ test.describe('Update Model', () => {
 
     test('Update Model with Invalid Inputs', async () => {
 
-        const response = await axios.post(ENDPOINT, {
+        // Null Values
+        let response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.UPDATE_MODEL,
             variables: {
                 "modelFileId": modelID,
                 "modelFile": {
-                    "filename": null,
                     "name": null,
-                    "type": null,
+                    "modelType": null,
+                    "status": null,
                     "description": null,
                 }
             }
         })
 
-        const updateModel = response.data.data.updateModel
+        let updateModel = response.data.data.updateModel
 
         // Get Dataset directly from MongoDB
-        const query = { _id: ObjectId(modelID) }
-        const updateModelObj = await models.findOne(query)
+        let query = { _id: ObjectId(modelID) }
+        let updateModelObj = await models.findOne(query)
 
         // Assert Update
         expect(updateModel.name).toBe(updateModelObj.name)
-        expect(updateModel.type).toBe(updateModelObj.type)
+        expect(updateModel.modelType).toBe(updateModelObj.modelType)
         expect(updateModel.description).toBe(updateModelObj.description)
-        expect(updateModel.filename).toBe(updateModelObj.filename)
-        expect(updateModel.filename).not.toBe('test')
+        expect(updateModel.status).toBe(updateModelObj.status)
 
-    })
-
-    test('Update Model with Empty Inputs', async () => {
-
-        const response = await axios.post(ENDPOINT, {
+        // Invalid Datatype
+        response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.UPDATE_MODEL,
             variables: {
                 "modelFileId": modelID,
                 "modelFile": {
-                    "filename": "",
+                    "name": true,
+                    "modelType": true,
+                    "status": true,
+                    "description": true,
+                }
+            }
+        })
+
+        let errorMessage = response.data.errors
+        
+        // Assert Errors
+        expect(errorMessage[0].message).toBe('Variable "$modelFile" got invalid value true at "modelFile.status"; Enum "ModelFileStatusType" cannot represent non-string value: true.')
+        expect(errorMessage[1].message).toBe('Variable "$modelFile" got invalid value true at "modelFile.modelType"; Enum "ModelType" cannot represent non-string value: true.')
+  
+    })
+
+    test('Update Model with Empty Inputs', async () => {
+
+        const response = await axios.post(ENDPOINT + '/api/graphql', {
+            query: model_data.UPDATE_MODEL,
+            variables: {
+                "modelFileId": modelID,
+                "modelFile": {
                     "name": "",
-                    "type": "",
+                    "modelType": "",
+                    "status": "",
                     "description": "",
                 }
             }
         })
 
-        const updateModel = response.data.data.updateModel
+        const errorMessage = response.data.errors
 
-        // Get Dataset directly from MongoDB
-        const query = { _id: ObjectId(modelID) }
-        const updateModelObj = await models.findOne(query)
-
-        // Assert Update
-        expect(updateModel.name).toBe(updateModelObj.name)
-        expect(updateModel.type).toBe(updateModelObj.type)
-        expect(updateModel.description).toBe(updateModelObj.description)
-        expect(updateModel.filename).toBe(updateModelObj.filename)
-        expect(updateModel.filename).not.toBe('test')
+        // Assert Errors
+        expect(errorMessage[0].message).toBe('Variable "$modelFile" got invalid value "" at "modelFile.status"; Value "" does not exist in "ModelFileStatusType" enum.')
+        expect(errorMessage[1].message).toBe('Variable "$modelFile" got invalid value "" at "modelFile.modelType"; Value "" does not exist in "ModelType" enum.')
 
     })
 
@@ -191,7 +203,7 @@ test.describe('Delete Model', () => {
         const form_data = new FormData()
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
-        await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
+        await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -204,7 +216,7 @@ test.describe('Delete Model', () => {
 
     test('Delete Model With Valid Model ID', async () => {
 
-        await axios.post(ENDPOINT, {
+        await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.DELETE_MODEL,
             variables: {
                 "deleteModelFileId": modelID
@@ -222,7 +234,7 @@ test.describe('Delete Model', () => {
     test('Delete Model with Invalid Model ID', async () => {
 
         // Null Model ID
-        let response = await axios.post(ENDPOINT, {
+        let response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.DELETE_MODEL,
             variables: {
                 "deleteModelFileId": null
@@ -233,7 +245,7 @@ test.describe('Delete Model', () => {
         expect(errorMessage).toBe('Variable "$deleteModelFileId" of non-null type "ObjectID!" must not be null.')
 
         // Non-Existing Dataset ID
-        response = await axios.post(ENDPOINT, {
+        response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.DELETE_MODEL,
             variables: {
                 "deleteModelFileId": modelID
@@ -247,7 +259,7 @@ test.describe('Delete Model', () => {
 
     test('Delete Dataset with Empty Dataset ID', async () => {
 
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.DELETE_MODEL,
             variables: {
                 "deleteModelFileId": ""
