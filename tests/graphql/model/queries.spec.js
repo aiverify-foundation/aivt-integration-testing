@@ -6,8 +6,7 @@ import fs from 'fs'
 import FormData from 'form-data'
 import {setTimeout} from "timers/promises"
 
-const ENDPOINT = "http://localhost:4000/graphql"
-const API_ENDPOINT = "http://localhost:3000"
+const ENDPOINT = "http://localhost:3000"
 
 test.describe.configure({ mode: 'serial' });
 
@@ -20,7 +19,7 @@ test.describe('Get Models', () => {
         const form_data = new FormData()
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
 
-        await axios.post(API_ENDPOINT + '/api/upload/model', form_data, {
+        await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -32,7 +31,7 @@ test.describe('Get Models', () => {
 
     test('Get All Models', async () => {
         
-        const response = await axios.post(ENDPOINT, {
+        const response = await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.MODELS,
         })
 
@@ -48,7 +47,7 @@ test.describe('Get Models', () => {
 
     test.afterAll(async () => {
 
-        await axios.post(ENDPOINT, {
+        await axios.post(ENDPOINT + '/api/graphql', {
             query: model_data.DELETE_MODEL,
             variables: {
                 "deleteModelFileId": modelID
