@@ -4,7 +4,7 @@ import * as project_template_data from './project-template-data.js'
 
 import axios from 'axios';
 
-const ENDPOINT = "http://localhost:3000/api/graphql"
+const ENDPOINT = "http://127.0.0.1:3000/api/graphql"
 
 const uri =
   "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
@@ -52,8 +52,10 @@ test.describe('Get Project Template', () => {
     expect(output[0].pages[0].layouts).toMatchObject(projectTemplateInfoObj.pages[0].layouts)
     expect(output[0].pages[0].reportWidgets[0].widgetGID).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].widgetGID)
     expect(output[0].pages[0].reportWidgets[0].key).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].key)
-    expect(output[0].pages[0].reportWidgets[0].layoutItemProperties).toMatchObject(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties)
-
+    expect(output[0].pages[0].reportWidgets[0].layoutItemProperties.alignItems).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.alignItems)
+    expect(output[0].pages[0].reportWidgets[0].layoutItemProperties.bgcolor).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.bgcolor)
+    expect(output[0].pages[0].reportWidgets[0].layoutItemProperties.color).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.color)
+    expect(output[0].pages[0].reportWidgets[0].layoutItemProperties.justifyContent).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.justifyContent)
     expect(Date(output[0].createdAt)).toBe(Date(projectTemplateInfoObj.createdAt))
     expect(Date(output[0].updatedAt)).toBe(Date(projectTemplateInfoObj.updatedAt))
 
@@ -83,7 +85,11 @@ test.describe('Get Project Template', () => {
     expect(projectTemplateInfo.pages[0].layouts).toMatchObject(projectTemplateInfoObj.pages[0].layouts)
     expect(projectTemplateInfo.pages[0].reportWidgets[0].widgetGID).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].widgetGID)
     expect(projectTemplateInfo.pages[0].reportWidgets[0].key).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].key)
-    expect(projectTemplateInfo.pages[0].reportWidgets[0].layoutItemProperties).toMatchObject(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties)
+    expect(projectTemplateInfo.pages[0].reportWidgets[0].layoutItemProperties.alignItems).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.alignItems)
+    expect(projectTemplateInfo.pages[0].reportWidgets[0].layoutItemProperties.bgcolor).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.bgcolor)
+    expect(projectTemplateInfo.pages[0].reportWidgets[0].layoutItemProperties.color).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.color)
+    expect(projectTemplateInfo.pages[0].reportWidgets[0].layoutItemProperties.justifyContent).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].layoutItemProperties.justifyContent)
+
     expect(projectTemplateInfo.pages[0].reportWidgets[0].properties).toBe(projectTemplateInfoObj.pages[0].reportWidgets[0].properties)
 
     expect(Date(projectTemplateInfo.createdAt)).toBe(Date(projectTemplateInfoObj.createdAt))
