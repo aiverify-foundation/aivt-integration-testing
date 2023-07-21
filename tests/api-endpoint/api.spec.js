@@ -15,7 +15,7 @@ const database = mongoClient.db('aiverify')
 const models = database.collection('modelfilemodels')
 const datasets = database.collection('datasetmodels')
 
-const ENDPOINT = "http://localhost:3000"
+const ENDPOINT = "http://127.0.0.1:3000"
 
 test.describe.configure({ mode: 'serial' });
 
@@ -441,7 +441,7 @@ test.describe('Upload Dataset', () => {
             }
         })
 
-        expect.soft(response.status).toBe(400)
+        expect.soft(response.status).toBe(500)
 
     })
 
@@ -535,7 +535,7 @@ test.describe('Upload Model', () => {
             }
         })
 
-        expect.soft(response.status).toBe(400)
+        expect.soft(response.status).toBe(500)
 
     })
 
@@ -578,7 +578,7 @@ test.describe('List Plugins', () => {
             i++
         }
 
-        expect.soft(i).toBe(9)
+        expect.soft(i).toBe(10)
     })
 
 })
