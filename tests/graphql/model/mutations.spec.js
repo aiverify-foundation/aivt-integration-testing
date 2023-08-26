@@ -15,8 +15,6 @@ const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const models = database.collection('modelfilemodels')
 
-test.describe.configure({ mode: 'serial' });
-
 test.describe('Update Model', () => {
 
     let model, modelID
