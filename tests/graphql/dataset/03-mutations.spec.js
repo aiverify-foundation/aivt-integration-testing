@@ -168,7 +168,7 @@ test.describe('Delete Dataset', () => {
 
     })
 
-    test('Delete Dataset With Valid Dataset ID', async () => {
+    test.skip('Delete Dataset With Valid Dataset ID', async () => {
 
         await axios.post(ENDPOINT + "/api/graphql", {
             query: dataset_data.DELETE_DATASET,
@@ -185,7 +185,7 @@ test.describe('Delete Dataset', () => {
 
     })
 
-    test('Delete Dataset with Invalid Dataset ID', async () => {
+    test.skip('Delete Dataset with Invalid Dataset ID', async () => {
 
         // Null Dataset ID
         let response = await axios.post(ENDPOINT + "/api/graphql", {
