@@ -5,7 +5,6 @@ const { devices } = require('@playwright/test');
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
 
 const testRailOptions = {
   // Whether to add <properties> with all annotations; default is false
@@ -14,16 +13,14 @@ const testRailOptions = {
   outputFile: './test-results/junit-report.xml'
 }
 
-
 /**
  * @see https://playwright.dev/docs/test-configuration
  * @type {import('@playwright/test').PlaywrightTestConfig}
  */
 const config = {
   testDir: './tests',
-  testIgnore: ['**/model/**', '**/dataset/**'],
   /* Maximum time one test can run for. */
-  timeout: 30 * 100000,
+  timeout: 30000 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -38,7 +35,7 @@ const config = {
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],
