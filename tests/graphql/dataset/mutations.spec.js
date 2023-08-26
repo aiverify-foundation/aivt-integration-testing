@@ -15,8 +15,6 @@ const datasets = database.collection('datasetmodels')
 
 const ENDPOINT = "http://localhost:3000"
 
-test.describe.configure({ mode: 'serial' });
-
 test.describe('Update Dataset', () => {
 
     let dataset, datasetID
