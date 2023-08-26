@@ -8,8 +8,6 @@ import {setTimeout} from "timers/promises"
 
 const ENDPOINT = "http://localhost:3000"
 
-test.describe.configure({ mode: 'serial' });
-
 test.describe('Get Models', () => {
 
     let modelID
