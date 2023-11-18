@@ -24,7 +24,6 @@ export const UPDATE_MODEL = `mutation Mutation($modelFileId: ObjectID!, $modelFi
     filePath
     ctime
     description
-    status
     size
     modelType
     serializer
