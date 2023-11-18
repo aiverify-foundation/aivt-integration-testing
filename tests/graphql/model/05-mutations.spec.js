@@ -56,8 +56,6 @@ test.describe('Update Model', () => {
             }
         })
 
-        console.log(response.data)
-
         const updateModel = response.data.data.updateModel
         
         // Get Dataset directly from MongoDB
@@ -68,7 +66,6 @@ test.describe('Update Model', () => {
         expect(updateModel.name).toBe(updateModelObj.name)
         expect(updateModel.modelType).toBe(updateModelObj.modelType)
         expect(updateModel.description).toBe(updateModelObj.description)
-        expect(updateModel.status).toBe(updateModelObj.status)
 
     })
 
@@ -128,7 +125,6 @@ test.describe('Update Model', () => {
                 "modelFile": {
                     "name": null,
                     "modelType": null,
-                    "status": null,
                     "description": null,
                 }
             }
@@ -144,7 +140,6 @@ test.describe('Update Model', () => {
         expect(updateModel.name).toBe(updateModelObj.name)
         expect(updateModel.modelType).toBe(updateModelObj.modelType)
         expect(updateModel.description).toBe(updateModelObj.description)
-        expect(updateModel.status).toBe(updateModelObj.status)
 
         // Invalid Datatype
         response = await axios.post(ENDPOINT + '/api/graphql', {
@@ -154,7 +149,6 @@ test.describe('Update Model', () => {
                 "modelFile": {
                     "name": true,
                     "modelType": true,
-                    "status": true,
                     "description": true,
                 }
             }
@@ -163,8 +157,7 @@ test.describe('Update Model', () => {
         let errorMessage = response.data.errors
         
         // Assert Errors
-        expect(errorMessage[0].message).toBe('Variable "$modelFile" got invalid value true at "modelFile.status"; Enum "ModelFileStatusType" cannot represent non-string value: true.')
-        expect(errorMessage[1].message).toBe('Variable "$modelFile" got invalid value true at "modelFile.modelType"; Enum "ModelType" cannot represent non-string value: true.')
+        expect(errorMessage[0].message).toBe('Variable \"$modelFile\" got invalid value true at \"modelFile.modelType\"; Enum \"ModelType\" cannot represent non-string value: true.')
   
     })
 
@@ -187,7 +180,7 @@ test.describe('Update Model', () => {
 
         // Assert Errors
         expect(errorMessage[0].message).toBe('Variable \"$modelFile\" got invalid value \"\" at \"modelFile.modelType\"; Value \"\" does not exist in \"ModelType\" enum.')
-        expect(errorMessage[1].message).toBe('Variable "$modelFile" got invalid value "" at "modelFile.modelType"; Value "" does not exist in "ModelType" enum.')
+        expect(errorMessage[1].message).toBe('Variable \"$modelFile\" got invalid value { name: \"\", modelType: \"\", status: \"\", description: \"\" }; Field \"status\" is not defined by type \"ModelFileInput\".')
 
     })
 
