@@ -51,11 +51,12 @@ test.describe('Update Model', () => {
                 "modelFile": {
                     "name": "test2",
                     "modelType": "Classification",
-                    "status": "Pending",
                     "description": "test2",
                 }
             }
         })
+
+        console.log(response.data)
 
         const updateModel = response.data.data.updateModel
         
@@ -91,7 +92,7 @@ test.describe('Update Model', () => {
 
         // Assert Response
         expect(errorMessage[0].message).toBe('Variable "$modelFileId" of non-null type "ObjectID!" must not be null.')
-        expect(errorMessage[1].message).toBe('Variable "$modelFile" got invalid value "true" at "modelFile.status"; Value "true" does not exist in "ModelFileStatusType" enum.')
+        expect(errorMessage[1].message).toBe('Variable \"$modelFile\" got invalid value { name: \"test2\", modelType: \"Classification\", status: \"true\", description: \"test2\" }; Field \"status\" is not defined by type \"ModelFileInput\".')
 
     })
 
@@ -185,7 +186,7 @@ test.describe('Update Model', () => {
         const errorMessage = response.data.errors
 
         // Assert Errors
-        expect(errorMessage[0].message).toBe('Variable "$modelFile" got invalid value "" at "modelFile.status"; Value "" does not exist in "ModelFileStatusType" enum.')
+        expect(errorMessage[0].message).toBe('Variable \"$modelFile\" got invalid value \"\" at \"modelFile.modelType\"; Value \"\" does not exist in \"ModelType\" enum.')
         expect(errorMessage[1].message).toBe('Variable "$modelFile" got invalid value "" at "modelFile.modelType"; Value "" does not exist in "ModelType" enum.')
 
     })
