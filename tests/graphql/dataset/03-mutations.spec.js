@@ -8,7 +8,7 @@ import FormData from 'form-data'
 import { setTimeout } from "timers/promises"
 
 const uri =
-    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+    "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const datasets = database.collection('datasetmodels')
@@ -123,7 +123,7 @@ test.describe('Update Dataset', () => {
         })
 
         const errorMessage = response.data.errors[0].message
-        
+
         // Assert Response
         expect(errorMessage).toBe('Variable "$datasetId" got invalid value ""; Value is not a valid mongodb object id of form: ')
 

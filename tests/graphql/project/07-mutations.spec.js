@@ -7,7 +7,7 @@ import axios from 'axios';
 const ENDPOINT = "http://127.0.0.1:3000/api/graphql"
 
 const uri =
-    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+    "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const projects = database.collection('projecttemplatemodels')
@@ -2158,10 +2158,10 @@ test.describe('Save Project As Template', () => {
         })
 
         const errorMessage = response.data.errors
-        
+
         // Assert Response
         expect(errorMessage[0].message).toBe('Variable \"$projectId\" got invalid value \"\"; Value is not a valid mongodb object id of form: ')
         expect(errorMessage[1].message).toBe('Variable "$templateInfo" got invalid value "" at "templateInfo.name"; Expected type "name_String_minLength_1_maxLength_128". Must be at least 1 characters in length')
-    
+
     })
 })

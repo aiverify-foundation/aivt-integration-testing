@@ -10,7 +10,7 @@ import { setTimeout } from "timers/promises"
 const ENDPOINT = "http://127.0.0.1:3000"
 
 const uri =
-    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+    "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const models = database.collection('modelfilemodels')
@@ -57,7 +57,7 @@ test.describe('Update Model', () => {
         })
 
         const updateModel = response.data.data.updateModel
-        
+
         // Get Dataset directly from MongoDB
         const query = { _id: ObjectId(modelID) }
         const updateModelObj = await models.findOne(query)
@@ -155,10 +155,10 @@ test.describe('Update Model', () => {
         })
 
         let errorMessage = response.data.errors
-        
+
         // Assert Errors
         expect(errorMessage[0].message).toBe('Variable \"$modelFile\" got invalid value true at \"modelFile.modelType\"; Enum \"ModelType\" cannot represent non-string value: true.')
-  
+
     })
 
     test('Update Model with Empty Inputs', async () => {
