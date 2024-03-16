@@ -7,7 +7,7 @@ import axios from 'axios';
 const ENDPOINT = "http://127.0.0.1:3000/api/graphql"
 
 const uri =
-  "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@host.docker.internal:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+  "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const projects = database.collection('projecttemplatemodels')
