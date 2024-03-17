@@ -10,7 +10,7 @@ import { setTimeout } from "timers/promises"
 
 let environment = process.env.ENVIRONMENT_URL
 
-let uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+let uri = "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
 
 // if(environment == "https://127.0.0.1")
 //     uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
