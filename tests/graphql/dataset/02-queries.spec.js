@@ -15,7 +15,7 @@ test.describe('Get Datasets', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/sample_bc_credit_data.sav'));
 
         await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {

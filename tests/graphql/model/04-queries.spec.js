@@ -15,7 +15,7 @@ test.describe('Get Models', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/sample_bc_credit_sklearn_linear.LogisticRegression.sav'));
 
         await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {

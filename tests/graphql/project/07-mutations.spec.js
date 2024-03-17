@@ -6,8 +6,15 @@ import axios from 'axios';
 
 const ENDPOINT = "http://127.0.0.1:3000/api/graphql"
 
-const uri =
-    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+let environment = process.env.ENVIRONMENT_URL
+
+let uri = ""
+
+if(environment == "https://127.0.0.1")
+    uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+else if(environment == "https://host.docker.internal")
+    uri = "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const projects = database.collection('projecttemplatemodels')
@@ -1538,11 +1545,11 @@ test.describe('Generate Report', () => {
                 "projectId": projectId,
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1559,11 +1566,11 @@ test.describe('Generate Report', () => {
                 "projectId": projectId,
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1574,11 +1581,11 @@ test.describe('Generate Report', () => {
                 "projectId": projectId,
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1599,11 +1606,11 @@ test.describe('Generate Report', () => {
                 "projectId": "123",
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1618,11 +1625,11 @@ test.describe('Generate Report', () => {
                 "projectId": null,
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1637,11 +1644,11 @@ test.describe('Generate Report', () => {
                 "projectId": 0,
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1659,11 +1666,11 @@ test.describe('Generate Report', () => {
                 "projectId": "",
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1684,11 +1691,11 @@ test.describe('Generate Report', () => {
                 "projectId": projectId,
                 "algorithms": "aiverify",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1704,11 +1711,11 @@ test.describe('Generate Report', () => {
                 "projectId": projectId,
                 "algorithms": null,
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1723,11 +1730,11 @@ test.describe('Generate Report', () => {
                 "projectId": projectId,
                 "algorithms": 0,
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1745,11 +1752,11 @@ test.describe('Generate Report', () => {
                 "projectId": projectId,
                 "algorithms": "",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -1870,11 +1877,11 @@ test.describe('Cancel Test Run', () => {
                 "projectId": projectId,
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox:fairness_metrics_toolbox",
                 "modelAndDatasets": {
-                    "modelFileName": '/home/benflop/uploads/model/pickle_scikit_multiclasslr_loan.sav',
-                    "testDatasetFileName": '/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav',
-                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/pickle_pandas_tabular_loan_testing.sav",
+                    "modelFileName": '/home/benflop/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                    "testDatasetFileName": '/home/benflop/uploads/data/sample_bc_credit_data.sav',
+                    "groundTruthDatasetFileName": "/home/benflop/uploads/data/sample_bc_credit_data.sav",
                     "modelType": 'Classification',
-                    "groundTruthColumn": 'Interest_Rate'
+                    "groundTruthColumn": 'default'
                 }
             }
         })
@@ -2069,7 +2076,7 @@ test.describe('Save Project As Template', () => {
             query: project_data.SAVE_PROJECT_AS_TEMPLATE,
             variables: {
                 "datasetId": "645b7551836b727afebf5e8d",
-                "dataset": "pickle_pandas_tabular_loan_testing.sav",
+                "dataset": "sample_bc_credit_data.sav",
                 "projectId": projectId,
                 "templateInfo": {
                     "name": "Test",

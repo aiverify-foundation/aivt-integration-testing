@@ -7,8 +7,15 @@ import fs from 'fs'
 import FormData from 'form-data'
 import { setTimeout } from "timers/promises"
 
-const uri =
-    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+let environment = process.env.ENVIRONMENT_URL
+
+let uri = ""
+
+if(environment == "https://127.0.0.1")
+    uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+else if(environment == "https://host.docker.internal")
+    uri = "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const datasets = database.collection('datasetmodels')
@@ -22,7 +29,7 @@ test.describe('Update Dataset', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/sample_bc_credit_data.sav'));
 
         await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -148,7 +155,7 @@ test.describe('Delete Dataset', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/sample_bc_credit_data.sav'));
 
         await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {

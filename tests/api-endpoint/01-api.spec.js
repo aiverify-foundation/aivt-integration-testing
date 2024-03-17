@@ -8,8 +8,15 @@ import fs from 'fs'
 import FormData from 'form-data'
 import { setTimeout } from "timers/promises"
 
-const uri =
-    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+let environment = process.env.ENVIRONMENT_URL
+
+let uri = ""
+
+if(environment == "https://127.0.0.1")
+    uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+else if(environment == "https://host.docker.internal")
+    uri = "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const models = database.collection('modelfilemodels')
@@ -55,12 +62,12 @@ test.describe('Get Report', () => {
                 "projectId": projectID,
                 "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox_for_classification:fairness_metrics_toolbox_for_classification",
                 "modelAndDatasets": {
-                    "modelFileName": "/app/portal/uploads/model/pickle_scikit_multiclasslr_loan_2.sav",
+                    "modelFileName": "/app/portal/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression_2.sav",
                     "groundTruthColumn": "Interest_Rate",
-                    "groundTruthDatasetFileName": "/app/portal/uploads/data/pickle_pandas_tabular_loan_testing_3.sav",
-                    "modelFileName": "/app/portal/uploads/model/pickle_scikit_multiclasslr_loan_2.sav",
+                    "groundTruthDatasetFileName": "/app/portal/uploads/data/sample_bc_credit_data_3.sav",
+                    "modelFileName": "/app/portal/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression_2.sav",
                     "modelType": "Classification",
-                    "testDatasetFileName": "/app/portal/uploads/data/pickle_pandas_tabular_loan_testing_1.sav"
+                    "testDatasetFileName": "/app/portal/uploads/data/sample_bc_credit_data_1.sav"
                 }
             }
         })
@@ -383,7 +390,7 @@ test.describe('Upload Dataset', () => {
     test('Upload Dataset with Valid Dataset', async () => {
 
         const form_data = new FormData()
-        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/sample_bc_credit_data.sav'));
 
         const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -404,7 +411,7 @@ test.describe('Upload Dataset', () => {
         const form_data = new FormData()
 
         // TODO Need invalid dataset
-        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/sample_bc_credit_data.sav'));
 
         const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
@@ -477,7 +484,7 @@ test.describe('Upload Model', () => {
     test('Upload Model with Valid Model', async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/sample_bc_credit_sklearn_linear.LogisticRegression.sav'));
 
         const response = await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {

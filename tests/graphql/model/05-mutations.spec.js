@@ -9,8 +9,15 @@ import { setTimeout } from "timers/promises"
 
 const ENDPOINT = "http://127.0.0.1:3000"
 
-const uri =
-    "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+let environment = process.env.ENVIRONMENT_URL
+
+let uri = ""
+
+if(environment = "127.0.0.1")
+    uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ:@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+else if(environment = "host.docker.internal")
+    uri = "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const models = database.collection('modelfilemodels')
@@ -22,7 +29,7 @@ test.describe('Update Model', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/sample_bc_credit_sklearn_linear.LogisticRegression.sav'));
 
         await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
@@ -193,7 +200,7 @@ test.describe('Delete Model', () => {
     test.beforeAll(async () => {
 
         const form_data = new FormData()
-        form_data.append('myModelFiles', fs.createReadStream('./fixtures/pickle_scikit_multiclasslr_loan.sav'));
+        form_data.append('myModelFiles', fs.createReadStream('./fixtures/sample_bc_credit_sklearn_linear.LogisticRegression.sav'));
 
         await axios.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {

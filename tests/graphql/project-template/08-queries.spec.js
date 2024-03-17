@@ -6,8 +6,15 @@ import axios from 'axios';
 
 const ENDPOINT = "http://127.0.0.1:3000/api/graphql"
 
-const uri =
-  "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+let environment = process.env.ENVIRONMENT_URL
+
+let uri = ""
+
+if(environment == "https://127.0.0.1")
+    uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+else if(environment == "https://host.docker.internal")
+    uri = "mongodb://mongodb:mongodb@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1";
+
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
 const projects = database.collection('projecttemplatemodels')
