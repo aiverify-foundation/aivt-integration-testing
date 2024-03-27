@@ -464,17 +464,7 @@ test.describe('Upload Dataset', () => {
             data: form_data,
         })
 
-        const dataset = response.data[0]
-        const datasetID = dataset._id
-
-        // Get Model directly from MongoDB
-        const query = { _id: ObjectId(datasetID) }
-        const datasetObj = await datasets.findOne(query)
-
-        await setTimeout(1000)
-
-        // FIXME Should Status be 'Pending' if invalid?
-        // console.log(datasetObj)
+        expect.soft(response.status).toBe(400)
 
     })
 })
