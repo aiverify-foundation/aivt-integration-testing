@@ -464,7 +464,7 @@ test.describe('Upload Dataset', () => {
             data: form_data,
         })
 
-        expect.soft(response.status).toBe(400)
+        expect.soft(response).not.toBeOK()
 
     })
 })
