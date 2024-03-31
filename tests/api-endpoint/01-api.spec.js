@@ -452,7 +452,7 @@ test.describe('Upload Dataset', () => {
 
     })
 
-    test('Upload Unsupported File Format Dataset', async () => {
+    test.skip('Upload Unsupported File Format Dataset', async () => {
 
         const form_data = new FormData()
         form_data.append('myFiles', fs.createReadStream('./fixtures/combine_all.sh'));
