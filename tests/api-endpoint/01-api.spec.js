@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, request } from '@playwright/test'
 import { MongoClient, ObjectId } from 'mongodb'
 import * as api_data from './api-data.js'
 
@@ -492,29 +492,27 @@ test.describe('Upload Model', () => {
 
     test('Upload Model with Invalid Model', async () => {
 
+        const context = await request.newContext()
         const form_data = new FormData()
 
         // TODO Need invalid model
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
-        const response = await axios.post(ENDPOINT + '/api/upload/model', form_data, {
+        const response = await context.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
         })
 
-        const model = response.data[0]
-        const modelID = model._id
+        expect(response.status()).toEqual(400)
 
-        // Get Model directly from MongoDB
-        const query = { _id: ObjectId(modelID) }
-        const modelObj = await models.findOne(query)
+        // const model = response.data[0]
+        // const modelID = model._id
 
-        await setTimeout(1000)
-
-        // FIXME Should Status be 'Pending' if invalid?
-        // console.log(modelObj)
+        // // Get Model directly from MongoDB
+        // const query = { _id: ObjectId(modelID) }
+        // const modelObj = await models.findOne(query)
 
     })
 
