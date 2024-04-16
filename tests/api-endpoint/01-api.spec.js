@@ -12,8 +12,8 @@ let uri = "mongodb://mongodb:t1oj5L_xQI8dTrVuZ@127.0.0.1:27017/?directConnection
 
 const mongoClient = new MongoClient(uri)
 const database = mongoClient.db('aiverify')
-const models = database.collection('modelfilemodels')
-const datasets = database.collection('datasetmodels')
+// const models = database.collection('modelfilemodels')
+// const datasets = database.collection('datasetmodels')
 
 const ENDPOINT = "http://127.0.0.1:3000"
 
@@ -403,29 +403,20 @@ test.describe('Upload Dataset', () => {
 
     test('Upload Dataset with Invalid Dataset', async () => {
 
+        const context = await request.newContext()
+
         const form_data = new FormData()
 
-        // TODO Need invalid dataset
-        form_data.append('myFiles', fs.createReadStream('./fixtures/sample_bc_credit_data.sav'));
+        form_data.append('myFiles', fs.createReadStream('./fixtures/pickle_pandas_tabular_loan_testing.sav'));
 
-        const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
+        const response = await context.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
         })
 
-        const dataset = response.data[0]
-        const datasetID = dataset._id
-
-        // Get Model directly from MongoDB
-        const query = { _id: ObjectId(datasetID) }
-        const datasetObj = await datasets.findOne(query)
-
-        await setTimeout(1000)
-
-        // FIXME Should Status be 'Pending' if invalid?
-        // console.log(datasetObj)
+        expect.soft(response.status()).toBe(400)
 
     })
 
@@ -460,7 +451,7 @@ test.describe('Upload Dataset', () => {
             data: form_data,
         })
 
-        expect.soft(response.status()).toEqual(400)
+        expect.soft(response.status()).toBe(400)
 
     })
 })
@@ -501,7 +492,7 @@ test.describe('Upload Model', () => {
             data: form_data,
         })
 
-        expect.soft(response.status()).toEqual(400)
+        expect.soft(response.status()).toBe(400)
 
     })
 
@@ -525,27 +516,19 @@ test.describe('Upload Model', () => {
 
     test('Upload Model Unsupported File Format Model', async () => {
 
+        const context = await request.newContext()
+
         const form_data = new FormData()
         form_data.append('myModelFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
-        const response = await axios.post(ENDPOINT + '/api/upload/model', form_data, {
+        const response = await context.post(ENDPOINT + '/api/upload/model', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
         })
 
-        const model = response.data[0]
-        const modelID = model._id
-
-        // Get Model directly from MongoDB
-        const query = { _id: ObjectId(modelID) }
-        const modelObj = await models.findOne(query)
-
-        await setTimeout(1000)
-
-        // FIXME Should Status be 'Pending' if invalid?
-        // console.log(modelObj)
+        expect.soft(response.status()).toBe(400)
 
     })
 })
@@ -571,11 +554,10 @@ test.describe('Upload Plugins', () => {
 
     test('Upload Plugins', async () => {
 
-        const context = await request.newContext()
         const form_data = new FormData()
-        form_data.append('myFile', fs.createReadStream('./fixtures/partial_dependence_plot-0.1.0'));
+        form_data.append('myFile', fs.createReadStream('./fixtures/partial_dependence_plot-0.1.0.zip'));
 
-        const response = await context.post(ENDPOINT + '/api/plugins/upload', form_data, {
+        const response = await axios.post(ENDPOINT + '/api/plugins/upload', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -585,7 +567,7 @@ test.describe('Upload Plugins', () => {
             }
         })
 
-        expect.soft(response.status()).toBe(200)
+        expect.soft(response.status).toBe(200)
     })
 
     test('Upload Invalid File', async () => {
