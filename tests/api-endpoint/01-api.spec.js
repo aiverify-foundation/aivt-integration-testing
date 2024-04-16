@@ -47,31 +47,19 @@ test.describe('Get Report', () => {
         expect.soft(response.status).toBe(400)
     })
 
-    test.skip('Get Generated Report with Valid Project ID', async () => {
+    test('Get Generated Report with Valid Project ID', async () => {
 
         let response = await axios.post(ENDPOINT + "/api/graphql", {
-            query: api_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
-            variables: {
-                "projectId": projectID,
-                "algorithms": "aiverify.stock.algorithms.fairness_metrics_toolbox_for_classification:fairness_metrics_toolbox_for_classification",
-                "modelAndDatasets": {
-                    "modelFileName": "/app/portal/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression_2.sav",
-                    "groundTruthColumn": "Interest_Rate",
-                    "groundTruthDatasetFileName": "/app/portal/uploads/data/sample_bc_credit_data_3.sav",
-                    "modelFileName": "/app/portal/uploads/model/sample_bc_credit_sklearn_linear.LogisticRegression_2.sav",
-                    "modelType": "Classification",
-                    "testDatasetFileName": "/app/portal/uploads/data/sample_bc_credit_data_1.sav"
-                }
-            }
+            query: api_data.GET_REPORTS
         })
+
+        projectID = response.data.data.projects[0].report.projectID
 
         response = await axios.get(ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
         })
-
-        console.log(response)
 
         // Assert Response
         expect.soft(response.status).toBe(200)
