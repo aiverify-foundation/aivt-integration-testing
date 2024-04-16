@@ -74,7 +74,7 @@ test.describe('Get Report', () => {
         })
 
         // Assert Response
-        expect.soft(response.status()).toBe(200)
+        expect.soft(response.status).toBe(200)
 
     })
 
