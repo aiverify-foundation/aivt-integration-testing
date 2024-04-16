@@ -47,7 +47,7 @@ test.describe('Get Report', () => {
         expect.soft(response.status).toBe(400)
     })
 
-    test.skip('Get Generated Report with Valid Project ID', async () => {
+    test('Get Generated Report with Valid Project ID', async () => {
 
         let response = await axios.post(ENDPOINT + "/api/graphql", {
             query: api_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
@@ -65,14 +65,16 @@ test.describe('Get Report', () => {
             }
         })
 
-        response = await axios.get(ENDPOINT + "/api/report/" + projectID, {
+        const context = await request.newContext()
+
+        response = await context.get(ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
         })
 
         // Assert Response
-        expect.soft(response.status).toBe(200)
+        expect.soft(response.status()).toBe(200)
 
     })
 
@@ -445,19 +447,20 @@ test.describe('Upload Dataset', () => {
 
     })
 
-    test.skip('Upload Unsupported File Format Dataset', async () => {
+    test('Upload Unsupported File Format Dataset', async () => {
 
+        const context = await request.newContext()
         const form_data = new FormData()
         form_data.append('myFiles', fs.createReadStream('./fixtures/combine_all.sh'));
 
-        const response = await axios.post(ENDPOINT + '/api/upload/data', form_data, {
+        const response = await context.post(ENDPOINT + '/api/upload/data', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
             data: form_data,
         })
 
-        expect.soft(response).not.toBeOK()
+        expect.soft(response.status()).toEqual(400)
 
     })
 })
@@ -498,14 +501,7 @@ test.describe('Upload Model', () => {
             data: form_data,
         })
 
-        expect(response.status()).toEqual(400)
-
-        // const model = response.data[0]
-        // const modelID = model._id
-
-        // // Get Model directly from MongoDB
-        // const query = { _id: ObjectId(modelID) }
-        // const modelObj = await models.findOne(query)
+        expect.soft(response.status()).toEqual(400)
 
     })
 
@@ -573,12 +569,13 @@ test.describe('List Plugins', () => {
 
 test.describe('Upload Plugins', () => {
 
-    test.skip('Upload Plugins', async () => {
+    test('Upload Plugins', async () => {
 
+        const context = await request.newContext()
         const form_data = new FormData()
         form_data.append('myFile', fs.createReadStream('./fixtures/partial_dependence_plot-0.1.0'));
 
-        const response = await axios.post(ENDPOINT + '/api/plugins/upload', form_data, {
+        const response = await context.post(ENDPOINT + '/api/plugins/upload', form_data, {
             headers: {
                 ...form_data.getHeaders()
             },
@@ -588,7 +585,7 @@ test.describe('Upload Plugins', () => {
             }
         })
 
-        expect.soft(response.status).toBe(200)
+        expect.soft(response.status()).toBe(200)
     })
 
     test('Upload Invalid File', async () => {
