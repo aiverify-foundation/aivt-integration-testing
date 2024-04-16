@@ -458,3 +458,11 @@ export const PROJECT_TEMPLATE_VARIABLES = {
     ],
   }
 }
+
+export const GET_REPORTS = `query Projects {
+  projects {
+    report {
+      projectID
+    }
+  }
+}`
