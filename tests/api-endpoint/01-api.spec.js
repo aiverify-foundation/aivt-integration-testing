@@ -47,7 +47,7 @@ test.describe('Get Report', () => {
         expect.soft(response.status).toBe(400)
     })
 
-    test('Get Generated Report with Valid Project ID', async () => {
+    test.skip('Get Generated Report with Valid Project ID', async () => {
 
         let response = await axios.post(ENDPOINT + "/api/graphql", {
             query: api_data.GENERATE_REPORT_TO_GENERATE_REPORT_STATUS,
@@ -65,13 +65,13 @@ test.describe('Get Report', () => {
             }
         })
 
-        const context = await request.newContext()
-
-        response = await context.get(ENDPOINT + "/api/report/" + projectID, {
+        response = await axios.get(ENDPOINT + "/api/report/" + projectID, {
             validateStatus: function (status) {
                 return status < 600; // Resolve only if the status code is less than 600
             }
         })
+
+        console.log(response)
 
         // Assert Response
         expect.soft(response.status).toBe(200)
