@@ -130,6 +130,9 @@ dist
 .pnp.*
 
 # Playwright Results
-# /test-results/
+/test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Venv Folders
+venv
