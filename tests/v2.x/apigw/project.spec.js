@@ -4,6 +4,9 @@ import axios from 'axios'
 import fs from 'fs'
 import FormData from 'form-data'
 
+/* TO DO */
+// To Add Global Vars to some Positive Cases
+
 const ENDPOINT = process.env.ENDPOINT
 
 const STRING_4096_CHARACTERS = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in malesuada elit. Fusce id commodo neque. Aliquam fermentum sem eget faucibus interdum. Donec vulputate pellentesque lectus, a commodo magna congue vitae. Quisque ullamcorper dolor vel consequat malesuada. Aenean est orci, porta ut mi eget, iaculis ultricies felis. Nulla elementum purus vel nisl pharetra, vitae iaculis dolor ornare. Nunc id augue vulputate, sollicitudin elit et, imperdiet nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras interdum sodales ipsum. Quisque commodo diam lorem, eu vehicula felis tincidunt et. Mauris in enim faucibus massa rhoncus lobortis vitae vel urna. In velit enim, accumsan at lacus id, vehicula interdum quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.\
@@ -52,6 +55,7 @@ const GET_PROJECT_BY_PROJECT_ID = [
     { TEST_NAME: "With Float Project Id", CASE_TYPE: "NEGATIVE", PROJECT_ID: 12.3, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: '12.3' }] }, STATUS: 422 },
     { TEST_NAME: "With Boolean Project Id", CASE_TYPE: "NEGATIVE", PROJECT_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
     { TEST_NAME: "With Null Project Id", CASE_TYPE: "NEGATIVE", PROJECT_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+    { TEST_NAME: "With No Value Project Id", CASE_TYPE: "NEGATIVE", EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 }
 ]
 
 const UPDATE_PROJECT_BY_PROJECT_ID = [
@@ -188,7 +192,7 @@ const PATCH_PROJECT_BY_PROJECT_ID = [
     { TEST_NAME: "With Existing Project Id With Valid Global Vars With Valid Pages With Project Info Company No Value With Valid Test Model Id With Valid Input Blocks With With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: [ { key: "Company Name", value: "ABC Company" } ], PAGES: [], PROJECT_INFO_DATA: { "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { pages: [], id: 1, templateId: null, projectInfo: { name: 'My Test Project', description: "My Test Project Description", reportTitle: 'My Report Title', company: null }, testModelId: 17, inputBlocks: [{ gid: 'aiverify.stock.fairness_metrics_toolbox_for_classification', cid: 'fairness_tree', id: 1 }], testResults: [{ gid: 'aiverify.stock.accumulated_local_effect', cid: 'aiverfy_accumulated_local_effect', id: 1 }] }, STATUS: 200 },
     { TEST_NAME: "With Existing Project Id With Valid Global Vars With Pages Non Array Object Items With Valid Project Info With Valid Test Model Id With Valid Input Blocks With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: [ { key: "Company Name", value: "ABC Company" } ], PAGES: 1, PROJECT_INFO_DATA: { "company": "Company ABC", "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { "detail": [{"input": 1, "loc": ["body", "pages"], "msg": "Input should be a valid list", "type": "list_type"}]}, STATUS: 422 },
     { TEST_NAME: "With Existing Project Id With Valid Global Vars With Pages Non Array Object Layout With Valid Project Info With Valid Test Model Id With Valid Input Blocks With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: [ { key: "Company Name", value: "ABC Company" } ], PAGES: [ { layouts: 1, reportWidgets: [] }], PROJECT_INFO_DATA: { "company": "Company ABC", "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { "detail": [{"input": 1, "loc": ["body", "pages", 0, "layouts"], "msg": "Input should be a valid list", "type": "list_type"}]}, STATUS: 422 },
-    { TEST_NAME: "With Existing Project Id WIth Valid Global Vars With Pages Non Array Object Report Widgets With Valid Project Info WIth Valid Test Model Id With Valid Input Block With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: [ { key: "Company Name", value: "ABC Company" } ], PAGES: [ { layouts: [], reportWidgets: 1 }], PROJECT_INFO_DATA: { "company": "Company ABC", "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { "detail": [{ "input": 1, "loc": ["body", "pages", 0, "reportWidgets"], "msg": "Input should be a valid list", "type": "list_type"}]}, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Id With Valid Global Vars With Pages Non Array Object Report Widgets With Valid Project Info WIth Valid Test Model Id With Valid Input Block With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: [ { key: "Company Name", value: "ABC Company" } ], PAGES: [ { layouts: [], reportWidgets: 1 }], PROJECT_INFO_DATA: { "company": "Company ABC", "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { "detail": [{ "input": 1, "loc": ["body", "pages", 0, "reportWidgets"], "msg": "Input should be a valid list", "type": "list_type"}]}, STATUS: 422 },
     { TEST_NAME: "With Existing Project Id With Non Array Object Global Vars With Valid Pages With Valid Project Info With Valid Test Model Id With Valid Input Blocks With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: 1, PAGES: [], PROJECT_INFO_DATA: { "company": "Company ABC", "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { detail: [ { type: 'list_type', loc: [ 'body', 'globalVars' ], msg: 'Input should be a valid list', input: 1 }]}, STATUS: 422 },
     { TEST_NAME: "With Existing Project Id With Empty Global Vars With Valid Pages With Valid Project Info With Valid Test Model Id With Valid Input Blocks With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: "", PAGES: [], PROJECT_INFO_DATA: { "company": "Company ABC", "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { detail: [ { type: 'list_type', loc: [ 'body', 'globalVars' ], msg: 'Input should be a valid list', input: "" }]}, STATUS: 422 },
     { TEST_NAME: "With Existing Project Id With Null Object Global Vars With Valid Pages With Valid Project Info With Valid Test Model Id With Valid Input Blocks With Valid Test Results", CASE_TYPE: "NEGATIVE", PROJECT_ID: 1, GLOBAL_VARS: null, PAGES: [], PROJECT_INFO_DATA: { "company": "Company ABC", "description": "My Test Project Description", "name": "My Test Project", "reportTitle": "My Report Title" }, TEST_MODEL_ID: 17, INPUT_BLOCK: [1], TEST_RESULT: [1], EXPECTED: { pages: [], id: 1, templateId: null, projectInfo: { name: 'My Test Project', reportTitle: 'My Report Title', company: 'Company ABC' }, testModelId: 17, inputBlocks: [{ gid: 'aiverify.stock.fairness_metrics_toolbox_for_classification', cid: 'fairness_tree', id: 1 }], testResults: [{ gid: 'aiverify.stock.accumulated_local_effect', cid: 'aiverfy_accumulated_local_effect', id: 1 }] }, STATUS: 200 },
@@ -349,7 +353,7 @@ test.describe('Project', () => {
             "reportTitle": "My Report Title"
         }
 
-        test.skip(`Get Project By Id ${data.TEST_NAME}`, async () => {
+        test.skip(`Get Project By Project Id ${data.TEST_NAME}`, async () => {
 
             let response
 
@@ -372,7 +376,7 @@ test.describe('Project', () => {
                     }
                 })
 
-                /* Assert Create Project */
+                /* Assert Get Project By ID */
                 expect.soft(response.data.globalVars).toBeTruthy()
                 expect.soft(response.data.pages).toBeTruthy()
                 expect.soft(response.data.id).toBeTruthy()
