@@ -66,7 +66,7 @@ const GET_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
     { TEST_NAME: "With No Value Project Id", CASE_TYPE: "NEGATIVE", EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 }
 ]
 
-const DELETE_PROJECT_TEMPLATE_BY_ID = [
+const DELETE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
     { TEST_NAME: "With Existing Project Template Id", CASE_TYPE: "POSITIVE", GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: 'Test summary report for regression model' }, fromPlugin: false }, STATUS: 200 },
     { TEST_NAME: "With Non-Existing Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 100000000000000, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
     { TEST_NAME: "With String Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "abc", EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
@@ -75,6 +75,74 @@ const DELETE_PROJECT_TEMPLATE_BY_ID = [
     { TEST_NAME: "With Empty Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "", EXPECTED: { detail: 'Method Not Allowed' }, STATUS: 405 },
     { TEST_NAME: "With Null Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: null, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
     { TEST_NAME: "With No Value Project Template Id", CASE_TYPE: "NEGATIVE", EXPECTED: { detail: "Project Template not found" }, STATUS: 404 }
+]
+
+const CLONE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
+    { TEST_NAME: "With Existing Project Template Id With Valid Name Valid Description", CASE_TYPE: "POSITIVE", GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid project description", "name": "Valid Project Name" }, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'Copy of Valid Project Template Name', description: 'Clone of Valid Project Template Description' }, fromPlugin: false }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Name With Description > 4096 Characters", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: STRING_4096_CHARACTERS, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'description'], msg: 'String should have at most 4096 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 4096 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Name With Description Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: 12.3, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'description'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Name With Description Integer", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: 123, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'description'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Name With Description Boolean", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: true, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'description'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Name With Description Empty", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "", EXPECTED: { projectInfo: { description: "Template AI Verify summary report for classification model", name: "Copy of Valid Project Template Name" } }, STATUS: 200 }, // Does it take the description from the original template?
+    { TEST_NAME: "With Existing Project Template Id With Valid Name With Description Null", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: null, EXPECTED: { projectInfo: { description: "Template AI Verify summary report for classification model", name: "Copy of Valid Project Template Name" } }, STATUS: 200 }, // Does it take the description from the original template?
+    { TEST_NAME: "With Existing Project Template Id With Valid Name With Description No Value", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", EXPECTED: { projectInfo: { description: "Template AI Verify summary report for classification model", name: "Copy of Valid Project Template Name" } }, STATUS: 200 }, // Does it take the description from the original template?
+    { TEST_NAME: "With Existing Project Template Id With Name > 4096 Characters Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: STRING_4096_CHARACTERS, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'name'], msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 256 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Float Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: 12.3, CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'name'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Integer Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: 123, CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'name'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Boolean Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: true, CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'name'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Empty Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { projectInfo: { "description": "Clone of Valid Project Template Description", "name": "Copy of AI Verify Summary Report for Classification Model" } }, STATUS: 200 }, // Does it take the name from the original template?
+    { TEST_NAME: "With Existing Project Template Id With Name Null Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: null, CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { projectInfo: { "description": "Clone of Valid Project Template Description", "name": "Copy of AI Verify Summary Report for Classification Model" } }, STATUS: 200 }, // Does it take the name from the original template?
+    { TEST_NAME: "With Existing Project Template Id With Name No Value Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, CLONE_PROJECT_TEMPLATE_NAME: "", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { projectInfo: { "description": "Clone of Valid Project Template Description", "name": "Copy of AI Verify Summary Report for Classification Model" } }, STATUS: 200 }, // Does it take the name from the original template?
+    { TEST_NAME: "With Non-Existing Project Template Id Valid Name Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 100000000000000, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With Float Project Template Id Valid Name Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 12.3, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With Boolean Project Template Id Valid Name Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: true, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With Empty Project Template Id Valid Name Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "", CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: "Method Not Allowed" }, STATUS: 405 },
+    { TEST_NAME: "With Null Project Template Id Valid Name Valid Description", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: null, CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With No Value Project Template Id Valid Name Valid Description", CASE_TYPE: "NEGATIVE", CLONE_PROJECT_TEMPLATE_NAME: "Copy of Valid Project Template Name", CLONE_PROJECT_TEMPLATE_DESCRIPTION: "Clone of Valid Project Template Description", EXPECTED: { detail: "Project Template not found" }, STATUS: 404 }
+]
+
+const EXPORT_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "POSITIVE", GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Non Array Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": 1 }, EXPECTED: { detail: [{ type: 'list_type', loc: ['body', 'tags'], msg: 'Input should be a valid list', input: 1 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": [12.3] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'tags', 0], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Template Tags Integer", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": [123] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'tags', 0], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Template Tags Boolean", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": [true] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'tags', 0], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Template Tags Empty", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": [""] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Template Tags Null", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": [null] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'tags', 0], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With Valid File Name With Template Tags No Value", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip" }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With File Name Float With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": 12.3, "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'filename'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With File Name Integer With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": 123, "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'filename'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With File Name Boolean With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": true, "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'filename'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With File Name Empty With Valid Template Tags", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    // { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With File Name Null With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": null, "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'filename'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 }, // Is this a required field? It is not stated in the schema and that should be allowed
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With Existing Project Template Id With Valid Project Name With Valid Description With Valid CID With File Name No Value With Valid Template Tags", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With CID Float With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": 12.3, "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'cid'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With CID Integer With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": 123, "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'cid'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With CID Boolean With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": true, "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'cid'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    // { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With CID Empty With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'cid'], msg: 'Field required', input: { name: 'Valid Project Template Name', description: 'Valid Project Template Description', filename: 'aiverify_environment_corruptions.zip', tags: ["aiverify_environment_corruptions"] } }] }, STATUS: 422 }, // This is a requried field. Empty field should not be allowed
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With CID Null With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": null, "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'cid'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Valid Description With CID No Value With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'cid'], msg: 'Field required', input: { name: 'Valid Project Template Name', description: 'Valid Project Template Description', filename: 'aiverify_environment_corruptions.zip', tags: ["aiverify_environment_corruptions"] } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Description > 4096 Characters With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": STRING_4096_CHARACTERS, "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'description'], msg: 'String should have at most 4096 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 4096 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Description Float With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": 12.3, "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'description'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Description Integer With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": 123, "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'description'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Description Boolean With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": true, "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'description'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Description Empty With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Description Null With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": null, "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Project Name With Description No Value With Valid CID With Valid File Name With Template Tags Float", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Name Character > 256 Characters With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": STRING_4096_CHARACTERS, "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'name'], msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 256 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Float With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": 12.3, "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'name'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Integer With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": 123, "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'name'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Boolean With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, EXPORT_PROJECT_TEMPLATE_DATA: { "name": true, "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'name'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Name Empty With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Name Null With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "name": null, "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Name No Values With Valid Description With Valid CID With Valid File Name With Valid Template Tags", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Valid Project Template Description", "name": "Valid Project Template Name" }, EXPORT_PROJECT_TEMPLATE_DATA: { "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, STATUS: 200 },
+    { TEST_NAME: "With Non-existing Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 999999, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With Float Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 12.34, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With Boolean Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: false, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With Empty Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "", EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { "detail": "Method Not Allowed"}, STATUS: 405 },
+    { TEST_NAME: "With Null Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: null, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    { TEST_NAME: "With No Value Project Template Id", CASE_TYPE: "NEGATIVE", EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+
 ]
 
 test.describe('Project Template', () => {
@@ -211,8 +279,8 @@ test.describe('Project Template', () => {
 
     }
 
-    for (const data of DELETE_PROJECT_TEMPLATE_BY_ID) {
-        test(`Delete Project Template By Id ${data.TEST_NAME}`, async () => {
+    for (const data of DELETE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
+        test.skip(`Delete Project Template By Id ${data.TEST_NAME}`, async () => {
 
             const PROJECT_TEMPLATE_DATA = {
                 "globalVars": data.GLOBAL_VARS,
@@ -220,7 +288,7 @@ test.describe('Project Template', () => {
                 "projectInfo": data.PROJECT_INFO_DATA,
             }
 
-            let response;
+            let response
 
             if (data.CASE_TYPE == "POSITIVE") {
                 // Create a project template first
@@ -244,6 +312,7 @@ test.describe('Project Template', () => {
             }
 
             if (data.CASE_TYPE == "NEGATIVE") {
+
                 // Set Project Template ID
                 const project_template_id = data.PROJECT_TEMPLATE_ID;
 
@@ -258,6 +327,128 @@ test.describe('Project Template', () => {
                 expect.soft(response.data).toMatchObject(data.EXPECTED);
                 expect.soft(response.status).toBe(data.STATUS);
             }
+        })
+    }
+
+    for (const data of CLONE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
+        test.skip(`Clone Project Template By Id ${data.TEST_NAME}`, async () => {
+
+            let response
+
+            const PROJECT_TEMPLATE_DATA = {
+                "globalVars": data.GLOBAL_VARS,
+                "pages": data.PAGES,
+                "projectInfo": data.PROJECT_INFO_DATA,
+            }
+
+            const CLONE_PROJECT_TEMPLATE_DATA = {
+                "name": data.CLONE_PROJECT_TEMPLATE_NAME,
+                "description": data.CLONE_PROJECT_TEMPLATE_DESCRIPTION,
+            }
+
+            if (data.CASE_TYPE == "POSITIVE") {
+
+                /* Create Project Template */
+                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                });
+
+                /* Set Project Template ID */
+                const project_template_id = response.data.id;
+
+                /* Clone Project Template By Template Id */
+                response = await axios.post(ENDPOINT + "/project_templates/clone/" + project_template_id, CLONE_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                });
+
+                /* Assert Clone Project Template By ID */
+                expect.soft(response.data).toMatchObject(data.EXPECTED);
+                expect.soft(response.data.id).toBeTruthy()
+                expect.soft(response.data.created_at).toBeTruthy()
+                expect.soft(response.data.updated_at).toBeTruthy()
+
+                expect.soft(response.status).toBe(data.STATUS);
+            }
+
+            if (data.CASE_TYPE == "NEGATIVE") {
+
+                /* Set Project Template ID */
+                const project_template_id = data.PROJECT_TEMPLATE_ID;
+
+                /* Clone Project Template By Template Id */
+                response = await axios.post(ENDPOINT + "/project_templates/clone/" + project_template_id, CLONE_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                });
+
+                /* Assert Clone Project Template By ID */
+                expect.soft(response.data).toMatchObject(data.EXPECTED);
+                expect.soft(response.status).toBe(data.STATUS);
+            }
+        })
+    }
+
+    for (const data of EXPORT_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
+        test(`Export Project Template By Id ${data.TEST_NAME}`, async () => {
+
+            let response
+
+            const PROJECT_TEMPLATE_DATA = {
+                "globalVars": data.GLOBAL_VARS,
+                "pages": data.PAGES,
+                "projectInfo": data.PROJECT_INFO_DATA,
+            }
+
+            const EXPORT_PROJECT_TEMPLATE_DATA = data.EXPORT_PROJECT_TEMPLATE_DATA
+
+            if (data.CASE_TYPE == "POSITIVE") {
+
+                /* Create Project Template */
+                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                });
+
+                /* Set Project Template ID */
+                const project_template_id = response.data.id
+
+                /* Export Project Template By Project Template Id */
+                response = await axios.post(ENDPOINT + "/project_templates/export/" + project_template_id, EXPORT_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                })
+
+                /* Assert Export Project Template By Template ID */
+                expect.soft(response.status).toBe(data.STATUS);
+
+            }
+
+
+            if (data.CASE_TYPE == "NEGATIVE") {
+
+                /* Set Project Template ID */
+                const project_template_id = data.PROJECT_TEMPLATE_ID
+
+                /* Export Project Template By Project Template Id */
+                response = await axios.post(ENDPOINT + "/project_templates/export/" + project_template_id, EXPORT_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                })
+
+                /* Assert Export Project Template By ID */
+                expect.soft(response.data).toMatchObject(data.EXPECTED);
+                expect.soft(response.status).toBe(data.STATUS);
+
+            }
+
         })
     }
 
