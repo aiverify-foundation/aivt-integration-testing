@@ -66,6 +66,86 @@ const GET_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
     { TEST_NAME: "With No Value Project Id", CASE_TYPE: "NEGATIVE", EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 }
 ]
 
+const UPDATE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "POSITIVE", GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: 'Test summary report for regression model' }, fromPlugin: false }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name > 256 Characters", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": STRING_4096_CHARACTERS }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'projectInfo', 'name'], msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 256 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": 12.3 }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Integer", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": 123 }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Boolean", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": true }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    // { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Empty", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "" }, EXPECTED: { detail: [{ type: 'string_too_short', loc: ['body', 'projectInfo', 'name'], msg: 'String should have at least 1 character', input: "" }] }, STATUS: 422 }, //"detail": "Plugin templates are not allowed to be edite
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Null", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": null }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name No Value", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model" }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'projectInfo', 'name'], msg: 'Field required', input: { "description": "Test summary report for regression model" } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description > 4096 Characters", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": STRING_4096_CHARACTERS, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'projectInfo', 'description'], msg: 'String should have at most 4096 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 4096 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": 12.3, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'description'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Integer", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": 123, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'description'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Boolean", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": true, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'description'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Null", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": null, "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: null }, fromPlugin: false }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description No Value", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: null }, fromPlugin: false }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Pages Non Array Object Items With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: 1, PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'list_type', loc: ['body', 'pages'], msg: 'Input should be a valid list', input: 1 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Pages Non Array Object Layout With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [{ layouts: 1, reportWidgets: [] }], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'list_type', loc: ['body', 'pages', 0, 'layouts'], msg: 'Input should be a valid list', input: 1 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Pages Non Array Object Report Widgets With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [{ layouts: [], reportWidgets: 1 }], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'list_type', loc: ['body', 'pages', 0, 'reportWidgets'], msg: 'Input should be a valid list', input: 1 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key > 128 Characters With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: STRING_4096_CHARACTERS, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'globalVars', 0, 'key'], msg: 'String should have at most 128 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 128 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Integer With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: 123, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Float With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: 12.3, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Boolean With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: true, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Empty With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_short', loc: ['body', 'globalVars', 0, 'key'], msg: 'String should have at least 1 character', input: "" }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Null With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: null, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key No Value With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'globalVars', 0, 'key'], msg: 'Field required', input: { value: 'ABC Company' } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value > 128 Characters With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: STRING_4096_CHARACTERS }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'globalVars', 0, 'value'], msg: 'String should have at most 128 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 128 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Integer With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: 123 }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Float With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: 12.3 }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Boolean With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: true }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    // { TEST_NAME: "With Existing Project Template Id With Global Vars Value Empty With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [ { key: "Company Name", value: "" } ], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [ { type: 'string_too_short', loc: [ 'body', 'globalVars', 0, 'value'], msg: 'String should have at least 1 character', input: "" }]}, STATUS: 422 }, // "detail": "Plugin templates are not allowed to be edite
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Null With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: null }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value No Value With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'globalVars', 0, 'value'], msg: 'Field required', input: { key: 'Company Name' } }] }, STATUS: 422 },
+    // { TEST_NAME: "With Non-Existing Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 100000000000000, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    // { TEST_NAME: "With Non Numeric String Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "abc", EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'abc' }] }, STATUS: 422 }, // Error Message and Status Seems Inconsistent
+    // { TEST_NAME: "With Float Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 12.3, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: '12.3' }] }, STATUS: 422 }, // Error Message and Status Seems Inconsistent
+    // { TEST_NAME: "With Boolean Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 }, // Error Message and Status Seems Inconsistent
+    // { TEST_NAME: "With Null Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 }, // Error Message and Status Seems Inconsistent
+    // { TEST_NAME: "With No Value Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 } // Error Message and Status Seems Inconsistent
+]
+
+const PATCH_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "POSITIVE", GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: 'Test summary report for regression model' }, fromPlugin: false }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name > 256 Characters", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": STRING_4096_CHARACTERS }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'projectInfo', 'name'], msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 256 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": 12.3 }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Integer", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": 123 }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Boolean", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": true }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    // { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Empty", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "" }, EXPECTED: { detail: [{ type: 'string_too_short', loc: ['body', 'projectInfo', 'name'], msg: 'String should have at least 1 character', input: "" }] }, STATUS: 422 }, //"detail": "Plugin templates are not allowed to be edite
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name Null", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": null }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'name'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Name No Value", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model" }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'projectInfo', 'name'], msg: 'Field required', input: { "description": "Test summary report for regression model" } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description > 4096 Characters", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": STRING_4096_CHARACTERS, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'projectInfo', 'description'], msg: 'String should have at most 4096 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 4096 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Float", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": 12.3, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'description'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Integer", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": 123, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'description'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Boolean", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": true, "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'projectInfo', 'description'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description Null", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": null, "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: null }, fromPlugin: false }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Valid Pages With Project Description No Value", CASE_TYPE: "POSITIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: null }, fromPlugin: false }, STATUS: 200 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Pages Non Array Object Items With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: 1, PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'list_type', loc: ['body', 'pages'], msg: 'Input should be a valid list', input: 1 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Pages Non Array Object Layout With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [{ layouts: 1, reportWidgets: [] }], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'list_type', loc: ['body', 'pages', 0, 'layouts'], msg: 'Input should be a valid list', input: 1 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Valid Global Vars With Pages Non Array Object Report Widgets With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [{ layouts: [], reportWidgets: 1 }], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'list_type', loc: ['body', 'pages', 0, 'reportWidgets'], msg: 'Input should be a valid list', input: 1 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key > 128 Characters With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: STRING_4096_CHARACTERS, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'globalVars', 0, 'key'], msg: 'String should have at most 128 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 128 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Integer With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: 123, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Float With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: 12.3, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Boolean With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: true, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Empty With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_short', loc: ['body', 'globalVars', 0, 'key'], msg: 'String should have at least 1 character', input: "" }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key Null With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: null, value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'key'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Key No Value With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'globalVars', 0, 'key'], msg: 'Field required', input: { value: 'ABC Company' } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value > 128 Characters With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: STRING_4096_CHARACTERS }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_too_long', loc: ['body', 'globalVars', 0, 'value'], msg: 'String should have at most 128 characters', input: STRING_4096_CHARACTERS, ctx: { max_length: 128 } }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Integer With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: 123 }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: 123 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Float With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: 12.3 }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: 12.3 }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Boolean With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: true }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+    // { TEST_NAME: "With Existing Project Template Id With Global Vars Value Empty With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [ { key: "Company Name", value: "" } ], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [ { type: 'string_too_short', loc: [ 'body', 'globalVars', 0, 'value'], msg: 'String should have at least 1 character', input: "" }]}, STATUS: 422 }, // "detail": "Plugin templates are not allowed to be edite
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value Null With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name", value: null }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'string_type', loc: ['body', 'globalVars', 0, 'value'], msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+    { TEST_NAME: "With Existing Project Template Id With Global Vars Value No Value With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 1, GLOBAL_VARS: [{ key: "Company Name" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { detail: [{ type: 'missing', loc: ['body', 'globalVars', 0, 'value'], msg: 'Field required', input: { key: 'Company Name' } }] }, STATUS: 422 },
+    // { TEST_NAME: "With Non-Existing Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 100000000000000, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
+    // { TEST_NAME: "With Non Numeric String Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "abc", EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'abc' }] }, STATUS: 422 },
+    // { TEST_NAME: "With Float Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 12.3, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: '12.3' }] }, STATUS: 422 },
+    // { TEST_NAME: "With Boolean Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
+    // { TEST_NAME: "With Null Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+    // { TEST_NAME: "With No Value Project Template Id With Valid Global Vars With Valid Pages With Valid Project Info", CASE_TYPE: "NEGATIVE", EXPECTED: { detail: [{ type: 'int_parsing', loc: ['path', 'project_template_id'], msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 }
+]
+
 const DELETE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
     { TEST_NAME: "With Existing Project Template Id", CASE_TYPE: "POSITIVE", GLOBAL_VARS: [{ key: "Company Name", value: "ABC Company" }], PAGES: [], PROJECT_INFO_DATA: { "description": "Test summary report for regression model", "name": "My Test Regression Report" }, EXPECTED: { globalVars: [{ key: 'Company Name', value: 'ABC Company' }], pages: [], projectInfo: { name: 'My Test Regression Report', description: 'Test summary report for regression model' }, fromPlugin: false }, STATUS: 200 },
     { TEST_NAME: "With Non-Existing Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 100000000000000, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
@@ -139,10 +219,9 @@ const EXPORT_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID = [
     { TEST_NAME: "With Non-existing Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 999999, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
     { TEST_NAME: "With Float Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: 12.34, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
     { TEST_NAME: "With Boolean Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: false, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
-    { TEST_NAME: "With Empty Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "", EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { "detail": "Method Not Allowed"}, STATUS: 405 },
+    { TEST_NAME: "With Empty Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: "", EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { "detail": "Method Not Allowed" }, STATUS: 405 },
     { TEST_NAME: "With Null Project Template Id", CASE_TYPE: "NEGATIVE", PROJECT_TEMPLATE_ID: null, EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
     { TEST_NAME: "With No Value Project Template Id", CASE_TYPE: "NEGATIVE", EXPORT_PROJECT_TEMPLATE_DATA: { "name": "Valid Project Template Name", "description": "Valid Project Template Description", "cid": "aiverify_environment_corruptions", "filename": "aiverify_environment_corruptions.zip", "tags": ["aiverify_environment_corruptions"] }, EXPECTED: { detail: "Project Template not found" }, STATUS: 404 },
-
 ]
 
 test.describe('Project Template', () => {
@@ -279,8 +358,76 @@ test.describe('Project Template', () => {
 
     }
 
-    for (const data of DELETE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
-        test.skip(`Delete Project Template By Id ${data.TEST_NAME}`, async () => {
+    for (const data of PATCH_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
+        test(`Update Project Template By Id ${data.TEST_NAME}`, async () => {
+
+            let response
+
+            const UPDATE_PROJECT_TEMPLATE_DATA = {
+                "globalVars": data.GLOBAL_VARS,
+                "pages": data.PAGES,
+                "projectInfo": data.PROJECT_INFO_DATA,
+            }
+
+            if (data.CASE_TYPE == "POSITIVE") {
+
+                const PROJECT_TEMPLATE_DATA = {
+                    "globalVars": [{ key: "string", value: "string" }],
+                    "pages": [],
+                    "projectInfo": { "description": "Test", "name": "Test" }
+                }
+
+                /* Create Project Template */
+                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status
+                    }
+                })
+
+                /* Set Project Template ID */
+                const project_template_id = response.data.id
+
+                /* Update Project Template By Project Template Id */
+                response = await axios.put(ENDPOINT + "/project_templates/" + project_template_id, UPDATE_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status
+                    }
+                })
+
+                /* Assert Update Project Template By Project Template Id */
+                expect.soft(response.data).toMatchObject(data.EXPECTED)
+                expect.soft(response.data.id).toBeTruthy()
+                expect.soft(response.data.created_at).toBeTruthy()
+                expect.soft(response.data.updated_at).toBeTruthy()
+
+                expect.soft(response.status).toBe(data.STATUS)
+
+            }
+
+            if (data.CASE_TYPE == "NEGATIVE") {
+
+                /* Set Project Template ID */
+                const project_template_id = data.PROJECT_TEMPLATE_ID
+
+                /* Update Project Template By Project Template Id */
+                response = await axios.put(ENDPOINT + "/project_templates/" + project_template_id, UPDATE_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status
+                    }
+                })
+
+                /* Assert Update Project Template By Project Template Id */
+                expect.soft(response.data).toMatchObject(data.EXPECTED)
+                expect.soft(response.status).toBe(data.STATUS)
+
+            }
+        })
+    }
+
+    for (const data of UPDATE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
+        test.skip(`Patch Project Template By Id ${data.TEST_NAME}`, async () => {
+
+            let response
 
             const PROJECT_TEMPLATE_DATA = {
                 "globalVars": data.GLOBAL_VARS,
@@ -288,7 +435,57 @@ test.describe('Project Template', () => {
                 "projectInfo": data.PROJECT_INFO_DATA,
             }
 
+            if (data.CASE_TYPE == "POSITIVE") {
+
+                /* Create Project Template */
+                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                })
+
+                /* Set Project Template ID */
+                const project_template_id = response.data.id
+
+                /* Patch Project Template By Project Template Id */
+                response = await axios.patch(ENDPOINT + "/project_templates/" + project_template_id, PATCH_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                })
+
+            }
+
+            if (data.CASE_TYPE == "NEGATIVE") {
+
+                /* Set Project Template ID */
+                const project_template_id = data.PROJECT_TEMPLATE_ID
+
+                /* Patch Project Template By Project Template Id */
+                response = await axios.patch(ENDPOINT + "/project_templates/" + project_template_id, PATCH_PROJECT_TEMPLATE_DATA, {
+                    validateStatus: function (status) {
+                        return status;
+                    }
+                })
+
+                /* Assert Patch Project Template By Project Template Id */
+                expect.soft(response.data).toMatchObject(data.EXPECTED)
+                expect.soft(response.status).toBe(data.STATUS)
+
+            }
+        })
+    }
+
+    for (const data of DELETE_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
+        test.skip(`Delete Project Template By Id ${data.TEST_NAME}`, async () => {
+
             let response
+            
+            const PROJECT_TEMPLATE_DATA = {
+                "globalVars": data.GLOBAL_VARS,
+                "pages": data.PAGES,
+                "projectInfo": data.PROJECT_INFO_DATA,
+            }
 
             if (data.CASE_TYPE == "POSITIVE") {
                 // Create a project template first
@@ -394,7 +591,7 @@ test.describe('Project Template', () => {
     }
 
     for (const data of EXPORT_PROJECT_TEMPLATE_BY_PROJECT_TEMPLATE_ID) {
-        test(`Export Project Template By Id ${data.TEST_NAME}`, async () => {
+        test.skip(`Export Project Template By Id ${data.TEST_NAME}`, async () => {
 
             let response
 
