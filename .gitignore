@@ -136,3 +136,10 @@ dist
 
 # Venv Folders
 venv
+
+# IDE Folders
+.codesight
+.vscode
+
+# Mac Files
+.DS_store
