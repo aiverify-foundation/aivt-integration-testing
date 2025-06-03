@@ -136,3 +136,7 @@ dist
 
 # Venv Folders
 venv
+
+# IDE Folders
+.codesight
+.vscode
