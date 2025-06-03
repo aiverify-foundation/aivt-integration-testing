@@ -1,5 +1,5 @@
-# frontend-testing
-API &amp; Integration Testing of Frontend
-
-
-[![send-results-to-testrail](https://github.com/IMDA-BTG/frontend-testing/actions/workflows/main.yml/badge.svg)](https://github.com/IMDA-BTG/frontend-testing/actions/workflows/main.yml)
+# Integration Testing
+Consists of the following test cases:
+- APIGW Test Cases
+- Standalone Test Cases
+- Portal Test Cases (Smoke Test Will Use A Subset of Portal Test Cases)
