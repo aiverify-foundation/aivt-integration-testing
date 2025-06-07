@@ -10,13 +10,14 @@ export class ManagePage {
         /* Manage Page */
         this.modelButton = page.getByRole('link', { name: 'Manage Models Models' });
         this.datasetButton = page.getByRole('link', { name: 'Manage datasets Data' });
+        this.testResultButton = page.getByRole('link', { name: 'Manage test results Test' });
     }
 
     /**
       * @param {string}
       */
     async goto(url) {
-        await this.page.goto(url)
+        await this.page.goto(url);
     }
 
     /**
