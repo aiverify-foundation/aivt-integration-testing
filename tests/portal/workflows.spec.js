@@ -403,18 +403,73 @@ test.describe('Algorithm Workflows', () => {
 
 test.describe('Report Template Workflows', () => {
 
-    test.beforeEach(async ({ homePage }) => {
+    test.beforeEach(async ({ homePage, managePage }) => {
         /* AI Verify Homepage */
         console.log('[INFO] Navigate to AI Verify Home Page')
         await homePage.goto(url + ":" + port_number)
         await expect.soft(homePage.aivlogo).toBeVisible({ timeout: 60000 })
         await homePage.manageButton.click()
-    })
 
-    test('AI Verify Process Checklist Report Template', async ({ homePage }) => {
-
-        /* Upload Source Text */
-        console.log('[INFO] AI Verify Home Page')
+        /* Manage Page */
+        console.log('[INFO] Manage Page')
+        await managePage.userInputButton.click()
 
     })
+
+    test('AI Verify Process Checklist', async ({ userInputPage }) => {
+
+        /* User Input Page */
+        console.log('[INFO] User Input Page')
+        await userInputPage.AIVerifyProcessChecklistButton.click()
+
+        /* AI Verify Process Checklist */
+        console.log('[INFO] AI Verify Process Checklist')
+        const processCheckListParameters = [
+            { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 10 },
+            { name: "Explainability Process Checklist", yesNoNAOptions: "No", numberOfRows: 1 },
+            { name: "Reproducibility Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 15 },
+            { name: "Safety Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 9 },
+            { name: "Security Process Checklist", yesNoNAOptions: "No", numberOfRows: 14 },
+            { name: "Robustness Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 7 },
+            { name: "Fairness Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 10 },
+            { name: "Data Governance Process Checklist", yesNoNAOptions: "No", numberOfRows: 4 },
+            { name: "Accountability Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 11 },
+            { name: "Human Agency & Oversight Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 8 },
+            { name: "Inclusive Growth, Societal & Environmental Well-being Process Checklist", yesNoNAOptions: "No", numberOfRows: 1 },
+            { name: "Organisational Considerations Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 7 }
+        ]
+        await userInputPage.addNewChecklist.click()
+        await userInputPage.createNewChecklist.click()
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 1)
+
+    })
+
+    test('Veritas Process Checklist', async ({ userInputPage }) => {
+
+        /* User Input Page */
+        console.log('[INFO] User Input Page')
+        await userInputPage.VeritasProcessChecklistButton.click()
+
+        /* Veritas Process Checklist */
+        console.log('[INFO] Veritas Process Checklist')
+        const processChecklistParameters = [
+            { name: "Generic Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 16 },
+            { name: "Fairness Process Checklist", yesNoNAOptions: "No", numberOfRows: 15 },
+            { name: "Ethics and Accountability Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 10 },
+            { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21}
+        ]
+        await userInputPage.addNewChecklist.click()
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 2)
+
+    })
+
+    test('Fairness Tree', async ({ userInputPage }) => {
+
+        /* User Input Page */
+        console.log('[INFO] User Input Page')
+        await userInputPage.FairnessTreeButton.click()
+        await userInputPage.completeFairnessTree()
+
+    })
+
 })
