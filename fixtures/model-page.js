@@ -25,7 +25,8 @@ export class ModelPage {
     this.uploadFileBackButton = page.locator('div').filter({ hasText: /^Add New AI Model > Upload Model$/ }).getByRole('img');
 
     /* Upload AI Model Pipeline */
-    this.uploadFolderButton = page.getByRole('button', { name: 'UPLOAD PIPELINE' });
+    this.uploadPipelineButton = page.getByRole('button', { name: 'UPLOAD PIPELINE' });
+    this.uploadFolderButton = page.getByRole('button', { name: 'UPLOAD FOLDER' });
     this.uploadFolderCloseDialogButton = page.locator('header').filter({ hasText: 'Upload Status' }).getByRole('img');
 
   }
@@ -35,7 +36,6 @@ export class ModelPage {
    */
   async dragAndDropFile(filePathStringArray) {
     for (const filePath of filePathStringArray) {
-      const fileName = filePath
       const bufferData = readFileSync(filePath).toString('base64');
       const dataTransfer = await this.page.evaluateHandle(async (data) => {
         const transferData = new DataTransfer();
@@ -54,17 +54,29 @@ export class ModelPage {
   }
 
   /**
+   * @param { string array }
+   */
+  async dragAndDropFolder(folderPathStringArray) {
+    // const fileList = readdirSync('')
+    // await this.page.dispatchEvent('#folderInput', 'drop', { dataTransfer });
+    // await this.modelTypeComboBox.click();
+    // await this.modelTypeComboBox.selectOption('classification');
+    // await this.uploadFileButton.click();
+    // await expect.soft(this.page.getByText("Files uploaded successfully!")).toBeVisible();
+    // await this.uploadFolderCloseDialogButton.click();
+  }
+
+  /**
    * @param {string}
    */
   async uploadFolder(folderPathStringArray, modelType) {
-
     if (modelType == "folderInput") {
       for (const folderPath of folderPathStringArray) {
         await this.page.locator('#folderInput').setInputFiles(folderPath);
         await this.modelTypeComboBox.click();
         await this.modelTypeComboBox.selectOption('classification');
         await this.uploadFolderButton.click();
-        await expect.soft(this.page.getByText('Pipeline uploaded successfully!')).toBeVisible();
+        await expect.soft(this.page.getByText('Folder uploaded successfully!')).toBeVisible();
         await this.uploadFolderCloseDialogButton.click();
       }
     }
@@ -73,8 +85,11 @@ export class ModelPage {
       for (const folderPath of folderPathStringArray) {
         await this.page.locator('#pipelineInput').setInputFiles(folderPath);
         await this.modelTypeComboBox.click();
-        await this.modelTypeComboBox.selectOption('classification');
-        await this.uploadFolderButton.click();
+        if(folderPath.includes('regression_tabular_donation'))
+          await this.modelTypeComboBox.selectOption('regression');
+        else
+          await this.modelTypeComboBox.selectOption('classification');
+        await this.uploadPipelineButton.click();
         await expect.soft(this.page.getByText('Pipeline uploaded successfully!')).toBeVisible();
         await this.uploadFolderCloseDialogButton.click();
       }
