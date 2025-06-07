@@ -3,6 +3,7 @@ import { HomePage } from './home-page'
 import { ManagePage } from './manage-page';
 import { ModelPage } from './model-page';
 import { DatasetPage } from './dataset-page';
+import { TestResultPage } from './test-result-page';
 
 // Extend base test by providing "homePage","managePage","modelPage" functions and elements to test
 // This new "test" can be used in multiple test files, and each of them will get the fixtures.
@@ -18,6 +19,9 @@ exports.test = base.test.extend({
     },
     datasetPage: async ({ page }, use) => {
       await use(new DatasetPage(page));
+    },
+    testResultPage: async ({ page }, use) => {
+      await use(new TestResultPage(page));
     }
   });
   
