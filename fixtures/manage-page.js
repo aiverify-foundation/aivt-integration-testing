@@ -1,5 +1,3 @@
-import { readFileSync } from 'fs'
-
 export class ManagePage {
     /**
      * @param {import('@playwright/test').Page} page
