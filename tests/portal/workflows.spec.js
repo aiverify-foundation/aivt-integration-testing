@@ -99,7 +99,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('ALE Test', async ({ testResultPage, page }) => {
+    test('ALE Test', async ({ testResultPage }) => {
 
         /* Input ALE Test Parameters */
         console.log('[INFO] Input ALE Test Parameters')
@@ -116,7 +116,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('FMTC Test', async ({ testResultPage, page }) => {
+    test('FMTC Test', async ({ testResultPage }) => {
 
         /* Input FMTC Test Parameters */
         console.log('[INFO] Input FMTC Test Parameters')
@@ -136,7 +136,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('FMTR Test', async ({ testResultPage, page }) => {
+    test('FMTR Test', async ({ testResultPage }) => {
 
         /* Input FMTR Test Parameters */
         console.log('[INFO] Input FMTR Test Parameters')
@@ -299,7 +299,7 @@ test.describe('Algorithm Workflows', () => {
     })
 
     test('Partial Dependence Plot Test', async ({ testResultPage }) => {
-        
+
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
@@ -316,7 +316,7 @@ test.describe('Algorithm Workflows', () => {
     })
 
     test('Robustness ToolBox Tabular Test', async ({ testResultPage }) => {
-        
+
         /* Input Robustness ToolBox Tabular Parameters */
         console.log('[INFO] Input Robustness ToolBox Tabular Test Parameters')
         const robustnessTabularParameters = {
@@ -331,11 +331,11 @@ test.describe('Algorithm Workflows', () => {
             testrunValidationSuccessText: "robustness toolboxSUCCESS"
         }
         await testResultPage.runAlgorithms(robustnessTabularParameters)
-        
+
     })
 
     test('Robustness ToolBox Image Test', async ({ testResultPage }) => {
-        
+
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
         const robustnessImageParameters = {
@@ -350,11 +350,11 @@ test.describe('Algorithm Workflows', () => {
             testrunValidationSuccessText: "robustness toolboxSUCCESS"
         }
         await testResultPage.runAlgorithms(robustnessImageParameters)
-        
+
     })
 
     test('SHAP ToolBox Test', async ({ testResultPage }) => {
-        
+
         /* Input SHAP ToolBox Test Parameters */
         console.log('[INFO] Input Shap ToolBox Test Parameters')
         const shapParameters = {
@@ -370,11 +370,11 @@ test.describe('Algorithm Workflows', () => {
             testrunValidationSuccessText: "shap toolboxSUCCESS"
         }
         await testResultPage.runAlgorithms(shapParameters)
-        
+
     })
 
     test('Veritas Tool Test', async ({ testResultPage }) => {
-        
+
         /* Input Veritas Test Parameters */
         console.log('[INFO] Input Veritas Tool Test Parameters')
         const veritasParameters = {
@@ -384,26 +384,27 @@ test.describe('Algorithm Workflows', () => {
             groundTruthDataset: "cs_y_test.pkl",
             groundTruthColumn: "y_test",
             privilegedGroup: [
-                ['SEX','1'],
-                ['MARRIAGE','1']
+                ['SEX', '1'],
+                ['MARRIAGE', '1']
             ],
             modelType: "CLASSIFICATION",
             positiveLabel: "1",
             performanceMetric: "accuracy",
-            transparencyRow: ['20','40'],
+            transparencyRow: ['20', '40'],
             transparencyMaxSample: "1000",
             algorithmDropDownListOption: "aiverify.stock.veritas",
             testrunValidationSuccessText: "veritasSUCCESS"
         }
         await testResultPage.runAlgorithms(veritasParameters)
-        
+
     })
 
 })
 
-test.describe('Report Template Workflows', () => {
+test.describe('User Input Workflows', () => {
 
     test.beforeEach(async ({ homePage, managePage }) => {
+
         /* AI Verify Homepage */
         console.log('[INFO] Navigate to AI Verify Home Page')
         await homePage.goto(url + ":" + port_number)
@@ -456,7 +457,7 @@ test.describe('Report Template Workflows', () => {
             { name: "Generic Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 16 },
             { name: "Fairness Process Checklist", yesNoNAOptions: "No", numberOfRows: 15 },
             { name: "Ethics and Accountability Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 10 },
-            { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21}
+            { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21 }
         ]
         await userInputPage.addNewChecklist.click()
         await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 2)
@@ -472,4 +473,346 @@ test.describe('Report Template Workflows', () => {
 
     })
 
+})
+
+test.describe('Report Template Workflows', () => {
+    test.beforeEach(async ({ homePage }) => {
+
+        /* AI Verify Homepage */
+        console.log('[INFO] Navigate to AI Verify Home Page')
+        await homePage.goto(url + ":" + port_number)
+        await expect.soft(homePage.aivlogo).toBeVisible({ timeout: 60000 })
+        await homePage.createProjectButton.click()
+
+    })
+
+    test('AI Verify Summary Report for Classification Model', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'AI Verify Summary Report for Classification Model',
+            projectDescription: 'AI Verify Summary Report for Classification Model',
+            reportTitle: 'AI Verify Summary Report for Classification Model',
+            companyName: 'AI Verify Summary Report for Classification Model'
+        }
+        const arrayofIDs = ['64', '51', '11', '1', '978'] //shap, robustness, fmtc, aivpc, fairness tree
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectData(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.specificPageButton.click()
+        await canvasPage.specificPageTextBox.fill('67')
+        await canvasPage.specificPageTextBox.press('Enter')
+
+        /* Navigate To Home Page */
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('AI Verify Technical Tests Report for Classification Model', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'AI Verify Technical Tests Report for Classification Model',
+            projectDescription: 'AI Verify Technical Tests Report for Classification Model',
+            reportTitle: 'AI Verify Technical Tests Report for Classification Model',
+            companyName: 'AI Verify Technical Tests Report for Classification Model'
+        }
+        const arrayofIDs = ['11', '51', '64', '978'] 
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('AI Verify Technical Tests Report for Regression Model', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'AI Verify Technical Tests Report for Regression Model',
+            projectDescription: 'AI Verify Technical Tests Report for Regression Model',
+            reportTitle: 'AI Verify Technical Tests Report for Regression Model',
+            companyName: 'AI Verify Technical Tests Report for Regression Model'
+        }
+        const arrayofIDs = ['12', '51', '64']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('AI Verify Report for Process Checklists', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'AI Verify Report for Process Checklists',
+            projectDescription: 'AI Verify Report for Process Checklists',
+            reportTitle: 'AI Verify Report for Process Checklists',
+            companyName: 'AI Verify Report for Process Checklistsl'
+        }
+        const arrayofIDs = ['1']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('AI Verify Summary Report for Regression Model', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'AI Verify Summary Report for Regression Model',
+            projectDescription: 'AI Verify Summary Report for Regression Model',
+            reportTitle: 'AI Verify Summary Report for Regression Model',
+            companyName: 'AI Verify Summary Report for Regression Model'
+        }
+        const arrayofIDs = ['64', '51', '12', '1']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('Veritas Predictive Underwriting Report', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'Veritas Predictive Underwriting Report',
+            projectDescription: 'Veritas Predictive Underwriting Report',
+            reportTitle: 'Veritas Predictive Underwriting Report',
+            companyName: 'Veritas Predictive Underwriting Report'
+        }
+        const arrayofIDs = ['67','78']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('Veritas Base Regression Report', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'Veritas Base Regression Report',
+            projectDescription: 'Veritas Base Regression Report',
+            reportTitle: 'Veritas Base Regression Report',
+            companyName: 'Veritas Base Regression Report'
+        }
+        const arrayofIDs = ['67','78']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('Veritas Credit Scoring Report', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'Veritas Credit Scoring Report',
+            projectDescription: 'Veritas Credit Scoring Report',
+            reportTitle: 'Veritas Credit Scoring Report',
+            companyName: 'Veritas Credit Scoring Report'
+        }
+        const arrayofIDs = ['67','78']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('Veritas Customer Marketing Report', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'Veritas Customer Marketing Report',
+            projectDescription: 'Veritas Customer Marketing Report',
+            reportTitle: 'Veritas Customer Marketing Report',
+            companyName: 'Veritas Customer Marketing Report'
+        }
+        const arrayofIDs = ['67','78']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
+
+    test('Veritas Base Classification Report', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+
+        /* Create Project Page */
+        console.log('[INFO] Create Project Page')
+        const projectInfo = {
+            projectName: 'Veritas Base Classification Report',
+            projectDescription: 'Veritas Base Classification Report',
+            reportTitle: 'Veritas Base Classification Report',
+            companyName: 'Veritas Base Classification Report'
+        }
+        const arrayofIDs = ['67','78']
+
+        await createProjectPage.createProject(projectInfo)
+
+        /* Select Report Template */
+        await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
+
+        /* Select Data Template */
+        await selectDataPage.selectDataComboBox(arrayofIDs)
+
+        /* Canvas Page */
+        console.log('[INFO] Canvas Page')
+        await canvasPage.zoomInButton.click()
+        await canvasPage.zoomOutButton.click()
+
+        /* Navigate To Home Page */
+        console.log('[INFO] Navigate To Home Page')
+        await homePage.goto(url + ":" + port_number)
+
+        /* Validate Project Creation */
+        await homePage.validateProjectCreation(projectInfo.reportTitle)
+    })
 })
