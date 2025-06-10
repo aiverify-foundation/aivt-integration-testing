@@ -1,10 +1,8 @@
 import { test, expect } from '@playwright/test'
-
 import axios from 'axios'
-import fs from 'fs'
-import FormData from 'form-data'
 
-const ENDPOINT = process.env.ENDPOINT
+const url = process.env.URL
+const port_number = process.env.PORT_NUMBER
 
 const STRING_4096_CHARACTERS = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in malesuada elit. Fusce id commodo neque. Aliquam fermentum sem eget faucibus interdum. Donec vulputate pellentesque lectus, a commodo magna congue vitae. Quisque ullamcorper dolor vel consequat malesuada. Aenean est orci, porta ut mi eget, iaculis ultricies felis. Nulla elementum purus vel nisl pharetra, vitae iaculis dolor ornare. Nunc id augue vulputate, sollicitudin elit et, imperdiet nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras interdum sodales ipsum. Quisque commodo diam lorem, eu vehicula felis tincidunt et. Mauris in enim faucibus massa rhoncus lobortis vitae vel urna. In velit enim, accumsan at lacus id, vehicula interdum quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.\
 Curabitur vitae blandit arcu. In ut justo pulvinar, pharetra purus ut, gravida augue. Proin pharetra quam at lacus ultrices, in lobortis libero pellentesque. Vivamus eget ex a leo egestas mattis. Proin pellentesque nisl lacus, in convallis elit imperdiet non. Cras non enim non neque commodo fermentum. Quisque nec libero malesuada dui lobortis ultricies non eu tellus. Ut sit amet dictum dolor. Nulla dui lacus, imperdiet nec dapibus ut, rhoncus at eros. Vivamus sed lorem vulputate, pharetra lacus et, viverra metus. Fusce a pharetra leo. Nunc vel finibus orci.\
@@ -228,7 +226,7 @@ test.describe('Project Template', () => {
 
     for (const data of GET_PROJECT_TEMPLATE) {
         test.skip(`Get All Project Template ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/project_templates", {
+            const response = await axios.get(url + ":" + port_number + "/project_templates", {
                 validateStatus: function (status) {
                     return status
                 }
@@ -268,7 +266,7 @@ test.describe('Project Template', () => {
             }
 
             /* Create Project Template */
-            const response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+            const response = await axios.post(url + ":" + port_number + "/project_templates", PROJECT_TEMPLATE_DATA, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -311,7 +309,7 @@ test.describe('Project Template', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project Template */
-                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates", PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -321,7 +319,7 @@ test.describe('Project Template', () => {
                 const project_template_id = response.data.id
 
                 /* Get Project By Id */
-                response = await axios.get(ENDPOINT + "/project_templates/" + project_template_id, {
+                response = await axios.get(url + ":" + port_number + "/project_templates/" + project_template_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -343,7 +341,7 @@ test.describe('Project Template', () => {
                 const project_id = data.PROJECT_ID
 
                 /* Get Project By Id */
-                response = await axios.get(ENDPOINT + "/projects/" + project_id, {
+                response = await axios.get(url + ":" + port_number + "/projects/" + project_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -378,7 +376,7 @@ test.describe('Project Template', () => {
                 }
 
                 /* Create Project Template */
-                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates", PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -388,7 +386,7 @@ test.describe('Project Template', () => {
                 const project_template_id = response.data.id
 
                 /* Update Project Template By Project Template Id */
-                response = await axios.put(ENDPOINT + "/project_templates/" + project_template_id, UPDATE_PROJECT_TEMPLATE_DATA, {
+                response = await axios.put(url + ":" + port_number + "/project_templates/" + project_template_id, UPDATE_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -410,7 +408,7 @@ test.describe('Project Template', () => {
                 const project_template_id = data.PROJECT_TEMPLATE_ID
 
                 /* Update Project Template By Project Template Id */
-                response = await axios.put(ENDPOINT + "/project_templates/" + project_template_id, UPDATE_PROJECT_TEMPLATE_DATA, {
+                response = await axios.put(url + ":" + port_number + "/project_templates/" + project_template_id, UPDATE_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -438,7 +436,7 @@ test.describe('Project Template', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project Template */
-                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates", PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -448,7 +446,7 @@ test.describe('Project Template', () => {
                 const project_template_id = response.data.id
 
                 /* Patch Project Template By Project Template Id */
-                response = await axios.patch(ENDPOINT + "/project_templates/" + project_template_id, PATCH_PROJECT_TEMPLATE_DATA, {
+                response = await axios.patch(url + ":" + port_number + "/project_templates/" + project_template_id, PATCH_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -462,7 +460,7 @@ test.describe('Project Template', () => {
                 const project_template_id = data.PROJECT_TEMPLATE_ID
 
                 /* Patch Project Template By Project Template Id */
-                response = await axios.patch(ENDPOINT + "/project_templates/" + project_template_id, PATCH_PROJECT_TEMPLATE_DATA, {
+                response = await axios.patch(url + ":" + port_number + "/project_templates/" + project_template_id, PATCH_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -489,7 +487,7 @@ test.describe('Project Template', () => {
 
             if (data.CASE_TYPE == "POSITIVE") {
                 // Create a project template first
-                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates", PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -498,7 +496,7 @@ test.describe('Project Template', () => {
                 const project_template_id = response.data.id;
 
                 // Delete the project template by ID
-                response = await axios.delete(ENDPOINT + "/project_templates/" + project_template_id, {
+                response = await axios.delete(url + ":" + port_number + "/project_templates/" + project_template_id, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -514,7 +512,7 @@ test.describe('Project Template', () => {
                 const project_template_id = data.PROJECT_TEMPLATE_ID;
 
                 // Delete the project template by ID
-                response = await axios.delete(ENDPOINT + "/project_templates/" + project_template_id, {
+                response = await axios.delete(url + ":" + port_number + "/project_templates/" + project_template_id, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -546,7 +544,7 @@ test.describe('Project Template', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project Template */
-                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates", PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -556,7 +554,7 @@ test.describe('Project Template', () => {
                 const project_template_id = response.data.id;
 
                 /* Clone Project Template By Template Id */
-                response = await axios.post(ENDPOINT + "/project_templates/clone/" + project_template_id, CLONE_PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates/clone/" + project_template_id, CLONE_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -577,7 +575,7 @@ test.describe('Project Template', () => {
                 const project_template_id = data.PROJECT_TEMPLATE_ID;
 
                 /* Clone Project Template By Template Id */
-                response = await axios.post(ENDPOINT + "/project_templates/clone/" + project_template_id, CLONE_PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates/clone/" + project_template_id, CLONE_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -606,7 +604,7 @@ test.describe('Project Template', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project Template */
-                response = await axios.post(ENDPOINT + "/project_templates", PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates", PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -616,7 +614,7 @@ test.describe('Project Template', () => {
                 const project_template_id = response.data.id
 
                 /* Export Project Template By Project Template Id */
-                response = await axios.post(ENDPOINT + "/project_templates/export/" + project_template_id, EXPORT_PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates/export/" + project_template_id, EXPORT_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }
@@ -634,7 +632,7 @@ test.describe('Project Template', () => {
                 const project_template_id = data.PROJECT_TEMPLATE_ID
 
                 /* Export Project Template By Project Template Id */
-                response = await axios.post(ENDPOINT + "/project_templates/export/" + project_template_id, EXPORT_PROJECT_TEMPLATE_DATA, {
+                response = await axios.post(url + ":" + port_number + "/project_templates/export/" + project_template_id, EXPORT_PROJECT_TEMPLATE_DATA, {
                     validateStatus: function (status) {
                         return status;
                     }

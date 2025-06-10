@@ -7,7 +7,8 @@ import FormData from 'form-data'
 /* TO DO */
 // To Add Global Vars to some Positive Cases
 
-const ENDPOINT = process.env.ENDPOINT
+const url = process.env.URL
+const port_number = process.env.PORT_NUMBER
 
 const STRING_4096_CHARACTERS = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in malesuada elit. Fusce id commodo neque. Aliquam fermentum sem eget faucibus interdum. Donec vulputate pellentesque lectus, a commodo magna congue vitae. Quisque ullamcorper dolor vel consequat malesuada. Aenean est orci, porta ut mi eget, iaculis ultricies felis. Nulla elementum purus vel nisl pharetra, vitae iaculis dolor ornare. Nunc id augue vulputate, sollicitudin elit et, imperdiet nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras interdum sodales ipsum. Quisque commodo diam lorem, eu vehicula felis tincidunt et. Mauris in enim faucibus massa rhoncus lobortis vitae vel urna. In velit enim, accumsan at lacus id, vehicula interdum quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.\
 Curabitur vitae blandit arcu. In ut justo pulvinar, pharetra purus ut, gravida augue. Proin pharetra quam at lacus ultrices, in lobortis libero pellentesque. Vivamus eget ex a leo egestas mattis. Proin pellentesque nisl lacus, in convallis elit imperdiet non. Cras non enim non neque commodo fermentum. Quisque nec libero malesuada dui lobortis ultricies non eu tellus. Ut sit amet dictum dolor. Nulla dui lacus, imperdiet nec dapibus ut, rhoncus at eros. Vivamus sed lorem vulputate, pharetra lacus et, viverra metus. Fusce a pharetra leo. Nunc vel finibus orci.\
@@ -258,7 +259,7 @@ test.describe('Project', () => {
 
     for (const data of GET_PROJECT) {
         test.skip(`Get All Project ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/projects", {
+            const response = await axios.get(url + ":" + port_number + "/projects", {
                 validateStatus: function (status) {
                     return status
                 }
@@ -307,7 +308,7 @@ test.describe('Project', () => {
         }
 
         test.skip(`Create Project ${data.TEST_NAME}`, async () => {
-            const response = await axios.post(ENDPOINT + "/projects", PROJECT_INFO_DATA, {
+            const response = await axios.post(url + ":" + port_number + "/projects", PROJECT_INFO_DATA, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -360,7 +361,7 @@ test.describe('Project', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project */
-                response = await axios.post(ENDPOINT + "/projects", PROJECT_INFO_DATA, {
+                response = await axios.post(url + ":" + port_number + "/projects", PROJECT_INFO_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -370,7 +371,7 @@ test.describe('Project', () => {
                 const project_id = response.data.id
 
                 /* Get Project By Id */
-                response = await axios.get(ENDPOINT + "/projects/" + project_id, {
+                response = await axios.get(url + ":" + port_number + "/projects/" + project_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -401,7 +402,7 @@ test.describe('Project', () => {
                 const project_id = data.PROJECT_ID
 
                 /* Get Project By Id */
-                response = await axios.get(ENDPOINT + "/projects/" + project_id, {
+                response = await axios.get(url + ":" + port_number + "/projects/" + project_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -431,7 +432,7 @@ test.describe('Project', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project */
-                response = await axios.post(ENDPOINT + "/projects", PROJECT_INFO_DATA, {
+                response = await axios.post(url + ":" + port_number + "/projects", PROJECT_INFO_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -445,7 +446,7 @@ test.describe('Project', () => {
                 ai_model_form.append('model_types', data.MODEL_TYPE)
                 ai_model_form.append('files', fs.readFileSync(data.MODEL_PATH), data.MODEL_NAME)
 
-                response = await axios.post(ENDPOINT + "/test_models/upload", ai_model_form,
+                response = await axios.post(url + ":" + port_number + "/test_models/upload", ai_model_form,
                     {
                         headers: {
                             ...ai_model_form.getHeaders(),
@@ -461,7 +462,7 @@ test.describe('Project', () => {
                 const model_id = response.data[0].id
 
                 /* Create Input Block */
-                response = await axios.post(ENDPOINT + "/input_block_data", data.INPUT_BLOCK, {
+                response = await axios.post(url + ":" + port_number + "/input_block_data", data.INPUT_BLOCK, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -474,7 +475,7 @@ test.describe('Project', () => {
                 const test_results_zip_form = new FormData()
                 test_results_zip_form.append('file', fs.readFileSync(data.ARTIFACT_PATH), data.ARTIFACT_NAME)
 
-                response = await axios.post(ENDPOINT + '/test_results/upload_zip', test_results_zip_form,
+                response = await axios.post(url + ":" + port_number + '/test_results/upload_zip', test_results_zip_form,
                     {
                         headers: {
                             ...test_results_zip_form.getHeaders(),
@@ -507,7 +508,7 @@ test.describe('Project', () => {
                 }
 
                 /* Update Project */
-                response = await axios.put(ENDPOINT + "/projects/" + project_id, UPDATE_PROJECT_DATA, {
+                response = await axios.put(url + ":" + port_number + "/projects/" + project_id, UPDATE_PROJECT_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -548,7 +549,7 @@ test.describe('Project', () => {
                 }
 
                 /* Update Project */
-                response = await axios.put(ENDPOINT + "/projects/" + project_id, UPDATE_PROJECT_DATA, {
+                response = await axios.put(url + ":" + port_number + "/projects/" + project_id, UPDATE_PROJECT_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -579,7 +580,7 @@ test.describe('Project', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project */
-                response = await axios.post(ENDPOINT + "/projects", PROJECT_INFO_DATA, {
+                response = await axios.post(url + ":" + port_number + "/projects", PROJECT_INFO_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -593,7 +594,7 @@ test.describe('Project', () => {
                 ai_model_form.append('model_types', data.MODEL_TYPE)
                 ai_model_form.append('files', fs.readFileSync(data.MODEL_PATH), data.MODEL_NAME)
 
-                response = await axios.post(ENDPOINT + "/test_models/upload", ai_model_form,
+                response = await axios.post(url + ":" + port_number + "/test_models/upload", ai_model_form,
                     {
                         headers: {
                             ...ai_model_form.getHeaders(),
@@ -609,7 +610,7 @@ test.describe('Project', () => {
                 const model_id = response.data[0].id
 
                 /* Create Input Block */
-                response = await axios.post(ENDPOINT + "/input_block_data", data.INPUT_BLOCK, {
+                response = await axios.post(url + ":" + port_number + "/input_block_data", data.INPUT_BLOCK, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -622,7 +623,7 @@ test.describe('Project', () => {
                 const test_results_zip_form = new FormData()
                 test_results_zip_form.append('file', fs.readFileSync(data.ARTIFACT_PATH), data.ARTIFACT_NAME)
 
-                response = await axios.post(ENDPOINT + '/test_results/upload_zip', test_results_zip_form,
+                response = await axios.post(url + ":" + port_number + '/test_results/upload_zip', test_results_zip_form,
                     {
                         headers: {
                             ...test_results_zip_form.getHeaders(),
@@ -655,7 +656,7 @@ test.describe('Project', () => {
                 }
 
                 /* Patch Project */
-                response = await axios.patch(ENDPOINT + "/projects/projects/" + project_id, PATCH_PROJECT_DATA, {
+                response = await axios.patch(url + ":" + port_number + "/projects/projects/" + project_id, PATCH_PROJECT_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -696,7 +697,7 @@ test.describe('Project', () => {
                 }
 
                 /* Patch Project */
-                response = await axios.patch(ENDPOINT + "/projects/projects/" + project_id, PATCH_PROJECT_DATA, {
+                response = await axios.patch(url + ":" + port_number + "/projects/projects/" + project_id, PATCH_PROJECT_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -727,7 +728,7 @@ test.describe('Project', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project */
-                response = await axios.post(ENDPOINT + "/projects", PROJECT_INFO_DATA, {
+                response = await axios.post(url + ":" + port_number + "/projects", PROJECT_INFO_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -737,7 +738,7 @@ test.describe('Project', () => {
                 const project_id = response.data.id
 
                 /* Delete Project By Project ID */
-                response = await axios.delete(ENDPOINT + "/projects/projects/" + project_id, {
+                response = await axios.delete(url + ":" + port_number + "/projects/projects/" + project_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -755,7 +756,7 @@ test.describe('Project', () => {
                 const project_id = data.PROJECT_ID
 
                 /* Delete Project By Project ID */
-                response = await axios.delete(ENDPOINT + "/projects/projects/" + project_id, {
+                response = await axios.delete(url + ":" + port_number + "/projects/projects/" + project_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -790,7 +791,7 @@ test.describe('Project', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Project */
-                response = await axios.post(ENDPOINT + "/projects", PROJECT_INFO_DATA, {
+                response = await axios.post(url + ":" + port_number + "/projects", PROJECT_INFO_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -800,7 +801,7 @@ test.describe('Project', () => {
                 const project_id = response.data.id
 
                 /* Save Project As Template */
-                response = await axios.post(ENDPOINT + "/projects/saveProjectAsTemplate/" + project_id, PROJECT_TEMPLATE_INFO_DATA, {
+                response = await axios.post(url + ":" + port_number + "/projects/saveProjectAsTemplate/" + project_id, PROJECT_TEMPLATE_INFO_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -832,7 +833,7 @@ test.describe('Project', () => {
                 const project_id = data.PROJECT_ID
 
                 /* Save Project As Template */
-                response = await axios.post(ENDPOINT + "/projects/saveProjectAsTemplate/" + project_id, PROJECT_TEMPLATE_INFO_DATA, {
+                response = await axios.post(url + ":" + port_number + "/projects/saveProjectAsTemplate/" + project_id, PROJECT_TEMPLATE_INFO_DATA, {
                     validateStatus: function (status) {
                         return status
                     }

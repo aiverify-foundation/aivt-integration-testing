@@ -4,7 +4,8 @@ import axios from 'axios'
 import fs from 'fs'
 import FormData from 'form-data'
 
-const ENDPOINT = process.env.ENDPOINT
+const url = process.env.URL
+const port_number = process.env.PORT_NUMBER
 
 const GET_PLUGIN_BY_GID = [
     { TEST_NAME: "With Existing GID", GID: "aiverify.stock.process_checklist", STATUS: 200 },
@@ -66,7 +67,7 @@ const GET_PLUGIN_SUMMARY_DOWNLOAD_BY_GID_AND_CID = [
 test.describe('Plugin', () => {
 
     test(`Get All Plugins`, async () => {
-        const response = await axios.get(ENDPOINT + '/plugins/', {
+        const response = await axios.get(url + ":" + port_number + '/plugins/', {
             validateStatus: function (status) {
                 return status
             }
@@ -77,7 +78,7 @@ test.describe('Plugin', () => {
 
     for (const data of GET_PLUGIN_BY_GID) {
         test.skip(`Get Plugin ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + '/plugins/' + data.GID, {
+            const response = await axios.get(url + ":" + port_number + '/plugins/' + data.GID, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -88,7 +89,7 @@ test.describe('Plugin', () => {
 
     for (const data of DELETE_PLUGIN_BY_GID) {
         test.skip(`Delete Plugin ${data.TEST_NAME}`, async () => {
-            const response = await axios.delete(ENDPOINT + '/plugins/' + data.GID, {
+            const response = await axios.delete(url + ":" + port_number + '/plugins/' + data.GID, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -102,7 +103,7 @@ test.describe('Plugin', () => {
             const form = new FormData()
             form.append('file', fs.readFileSync(data.PLUGIN_PATH), data.PLUGIN_NAME)
 
-            const response = await axios.post(ENDPOINT + '/plugins/upload',
+            const response = await axios.post(url + ":" + port_number + '/plugins/upload',
                 form,
                 {
                     headers: {
@@ -121,7 +122,7 @@ test.describe('Plugin', () => {
 
     for (const data of GET_PLUGIN_DOWNLOAD_BY_GID) {
         test.skip(`Download Plugin As A Zip File ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/plugins/download/" + data.GID, {
+            const response = await axios.get(url + ":" + port_number + "/plugins/download/" + data.GID, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -136,7 +137,7 @@ test.describe('Plugin', () => {
 
     for (const data of GET_PLUGIN_ALGORITHM_DOWNLOAD_BY_GID_AND_CID) {
         test(`Download Plugin Algorithms As A Zip File ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/plugins/" + data.GID + "/algorithms/" + data.CID, {
+            const response = await axios.get(url + ":" + port_number + "/plugins/" + data.GID + "/algorithms/" + data.CID, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -152,7 +153,7 @@ test.describe('Plugin', () => {
 
     for (const data of GET_PLUGIN_WIDGET_DOWNLOAD_BY_GID) {
         test(`Download Plugin Widgets As A Zip File ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/plugins/" + data.GID + "/widgets", {
+            const response = await axios.get(url + ":" + port_number + "/plugins/" + data.GID + "/widgets", {
                 validateStatus: function (status) {
                     return status
                 }
@@ -167,7 +168,7 @@ test.describe('Plugin', () => {
 
     for (const data of GET_PLUGIN_INPUT_BLOCKS_DONWLOAD_BY_GID) {
         test(`Download Plugin Input Blocks As A Zip File ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/plugins/" + data.GID + "/input_blocks", {
+            const response = await axios.get(url + ":" + port_number + "/plugins/" + data.GID + "/input_blocks", {
                 validateStatus: function (status) {
                     return status
                 }
@@ -182,7 +183,7 @@ test.describe('Plugin', () => {
 
     for (const data of GET_PLUGIN_BUNDLE_DOWNLOAD_BY_GID_AND_CID) {
         test(`Download Plugin Bundle As A Zip File ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/plugins/" + data.GID + "/bundle/" + data.CID, {
+            const response = await axios.get(url + ":" + port_number + "/plugins/" + data.GID + "/bundle/" + data.CID, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -198,7 +199,7 @@ test.describe('Plugin', () => {
 
     for (const data of GET_PLUGIN_SUMMARY_DOWNLOAD_BY_GID_AND_CID) {
         test(`Download Plugin Summary As A Zip File ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/plugins/" + data.GID + "/summary/" + data.CID, {
+            const response = await axios.get(url + ":" + port_number + "/plugins/" + data.GID + "/summary/" + data.CID, {
                 validateStatus: function (status) {
                     return status
                 }

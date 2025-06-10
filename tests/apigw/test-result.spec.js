@@ -6,7 +6,8 @@ import FormData from 'form-data'
 
 // import {setTimeout} from "timers/promises"
 
-const ENDPOINT = process.env.ENDPOINT
+const url = process.env.URL
+const port_number = process.env.PORT_NUMBER
 
 const test_result = '{"cid":"fairness_metrics_toolbox_for_classification","gid":"aiverify.stock.fairness_metrics_toolbox_for_classification","output":{"output_classes":[0,1],"results":[{"False Omission Rate":[{"group":[0],"metric":0.23680904522613067},{"group":[1],"metric":0.24685929648241206}],"Disparate Impact":[{"group":[0,1],"metric":1.0218689431079695}],"False Positive Rate":[{"group":[0],"metric":0.19675925925925927},{"group":[1],"metric":0.16898148148148148}],"Equal Selection Parity":[{"group":[0,1],"metric":12}],"False Discovery Rate":[{"group":[0],"metric":0.28083700440528636},{"group":[1],"metric":0.24118942731277532}],"False Negative Rate":[{"group":[0],"metric":0.3131229235880399},{"group":[1],"metric":0.32641196013289037}],"Negative Predictive Value Parity":[{"group":[0],"metric":0.2613065326633166},{"group":[1],"metric":0.2550251256281407}],"True Positive Rate":[{"group":[0],"metric":0.17026578073089702},{"group":[1],"metric":0.19019933554817275}],"Positive Predictive Value Parity":[{"group":[0],"metric":0.22577092511013216},{"group":[1],"metric":0.2522026431718062}],"True Negative Rate":[{"group":[0],"metric":0.32098765432098764},{"group":[1],"metric":0.3132716049382716}]},{"False Omission Rate":[{"group":[0],"metric":0.28083700440528636},{"group":[1],"metric":0.24118942731277532}],"Disparate Impact":[{"group":[0,1],"metric":0.9877380644400872}],"False Positive Rate":[{"group":[0],"metric":0.3131229235880399},{"group":[1],"metric":0.32641196013289037}],"Equal Selection Parity":[{"group":[0,1],"metric":6}],"False Discovery Rate":[{"group":[0],"metric":0.23680904522613067},{"group":[1],"metric":0.24685929648241206}],"False Negative Rate":[{"group":[0],"metric":0.19675925925925927},{"group":[1],"metric":0.16898148148148148}],"Negative Predictive Value Parity":[{"group":[0],"metric":0.22577092511013216},{"group":[1],"metric":0.2522026431718062}],"True Positive Rate":[{"group":[0],"metric":0.32098765432098764},{"group":[1],"metric":0.3132716049382716}],"Positive Predictive Value Parity":[{"group":[0],"metric":0.2613065326633166},{"group":[1],"metric":0.2550251256281407}],"True Negative Rate":[{"group":[0],"metric":0.17026578073089702},{"group":[1],"metric":0.19019933554817275}]}],"sensitive_feature":["gender"]},"startTime":"2024-07-24T09:20:24.822881","testArguments":{"algorithmArgs":{"annotated_labels_path":"file:///examples/data/sample_bc_credit_data.sav","file_name_label":"NA","sensitive_feature":["gender"]},"groundTruth":"default","groundTruthDataset":"file:///examples/data/sample_bc_credit_data.sav","mode":"upload","modelFile":"file:///examples/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav","modelType":"classification","testDataset":"file:///examples/data/sample_bc_credit_data.sav"},"timeTaken":0,"version":"0.9.0"}'
 const invalid_test_result = '{"cid":"","gid":"aiverify.stock.fairness_metrics_toolbox_for_classification","output":{"output_classes":[0,1],"results":[{"False Omission Rate":[{"group":[0],"metric":0.23680904522613067},{"group":[1],"metric":0.24685929648241206}],"Disparate Impact":[{"group":[0,1],"metric":1.0218689431079695}],"False Positive Rate":[{"group":[0],"metric":0.19675925925925927},{"group":[1],"metric":0.16898148148148148}],"Equal Selection Parity":[{"group":[0,1],"metric":12}],"False Discovery Rate":[{"group":[0],"metric":0.28083700440528636},{"group":[1],"metric":0.24118942731277532}],"False Negative Rate":[{"group":[0],"metric":0.3131229235880399},{"group":[1],"metric":0.32641196013289037}],"Negative Predictive Value Parity":[{"group":[0],"metric":0.2613065326633166},{"group":[1],"metric":0.2550251256281407}],"True Positive Rate":[{"group":[0],"metric":0.17026578073089702},{"group":[1],"metric":0.19019933554817275}],"Positive Predictive Value Parity":[{"group":[0],"metric":0.22577092511013216},{"group":[1],"metric":0.2522026431718062}],"True Negative Rate":[{"group":[0],"metric":0.32098765432098764},{"group":[1],"metric":0.3132716049382716}]},{"False Omission Rate":[{"group":[0],"metric":0.28083700440528636},{"group":[1],"metric":0.24118942731277532}],"Disparate Impact":[{"group":[0,1],"metric":0.9877380644400872}],"False Positive Rate":[{"group":[0],"metric":0.3131229235880399},{"group":[1],"metric":0.32641196013289037}],"Equal Selection Parity":[{"group":[0,1],"metric":6}],"False Discovery Rate":[{"group":[0],"metric":0.23680904522613067},{"group":[1],"metric":0.24685929648241206}],"False Negative Rate":[{"group":[0],"metric":0.19675925925925927},{"group":[1],"metric":0.16898148148148148}],"Negative Predictive Value Parity":[{"group":[0],"metric":0.22577092511013216},{"group":[1],"metric":0.2522026431718062}],"True Positive Rate":[{"group":[0],"metric":0.32098765432098764},{"group":[1],"metric":0.3132716049382716}],"Positive Predictive Value Parity":[{"group":[0],"metric":0.2613065326633166},{"group":[1],"metric":0.2550251256281407}],"True Negative Rate":[{"group":[0],"metric":0.17026578073089702},{"group":[1],"metric":0.19019933554817275}]}],"sensitive_feature":["gender"]},"startTime":"2024-07-24T09:20:24.822881","testArguments":{"algorithmArgs":{"annotated_labels_path":"file:///examples/data/sample_bc_credit_data.sav","file_name_label":"NA","sensitive_feature":["gender"]},"groundTruth":"default","groundTruthDataset":"file:///examples/data/sample_bc_credit_data.sav","mode":"upload","modelFile":"file:///examples/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav","modelType":"classification","testDataset":"file:///examples/data/sample_bc_credit_data.sav"},"timeTaken":0,"version":"0.9.0"}'
@@ -62,7 +63,7 @@ test.describe('Test Results', () => {
             form.append('test_result', data.TEST_RESULT)
             form.append('artifacts', fs.readFileSync(data.ARTIFACT_PATH), data.ARTIFACT_NAME)
 
-            const response = await axios.post(ENDPOINT + '/test_results/upload',
+            const response = await axios.post(url + ":" + port_number + '/test_results/upload',
                 form,
                 {
                     headers: {
@@ -83,7 +84,7 @@ test.describe('Test Results', () => {
         const form = new FormData()
         form.append('test_result', test_result)
 
-        const response = await axios.post(ENDPOINT + '/test_results/upload',
+        const response = await axios.post(url + ":" + port_number + '/test_results/upload',
             form,
             {
                 headers: {
@@ -105,7 +106,7 @@ test.describe('Test Results', () => {
             form.append('test_result', data.TEST_RESULT)
             form.append('artifacts', fs.readFileSync(data.ARTIFACT_PATH), data.ARTIFACT_NAME)
 
-            const response = await axios.post(ENDPOINT + '/test_results/upload',
+            const response = await axios.post(url + ":" + port_number + '/test_results/upload',
                 form,
                 {
                     headers: {
@@ -124,7 +125,7 @@ test.describe('Test Results', () => {
 
     for (const data of GET_TEST_RESULT_ARTIFACT) {
         test.skip(`Get Test Result Artifact ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/test_results/" + data.TEST_RESULT_ID + "/artifacts/" + data.ARTIFACT_NAME, {
+            const response = await axios.get(url + ":" + port_number + "/test_results/" + data.TEST_RESULT_ID + "/artifacts/" + data.ARTIFACT_NAME, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -134,7 +135,7 @@ test.describe('Test Results', () => {
     }
 
     test.skip('Get Test Results', async () => {
-        const response = await axios.get(ENDPOINT + "/test_results/", {
+        const response = await axios.get(url + ":" + port_number + "/test_results/", {
             validateStatus: function (status) {
                 return status
             }
@@ -145,7 +146,7 @@ test.describe('Test Results', () => {
 
     for (const data of GET_TEST_RESULT_BY_TEST_RESULT_ID) {
         test.skip(`Get Test Result ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/test_results/" + data.TEST_RESULT_ID, {
+            const response = await axios.get(url + ":" + port_number + "/test_results/" + data.TEST_RESULT_ID, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -156,7 +157,7 @@ test.describe('Test Results', () => {
 
     for (const data of PUT_TEST_RESULT_BY_TEST_RESULT_ID) {
         test.skip(`Update Test Result Name ${data.TEST_NAME}`, async () => {
-            const response = await axios.put(ENDPOINT + "/test_results/" + data.TEST_RESULT_ID, { "name": data.TEST_RESULT_NAME }, {
+            const response = await axios.put(url + ":" + port_number + "/test_results/" + data.TEST_RESULT_ID, { "name": data.TEST_RESULT_NAME }, {
                 validateStatus: function (status) {
                     return status
                 }
@@ -167,7 +168,7 @@ test.describe('Test Results', () => {
 
     for (const data of DELETE_TEST_RESULT_BY_TEST_RESULT_ID) {
         test.skip(`Delete Test Result ${data.TEST_NAME}`, async () => {
-            const response = await axios.delete(ENDPOINT + "/test_results/" + data.TEST_RESULT_ID, {
+            const response = await axios.delete(url + ":" + port_number + "/test_results/" + data.TEST_RESULT_ID, {
                 validateStatus: function (status) {
                     return status
                 }

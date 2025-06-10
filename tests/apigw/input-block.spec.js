@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test'
 
 import axios from 'axios'
 
-const ENDPOINT = process.env.ENDPOINT
+const url = process.env.URL
+const port_number = process.env.PORT_NUMBER
 
 const STRING_4096_CHARACTERS = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in malesuada elit. Fusce id commodo neque. Aliquam fermentum sem eget faucibus interdum. Donec vulputate pellentesque lectus, a commodo magna congue vitae. Quisque ullamcorper dolor vel consequat malesuada. Aenean est orci, porta ut mi eget, iaculis ultricies felis. Nulla elementum purus vel nisl pharetra, vitae iaculis dolor ornare. Nunc id augue vulputate, sollicitudin elit et, imperdiet nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras interdum sodales ipsum. Quisque commodo diam lorem, eu vehicula felis tincidunt et. Mauris in enim faucibus massa rhoncus lobortis vitae vel urna. In velit enim, accumsan at lacus id, vehicula interdum quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.\
 Curabitur vitae blandit arcu. In ut justo pulvinar, pharetra purus ut, gravida augue. Proin pharetra quam at lacus ultrices, in lobortis libero pellentesque. Vivamus eget ex a leo egestas mattis. Proin pellentesque nisl lacus, in convallis elit imperdiet non. Cras non enim non neque commodo fermentum. Quisque nec libero malesuada dui lobortis ultricies non eu tellus. Ut sit amet dictum dolor. Nulla dui lacus, imperdiet nec dapibus ut, rhoncus at eros. Vivamus sed lorem vulputate, pharetra lacus et, viverra metus. Fusce a pharetra leo. Nunc vel finibus orci.\
@@ -115,7 +116,7 @@ test.describe('Input Block', () => {
 
     for (const data of GET_INPUT_BLOCK) {
         test.skip(`Get All Input Blocks ${data.TEST_NAME}`, async () => {
-            const response = await axios.get(ENDPOINT + "/input_block_data", {
+            const response = await axios.get(url + ":" + port_number + "/input_block_data", {
                 validateStatus: function (status) {
                     return status
                 }
@@ -137,7 +138,7 @@ test.describe('Input Block', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Input Block */
-                response = await axios.post(ENDPOINT + "/input_block_data", INPUT_BLOCK_DATA, {
+                response = await axios.post(url + ":" + port_number + "/input_block_data", INPUT_BLOCK_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -147,7 +148,7 @@ test.describe('Input Block', () => {
                 const input_block_id = response.data.id
 
                 /* Get Input Block By Input Block ID */
-                response = await axios.get(ENDPOINT + "/input_block_data/" + input_block_id, {
+                response = await axios.get(url + ":" + port_number + "/input_block_data/" + input_block_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -165,7 +166,7 @@ test.describe('Input Block', () => {
             if (data.CASE_TYPE == "NEGATIVE") {
 
                 /* Create Input Block */
-                response = await axios.post(ENDPOINT + "/input_block_data", INPUT_BLOCK_DATA, {
+                response = await axios.post(url + ":" + port_number + "/input_block_data", INPUT_BLOCK_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -189,7 +190,7 @@ test.describe('Input Block', () => {
                 const INPUT_BLOCK_DATA = data.INPUT_BLOCK_DATA
 
                 /* Create Input Block */
-                response = await axios.post(ENDPOINT + "/input_block_data", INPUT_BLOCK_DATA, {
+                response = await axios.post(url + ":" + port_number + "/input_block_data", INPUT_BLOCK_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -199,7 +200,7 @@ test.describe('Input Block', () => {
                 const input_block_id = response.data.id
 
                 /* Get Input Block Data By Input Block ID */
-                response = await axios.get(ENDPOINT + "/input_block_data/" + input_block_id, {
+                response = await axios.get(url + ":" + port_number + "/input_block_data/" + input_block_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -220,7 +221,7 @@ test.describe('Input Block', () => {
                 const input_block_id = data.INPUT_BLOCK_ID
 
                 /* Get Input Block Data By Input Block ID */
-                response = await axios.get(ENDPOINT + "/input_block_data/" + input_block_id, {
+                response = await axios.get(url + ":" + port_number + "/input_block_data/" + input_block_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -245,7 +246,7 @@ test.describe('Input Block', () => {
             if (data.CASE_TYPE == "POSITIVE") {
 
                 /* Create Input Block */
-                response = await axios.post(ENDPOINT + "/input_block_data", INPUT_BLOCK_DATA, {
+                response = await axios.post(url + ":" + port_number + "/input_block_data", INPUT_BLOCK_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -255,7 +256,7 @@ test.describe('Input Block', () => {
                 const input_block_id = response.data.id
 
                 /* Update Input Block Data By Input Block ID */
-                response = await axios.put(ENDPOINT + "/input_block_data/" + input_block_id, UPDATE_INPUT_BLOCK_DATA, {
+                response = await axios.put(url + ":" + port_number + "/input_block_data/" + input_block_id, UPDATE_INPUT_BLOCK_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -276,7 +277,7 @@ test.describe('Input Block', () => {
                 const input_block_id = data.INPUT_BLOCK_ID
 
                 /* Update Input Block Data By Input Block ID */
-                response = await axios.put(ENDPOINT + "/input_block_data/" + input_block_id, UPDATE_INPUT_BLOCK_DATA, {
+                response = await axios.put(url + ":" + port_number + "/input_block_data/" + input_block_id, UPDATE_INPUT_BLOCK_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -300,7 +301,7 @@ test.describe('Input Block', () => {
 
                 const INPUT_BLOCK_DATA = data.INPUT_BLOCK_DATA
 
-                response = await axios.post(ENDPOINT + "/input_block_data", INPUT_BLOCK_DATA, {
+                response = await axios.post(url + ":" + port_number + "/input_block_data", INPUT_BLOCK_DATA, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -310,7 +311,7 @@ test.describe('Input Block', () => {
                 const input_block_id = response.data.id
 
                 /* Delete Input Block Data By Input Block ID */
-                response = await axios.delete(ENDPOINT + "/input_block_data/" + input_block_id, {
+                response = await axios.delete(url + ":" + port_number + "/input_block_data/" + input_block_id, {
                     validateStatus: function (status) {
                         return status
                     }
@@ -328,7 +329,7 @@ test.describe('Input Block', () => {
                 const input_block_id = data.INPUT_BLOCK_ID
 
                 /* Delete Input Block Data By Input Block ID */
-                response = await axios.delete(ENDPOINT + "/input_block_data/" + input_block_id, {
+                response = await axios.delete(url + ":" + port_number + "/input_block_data/" + input_block_id, {
                     validateStatus: function (status) {
                         return status
                     }
