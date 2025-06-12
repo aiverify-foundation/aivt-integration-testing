@@ -53,7 +53,7 @@ const config = {
     trace: 'on-first-retry',
     video: 'on',
     launchOptions: {
-      slowMo: 150
+      slowMo: 500
     },
   },
 
