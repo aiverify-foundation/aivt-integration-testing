@@ -5,6 +5,11 @@ export class ReportTemplatePage {
     constructor(page) {
         this.page = page;
 
+        /* Search Bar */
+        this.reportTemplateSearchBar = this.page.getByPlaceholder('Search templates...')
+
+
+
     }
 
     /**
@@ -16,5 +21,14 @@ export class ReportTemplatePage {
         console.log('[INFO] Select Report Template');
         await this.page.getByRole('heading',{ name: reportTemplateName, exact: true }).click();
         
+    }
+
+    /**
+     * @param { string }
+     */
+    async searchReportTemplate(reportTemplateName) {
+
+        await this.reportTemplateSearchBar.fill(reportTemplateName);
+
     }
 }
