@@ -1,3 +1,5 @@
+import { expect } from './base-test'
+
 export class CreateProjectPage {
     /**
      * @param {import('@playwright/test').Page} page
@@ -27,5 +29,25 @@ export class CreateProjectPage {
         await this.companyName.fill(projectInfo.companyName);
         await this.nextButton.click();
         
+    }
+
+    /** 
+     * @param { object }
+     */
+    async createProjectError(projectInfo) {
+
+        /* Create Project */
+        console.log('[INFO] Create Project')
+        await this.projectName.fill(projectInfo.projectName);
+        await this.projectDescription.fill(projectInfo.projectDescription);
+        await this.reportTitle.fill(projectInfo.reportTitle);
+        await this.companyName.fill(projectInfo.companyName);
+        
+        /* Assert Next Buuton Not Clickable */
+        await expect(this.nextButton).toBeDisabled();
+
+        /* Assert Next Button Is Clicked */
+        await expect(this.page).toHaveURL(new RegExp("http://localhost:3000/project/new"))
+
     }
 }
