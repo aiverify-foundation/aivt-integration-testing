@@ -47,7 +47,7 @@ export class CreateProjectPage {
         await expect(this.nextButton).toBeDisabled();
 
         /* Assert Next Button Is Clicked */
-        await expect(this.page).toHaveURL(new RegExp("http://localhost:3000/project/new"))
+        await expect(this.page).toHaveURL(new RegExp(url + ":" + port_number + "/project/new"))
 
     }
 }
