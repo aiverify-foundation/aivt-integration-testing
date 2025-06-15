@@ -6,7 +6,8 @@ export class ReportTemplatePage {
         this.page = page;
 
         /* Search Bar */
-        this.reportTemplateSearchBar = this.page.getByPlaceholder('Search templates...')
+        this.reportTemplateSearchBar = page.getByPlaceholder('Search templates...')
+        this.editReportTemplateButton = page.locator('.transition-colors')
 
 
 
