@@ -24,7 +24,7 @@ test.describe('Select Report Template', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Assert Report Template Is Clicked */
-        await expect(page).toHaveURL(new RegExp("http://localhost:3000/templates"))
+        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/templates"))
 
     })
 
@@ -36,7 +36,7 @@ test.describe('Select Report Template', () => {
         await reportTemplatePage.selectReportTemplate('Create New Report Template')
 
         /* Assert Report Template Is Clicked */
-        await expect(page).toHaveURL(new RegExp("http://localhost:3000/canvas"))
+        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/canvas"))
 
     })
 
@@ -48,7 +48,7 @@ test.describe('Select Report Template', () => {
         await reportTemplatePage.selectReportTemplate('AI Verify Summary Report for Classification Model')
 
         /* Assert Report Template Is Clicked */
-        await expect(page).toHaveURL(new RegExp("http://localhost:3000/project/select_data"))
+        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/project/select_data"))
 
     })
 
@@ -74,6 +74,17 @@ test.describe('Select Report Template', () => {
         /* Assert Existing Report Template Is Displayed */
         await expect(page.getByText('CCCS')).toBeHidden()
 
+    })
+
+    test('Edit Report Template', async({ reportTemplatePage, page }) => {
+
+        /* Edit Report Template */
+        console.log('[INFO] Edit Report Template')
+
+        await reportTemplatePage.editReportTemplateButton.first().click()
+
+        /* Assert Edit Report Template Button */
+        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/canvas"))
     })
 
 })
