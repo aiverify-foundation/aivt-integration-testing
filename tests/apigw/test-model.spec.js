@@ -21,6 +21,8 @@ test.describe('Test Models', () => {
     Donec tempor ut eros vel hendrerit. Sed lobortis ex in ante mattis pharetra. Nullam imperdiet velit vitae fringilla vulputate. Morbi quis nisi lacus. Integer magna odio, finibus nec luctus sed, accumsan et lacus. Donec non hendrerit odio, nec fermentum felis. Maecenas dolor erat, euismod eget iaculis ut, iaculis vitae magna. Morbi nibh erat, facilisis in sollicitudin condimentum, ultricies at elit. Nunc bibendum purus rhoncus nibh faucibus cursus. Nunc condimentum, nisi in fermentum porttitor, nunc urna tincidunt sapien, sed imperdiet erat justo nec eros. Fusce et nulla in leo rutrum rutrum eget a tellus.\
     Aliquam erat volutpat. Praesent sed arcu blandit, elementum lacus sed, sodales nunc. Phasellus ante velit, pulvinar ac nunc et, mattis tincidunt nisi. Ut congue aliquam efficitur. Duis vitae hendrerit nunc. Curabitur egestas dui vitae lorem laoreet, ut lacinia lectus laoreet. Vivamus ultricies turpis non metus scelerisque, ut laoreet eros dignissim. Nulla ut turpis nec elit ultricies bibendum nec eleifend lectus. Integer risus urna, gravida tempus ex eget, cursus interdum libero. Nunc ac sapien imperdiet, aliquet erat sit amet, dapibus lectus. Aliquam et metus quis ex rutrum elementum eget vitae metus. Curabitur nisi diam, sodales eget condimentum nec, aliquam ac velit. Aliquam dictum hendrerit commodo. Maecenas mattis ipsum lectus, sed efficitur sem mattis eu. Donec vitae dolor ullamcorper, congue nisi eu, egestas justo. Mauris scelerisque, nisi non mattis sagittis, mauris ante faucibus enim, sit amet ullamcorper ante nulla sed libero."
 
+    const STRING_128_CHARACTERS = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in malesuada elit. Fusce id commodo neque. Aliquam fermentum sem eget faucibus interdum. "
+
     const ARRAY_OF_FILES = [
         [
             /* Test Case 0 */
@@ -93,7 +95,7 @@ test.describe('Test Models', () => {
         [
             /* Test Case 14 */
             { modelName: floatValue, modelType: "classification" },
-        ],
+        ]
     ]
 
     const POST_TEST_MODELS = [
@@ -173,25 +175,97 @@ test.describe('Test Models', () => {
         { TEST_NAME: "With Valid File Float Arrays", FILETYPE: "INVALID_FILE", EXPECTED: { detail: [{ type: 'value_error', msg: "Value error, Expected UploadFile, received: <class 'str'>", input: "10.1" }] }, FILES: ARRAY_OF_FILES[14], STATUS: 422 },
     ]
 
-    const ARRAY_OF_PIPELINE_FILES = [
+    const ARRAY_OF_FOLDER_FILES = [
         [
+            /* Test Case 0 */
+            { fileName: "cs_model.pkl" }
+
+        ],
+        [
+            /* Test Case 1 */
             { fileName: "faceimgCustomClass.py" },
             { fileName: "pipeline_train_80000.sav" }
         ],
         [
+            /* Test Case 2 */
+            { fileName: "cs_model.pkl" }
+        ],
+        [
+            /* Test Case 3 */
             { fileName: "regressionCustomClass.py" },
             { fileName: "sample_reg_donation_sklearn_linear.Pipeline.sav" }
-        ]
+        ],
+        [
+            /* Test Case 4 */
+            { fileName: "bc_tabular_credit" },
+            { fileName: "mc_image_fashion" }
+        ],
+        [
+            /* Invalid File */
+            { fileName: "mktg_uplift_acq_dict.pickle" },
+            { fileName: "cs_X_test.pkl" }
+        ],
+        [
+            /* Invalid File Integer*/
+            { fileName: intValue },
+        ],
+        [
+            /* Invalid File Float */
+            { fileName: floatValue },
+        ],
+        [
+            /* Invalid File Boolean */
+            { fileName: true },
+        ],
+        [
+            /* Invalid File Null */
+            { fileName: null },
+        ],
+
     ]
 
-    const PIPELINE_FOLDER_PARAMETERS = [
-        { folderName: "bc_image_face", fileType: "folder", modelType: "classification", subfolders: "" },
-        { folderName: "regression_tabular_donation", fileType: "folder", modelType: "regression", subfolders: "" }
+    const FOLDER_PARAMETERS = [
+        { folderName: "cs_model", fileType: "folder", modelType: "classification", subfolders: "" },
+        { folderName: "bc_image_face", fileType: "pipeline", modelType: "classification", subfolders: "" },
+        { folderName: "cs_model", fileType: "folder", modelType: "regression", subfolders: "" },
+        { folderName: "regression_tabular_donation", fileType: "pipeline", modelType: "regression", subfolders: "" },
+        { folderName: STRING_128_CHARACTERS, fileType: "pipeline", modelType: "regression", subfolders: "" },
+        { folderName: intValue, fileType: "pipeline", modelType: "classification", subfolders: "" },
+        { folderName: floatValue, fileType: "pipeline", modelType: "classification", subfolders: "" },
+        { folderName: "regression_tabular_donation", fileType: "test", modelType: "regression", subfolders: "" },
+        { folderName: "regression_tabular_donation", fileType: intValue, modelType: "regression", subfolders: "" },
+        { folderName: "regression_tabular_donation", fileType: floatValue, modelType: "regression", subfolders: "" },
+        { folderName: "regression_tabular_donation", fileType: "", modelType: "regression", subfolders: "" },
+        { folderName: "cs_model", fileType: "test", modelType: "classification", subfolders: "" },
+        { folderName: "cs_model", fileType: intValue, modelType: "classification", subfolders: "" },
+        { folderName: "cs_model", fileType: floatValue, modelType: "classification", subfolders: "" },
+        { folderName: "cs_model", fileType: "", modelType: "classification", subfolders: "" },
+        { folderName: "test_files", fileType: "pipeline", modelType: "classification", subfolders: "" },
+        { folderName: "bc_image_face", fileType: "pipeline", modelType: "classification", subfolders: "" },
+        
     ]
 
     const POST_TEST_MODELS_FOLDER = [
-        { TEST_NAME: "WITH VALID PIPELINE FILES CLASSIFICATION", PIPELINE_FOLDER_PARAMETERS: PIPELINE_FOLDER_PARAMETERS[0], FILES: ARRAY_OF_PIPELINE_FILES[0], STATUS: 200 },
-        { TEST_NAME: "WITH VALID PIPELINE FILES REGRESSION", PIPELINE_FOLDER_PARAMETERS: PIPELINE_FOLDER_PARAMETERS[1], FILES: ARRAY_OF_PIPELINE_FILES[1], STATUS: 200 }
+        { TEST_NAME: "With Valid File Arrays With Classification Model Type Arrays With File Type Folder With Folder Name Between 1 to 128 Characters With No Sub Folder Arrray", ALGORITHM_ROOT_FOLDER: "veritas_data", FOLDER_PARAMETERS: FOLDER_PARAMETERS[0], FILES: ARRAY_OF_FOLDER_FILES[0], STATUS: 200 },
+        { TEST_NAME: "With Valid File Arrays With Classification Model Type Arrays With File Type Pipeline With Folder Name Between 1 to 128 Characters With No Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[1], FILES: ARRAY_OF_FOLDER_FILES[1], STATUS: 200 },
+        { TEST_NAME: "With Valid File Arrays With Regression Model Type Arrays With File Type Folder With Folder Name Between 1 to 128 Characters With Valid No Sub Folder Arrray", ALGORITHM_ROOT_FOLDER: "veritas_data", FOLDER_PARAMETERS: FOLDER_PARAMETERS[2], FILES: ARRAY_OF_FOLDER_FILES[2], STATUS: 200 },
+        { TEST_NAME: "With Valid File Arrays With Regression Model Type Arrays With Valid File Type With Folder Name Between 1 to 128 Characters With Valid No Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[3], FILES: ARRAY_OF_FOLDER_FILES[3], STATUS: 200 },
+        { TEST_NAME: "With Valid File Arrays With Valid Model Type Arrays With Valid File Type With Folder Name > 128 Characters With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[4], FILES: ARRAY_OF_FOLDER_FILES[3], EXPECTED: { detail: [{ type: 'string_too_long', msg: 'String should have at most 128 characters', input: STRING_128_CHARACTERS }]}, STATUS: 422 },
+        { TEST_NAME: "With Valid File Arrays With Valid Model Type Arrays With Valid File Type With Folder Name Input Integer With Valid Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[5], FILES: ARRAY_OF_FOLDER_FILES[3], STATUS: 200 },
+        { TEST_NAME: "With Valid File Arrays With Valid Model Type Arrays With Valid File Type With Folder Name Input Float With Valid Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[6], FILES: ARRAY_OF_FOLDER_FILES[3], STATUS: 200 },
+        { TEST_NAME: "With Valid File Arrays With Valid Model Type Arrays With Invalid File Type With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[7], FILES: ARRAY_OF_FOLDER_FILES[3], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: 'test' }]}, STATUS: 422 }, //Error Wrong?
+        { TEST_NAME: "With Valid File Arrays With Valid Model Type Arrays With File Type Input Integer With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[8], FILES: ARRAY_OF_FOLDER_FILES[3], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: '10' }]}, STATUS: 422 }, //Error Wrong?
+        { TEST_NAME: "With Valid File Arrays With Valid Model Type Arrays With File Type Input Float With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[9], FILES: ARRAY_OF_FOLDER_FILES[3], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: '10.1' }]}, STATUS: 422 }, //Error Wrong?
+        { TEST_NAME: "With Valid File Arrays With Valid Model Type Arrays With File Type Input Empty With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[10], FILES: ARRAY_OF_FOLDER_FILES[3], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: "" }]}, STATUS: 422 }, //Error Wrong?
+        { TEST_NAME: "With Valid File Arrays With Invalid Model Type Arrays With Valid File Type With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "veritas_data", FOLDER_PARAMETERS: FOLDER_PARAMETERS[11], FILES: ARRAY_OF_FOLDER_FILES[2], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: "test" }]}, STATUS: 422 },
+        { TEST_NAME: "With Valid File Arrays With Model Type Input Integer With Valid File Type With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "veritas_data", FOLDER_PARAMETERS: FOLDER_PARAMETERS[12], FILES: ARRAY_OF_FOLDER_FILES[2], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: "10" }]}, STATUS: 422 },
+        { TEST_NAME: "With Valid File Arrays With Model Type Input Float With Valid File Type With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "veritas_data", FOLDER_PARAMETERS: FOLDER_PARAMETERS[13], FILES: ARRAY_OF_FOLDER_FILES[2], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: "10.1" }]}, STATUS: 422 },
+        { TEST_NAME: "With Valid File Arrays With Model Type Input Empty With Valid File Type With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "veritas_data", FOLDER_PARAMETERS: FOLDER_PARAMETERS[14], FILES: ARRAY_OF_FOLDER_FILES[2], EXPECTED: { detail: [{ type: 'literal_error', msg: "Input should be <TestModelFileType.Folder: 'folder'> or <TestModelFileType.Pipeline: 'pipeline'>", input: "" }]}, STATUS: 422 },
+        { TEST_NAME: "With Invalid File Arrays With Valid Model Type With Valid File Type With Valid Folder Name With Valid Sub Folder Array", CASE_TYPE: "NEGATIVE", ALGORITHM_ROOT_FOLDER: "veritas_data", FOLDER_PARAMETERS: FOLDER_PARAMETERS[15], FILES: ARRAY_OF_FOLDER_FILES[5], EXPECTED: { "detail": "Unsupported Model Folder" }, STATUS: 400 },
+        { TEST_NAME: "With File Input Integer With Valid Model Type With Valid File Type With Valid Folder Name With Valid Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[16], FILES: ARRAY_OF_FOLDER_FILES[6], STATUS: 200 },
+        { TEST_NAME: "With File Input Float With Valid Model Type With Valid File Type With Valid Folder Name With Valid Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[16], FILES: ARRAY_OF_FOLDER_FILES[7], STATUS: 200 },
+        { TEST_NAME: "With File Input Boolean With Valid Model Type With Valid File Type With Valid Folder Name With Valid Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[16], FILES: ARRAY_OF_FOLDER_FILES[8], STATUS: 200 },
+        { TEST_NAME: "With File Input Null With Valid Model Type With Valid File Type With Valid Folder Name With Valid Sub Folder Array", ALGORITHM_ROOT_FOLDER: "pipeline", FOLDER_PARAMETERS: FOLDER_PARAMETERS[16], FILES: ARRAY_OF_FOLDER_FILES[9], STATUS: 200 },
     ]
 
     const GET_TEST_MODELS_BY_MODEL_ID = [
@@ -216,7 +290,7 @@ test.describe('Test Models', () => {
 
     const PATCH_TEST_MODELS_ID_BY_MODEL_ID = [
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Classification", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "classification", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { modelType: "classification" }, STATUS: 200 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Regression",CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "regression", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { modelType: "regression" }, STATUS: 200 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Regression", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "regression", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { modelType: "regression" }, STATUS: 200 },
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Uplift", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "uplift", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { modelType: "uplift" }, STATUS: 200 },
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Invalid Model Type", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "test", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'classification', 'regression' or 'uplift'", input: 'test' }] }, STATUS: 422 },
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Input Integer", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: intValue, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'classification', 'regression' or 'uplift'", input: 10 }] }, STATUS: 422 },
@@ -232,9 +306,9 @@ test.describe('Test Models', () => {
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Boolean With Valid Model Type", CASE_TYPE: "DESCRIPTION", DESCRIPTION: true, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Empty With Valid Model Type", CASE_TYPE: "DESCRIPTION", DESCRIPTION: "", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { description: null }, STATUS: 200 },
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Null With Valid Model Type", CASE_TYPE: "DESCRIPTION", DESCRIPTION: null, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { description: null }, STATUS: 200 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description No Values With Valid Model Type", CASE_TYPE: "DESCRIPTION", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { description: null}, STATUS: 200 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description No Values With Valid Model Type", CASE_TYPE: "DESCRIPTION", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { description: null }, STATUS: 200 },
         { TEST_NAME: "With Name Character Length < 256 Characters With Description < 4096 Characters With Valid Model Type", CASE_TYPE: "NAME", NAME: "sample bc credit sklearn model", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { name: "sample bc credit sklearn model" }, STATUS: 200 },
-        { TEST_NAME: "With Name > 256 Characters With Description < 4096 Characters With Valid Model Type", CASE_TYPE: "NAME", NAME: STRING_4096_CHARACTERS, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'string_too_long', msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS }]}, STATUS: 422 },
+        { TEST_NAME: "With Name > 256 Characters With Description < 4096 Characters With Valid Model Type", CASE_TYPE: "NAME", NAME: STRING_4096_CHARACTERS, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'string_too_long', msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS }] }, STATUS: 422 },
         { TEST_NAME: "With Name Integer With Description < 4096 Characters With Valid Model Type", CASE_TYPE: "NAME", NAME: intValue, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
         { TEST_NAME: "With Name Float With Description < 4096 Characters With Valid Model Type", CASE_TYPE: "NAME", NAME: floatValue, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
         { TEST_NAME: "With Name Boolean With Description < 4096 Characters With Valid Model Type", CASE_TYPE: "NAME", NAME: true, MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
@@ -251,11 +325,20 @@ test.describe('Test Models', () => {
         { TEST_NAME: "With Boolean Model ID", TEST_MODEL_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
         { TEST_NAME: "With Null Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
         { TEST_NAME: "With No Value Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+    ]
 
+    const DOWNLOAD_TEST_MODELS_BY_MODEL_ID = [
+        { TEST_NAME: "With Existing Model ID", CASE_TYPE: "POSITIVE", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: 'Test model deleted successfully' }, STATUS: 200 },
+        { TEST_NAME: "With Non-existing Model ID", TEST_MODEL_ID: 100000000000000, EXPECTED: { detail: 'Test model not found' }, STATUS: 404 },
+        { TEST_NAME: "With String Model ID", TEST_MODEL_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
+        { TEST_NAME: "With Float Model ID ", TEST_MODEL_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
+        { TEST_NAME: "With Boolean Model ID", TEST_MODEL_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
+        { TEST_NAME: "With Null Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+        { TEST_NAME: "With No Value Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
     ]
 
     for (const data of POST_TEST_MODELS) {
-        test.skip(`Upload Test Model ${data.TEST_NAME}`, async () => {
+        test(`Upload Test Model ${data.TEST_NAME}`, async () => {
             const form = new FormData()
             let modelTypes = ""
             for (const file of data.FILES) {
@@ -301,15 +384,15 @@ test.describe('Test Models', () => {
     }
 
     for (const data of POST_TEST_MODELS_FOLDER) {
-        test.skip(`Upload Test Model Folder ${data.TEST_NAME}`, async () => {
+        test(`Upload Test Model Folder ${data.TEST_NAME}`, async () => {
             const form = new FormData()
             for (const file of data.FILES) {
-                form.append('files', fs.createReadStream(root_path + '/pipeline/' + data.PIPELINE_FOLDER_PARAMETERS.folderName + '/' + file.fileName))
+                form.append('files', fs.createReadStream(root_path + '/' + data.ALGORITHM_ROOT_FOLDER + '/' + data.FOLDER_PARAMETERS.folderName + '/' + file.fileName))
             }
-            form.append('model_type', data.PIPELINE_FOLDER_PARAMETERS.modelType)
-            form.append('file_type', data.PIPELINE_FOLDER_PARAMETERS.fileType)
-            form.append('foldername', data.PIPELINE_FOLDER_PARAMETERS.folderName)
-            form.append('subfolders', data.PIPELINE_FOLDER_PARAMETERS.subfolders)
+            form.append('model_type', data.FOLDER_PARAMETERS.modelType)
+            form.append('file_type', data.FOLDER_PARAMETERS.fileType)
+            form.append('foldername', data.FOLDER_PARAMETERS.folderName)
+            form.append('subfolders', data.FOLDER_PARAMETERS.subfolders)
 
             /* Upload Pipeline Model */
             const response = await axios.post(url + ":" + port_number + "/test_models/upload_folder",
@@ -326,6 +409,9 @@ test.describe('Test Models', () => {
                 })
 
             /* Assert Upload Pipeline Folder */
+            console.log(response.data)
+            if(data.CASE_TYPE == "NEGATIVE")
+                expect.soft(response.data).toMatchObject(data.EXPECTED)
             expect.soft(response.status).toBe(data.STATUS)
 
         })
@@ -415,7 +501,7 @@ test.describe('Test Models', () => {
 
             /* Update Test Model By Test Model ID */
 
-            if(data.CASE_TYPE == "MODEL_TYPE") {
+            if (data.CASE_TYPE == "MODEL_TYPE") {
                 response = await axios.patch(url + ":" + port_number + "/test_models/" + test_model_id, {
                     modelType: data.MODEL_TYPE
                 },
@@ -425,10 +511,10 @@ test.describe('Test Models', () => {
                         }
                     }
                 )
-    
+
             }
 
-            if(data.CASE_TYPE == "DESCRIPTION") {
+            if (data.CASE_TYPE == "DESCRIPTION") {
                 response = await axios.patch(url + ":" + port_number + "/test_models/" + test_model_id, {
                     description: data.DESCRIPTION
                 },
@@ -438,10 +524,10 @@ test.describe('Test Models', () => {
                         }
                     }
                 )
-    
+
             }
 
-            if(data.CASE_TYPE == "NAME") {
+            if (data.CASE_TYPE == "NAME") {
                 response = await axios.patch(url + ":" + port_number + "/test_models/" + test_model_id, {
                     name: data.NAME
                 },
@@ -451,7 +537,7 @@ test.describe('Test Models', () => {
                         }
                     }
                 )
-    
+
             }
 
             /* Assert Update Test Model By Test Model ID */
@@ -503,6 +589,53 @@ test.describe('Test Models', () => {
 
             /* Assert Delete Test Model By Model ID */
             expect.soft(response.data).toMatchObject(data.EXPECTED)
+            expect.soft(response.status).toBe(data.STATUS)
+        })
+    }
+
+    for (const data of DOWNLOAD_TEST_MODELS_BY_MODEL_ID) {
+        test(`Download Test Models By Model ID ${data.TEST_NAME}`, async () => {
+
+            let response, test_model_id
+
+            if (data.CASE_TYPE == "POSITIVE") {
+
+                const form = new FormData()
+                form.append('files', fs.createReadStream(root_path + "/model/" + data.MODEL_NAME))
+                form.append('model_types', "classification")
+
+                /* Upload Test Model */
+                response = await axios.post(url + ":" + port_number + "/test_models/upload",
+                    form,
+                    {
+                        headers: {
+                            ...form.getHeaders(),
+                            'accept': 'application/json',
+                            'Content-Type': 'multipart/form-data'
+                        },
+                    })
+
+                /* Set Test Model ID */
+                test_model_id = response.data[0].id
+
+            }
+            else {
+
+                /* Set Test Model ID */
+                test_model_id = data.TEST_MODEL_ID
+
+            }
+
+            /* Download Test Model By Model ID */
+            response = await axios.get(url + ":" + port_number + "/test_models/download/" + test_model_id, {
+                validateStatus: function (status) {
+                    return status
+                }
+            })
+
+            /* Assert Delete Test Model By Model ID */
+            if (data.CASE_TYPE != "POSITIVE")
+                expect.soft(response.data).toMatchObject(data.EXPECTED)
             expect.soft(response.status).toBe(data.STATUS)
         })
     }
