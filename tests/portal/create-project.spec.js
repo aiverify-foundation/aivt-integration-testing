@@ -31,7 +31,7 @@ test.describe('Create Project', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Assert Next Button Is Clicked */
-        await expect(page).toHaveURL(new RegExp("http://localhost:3000/templates"))
+        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/templates"))
 
     })
 
@@ -71,7 +71,7 @@ test.describe('Create Project', () => {
 
     })
 
-    test('No Report Title', async({ createProjectPage, page }) => {
+    test('No Report Title', async({ createProjectPage }) => {
 
         /* Create Project Page */
         console.log('[INFO] Create Project Page')
