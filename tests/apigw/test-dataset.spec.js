@@ -3,7 +3,6 @@ import { test, expect } from '@playwright/test'
 import axios from 'axios'
 import fs from 'fs'
 import FormData from 'form-data'
-import { FILE } from 'dns'
 
 const url = process.env.URL
 const port_number = process.env.PORT_NUMBER
