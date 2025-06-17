@@ -99,54 +99,54 @@ test.describe('Test Models', () => {
     ]
 
     const POST_TEST_MODELS = [
-        // {
-        //     TEST_NAME: "With Valid File Arrays With Classification Model Type Arrays", CASE_TYPE: "POSITIVE", EXPECTED:
-        //         [
-        //             {
-        //                 name: "sample_bc_credit_sklearn_linear.LogisticRegression_27.sav", // To Update The Number Once Finalised Test Execution
-        //                 mode: "upload",
-        //                 modelType: "classification",
-        //                 fileType: "file",
-        //                 filename: "sample_bc_credit_sklearn_linear.LogisticRegression_27.sav", // To Update The Number Once Finalised Test Execution
-        //                 serializer: "pickle",
-        //                 modelFormat: "sklearn",
-        //                 status: "valid"
-        //             },
-        //             {
-        //                 name: "sample_bc_credit_sklearn_linear.LogisticRegression_28.sav", // To Update The Number Once Finalised Test Execution
-        //                 mode: "upload",
-        //                 modelType: "classification",
-        //                 fileType: "file",
-        //                 filename: "sample_bc_credit_sklearn_linear.LogisticRegression_28.sav", // To Update The Number Once Finalised Test Execution
-        //                 serializer: "pickle",
-        //                 modelFormat: "sklearn",
-        //                 status: "valid"
-        //             }
-        //         ], FILES: ARRAY_OF_FILES[0], STATUS: 200
-        // },
-        // { TEST_NAME: "With Valid File Arrays With Regression Model Type Arrays", CASE_TYPE: "POSITIVE", EXPECTED: 
-        //     [
-        //         {
-        //             name: "sample_reg_donation_sklearn_linear.LinearRegression_10.sav", // To Update The Number Once Finalised Test Execution
-        //             mode: "upload",
-        //             modelType: "regression",
-        //             fileType: "file",
-        //             filename: "sample_reg_donation_sklearn_linear.LinearRegression_10.sav", // To Update The Number Once Finalised Test Execution
-        //             serializer: "pickle",
-        //             modelFormat: "sklearn",
-        //             status: "valid"
-        //         },
-        //         {
-        //             name: "sample_reg_donation_sklearn_linear.LinearRegression_11.sav", // To Update The Number Once Finalised Test Execution
-        //             mode: "upload",
-        //             modelType: "regression",
-        //             fileType: "file",
-        //             filename: "sample_reg_donation_sklearn_linear.LinearRegression_11.sav", // To Update The Number Once Finalised Test Execution
-        //             serializer: "pickle",
-        //             modelFormat: "sklearn",
-        //             status: "valid"
-        //         }
-        //     ], FILES: ARRAY_OF_FILES[1], STATUS: 200 },
+        {
+            TEST_NAME: "With Valid File Arrays With Classification Model Type Arrays", CASE_TYPE: "POSITIVE", EXPECTED:
+                [
+                    {
+                        mode: "upload",
+                        modelType: "classification",
+                        fileType: "file",
+                        zip_hash: "7091938136e17b7f726cbdf60cdea04beea32cc8ce1d09fcb02695cd3746bf84",
+                        size: 952,
+                        serializer: "pickle",
+                        modelFormat: "sklearn",
+                        status: "valid"
+                    },
+                    {
+                        mode: "upload",
+                        modelType: "classification",
+                        fileType: "file",
+                        zip_hash: "7091938136e17b7f726cbdf60cdea04beea32cc8ce1d09fcb02695cd3746bf84",
+                        size: 952,
+                        serializer: "pickle",
+                        modelFormat: "sklearn",
+                        status: "valid"
+                    }
+                ], FILES: ARRAY_OF_FILES[0], STATUS: 200
+        },
+        { TEST_NAME: "With Valid File Arrays With Regression Model Type Arrays", CASE_TYPE: "POSITIVE", EXPECTED: 
+            [
+                {
+                    mode: "upload",
+                    modelType: "regression",
+                    fileType: "file",
+                    zip_hash: "0ee56294046d1fbd6f44936786ba90ae6c6f9b63912f946f8f4044d84efa9539",
+                    size: 736,
+                    serializer: "pickle",
+                    modelFormat: "sklearn",
+                    status: "valid"
+                },
+                {
+                    mode: "upload",
+                    modelType: "regression",
+                    fileType: "file",
+                    zip_hash: "0ee56294046d1fbd6f44936786ba90ae6c6f9b63912f946f8f4044d84efa9539",
+                    size: 736,
+                    serializer: "pickle",
+                    modelFormat: "sklearn",
+                    status: "valid"
+                }
+            ], FILES: ARRAY_OF_FILES[1], STATUS: 200 },
         { TEST_NAME: "With Valid File Arrays With Invalid Model Type Arrays", EXPECTED: { detail: "Error validating form data: 'modelType' is not a valid ModelType" }, FILES: ARRAY_OF_FILES[2], STATUS: 400 },
         { TEST_NAME: "With Valid File Arrays With Model Type Non Arrays", EXPECTED: { detail: "Error validating form data: '' is not a valid ModelType" }, FILES: ARRAY_OF_FILES[3], STATUS: 400 },
         { TEST_NAME: "With Valid File Arrays With Model Type Integer Arrays", EXPECTED: { detail: "Error validating form data: '10' is not a valid ModelType" }, FILES: ARRAY_OF_FILES[4], STATUS: 400 },
@@ -269,18 +269,18 @@ test.describe('Test Models', () => {
     ]
 
     const GET_TEST_MODELS_BY_MODEL_ID = [
-        // {
-        //     TEST_NAME: "With Existing Model ID", CASE_TYPE: "POSITIVE", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", MODEL_TYPE: "classification", EXPECTED: {
-        //         name: "sample_reg_donation_sklearn_linear.LinearRegression_37.sav", // To Update The Number Once Finalised Test Execution
-        //         mode: "upload",
-        //         modelType: "regression",
-        //         fileType: "file",
-        //         filename: "sample_reg_donation_sklearn_linear.LinearRegression_37.sav", // To Update The Number Once Finalised Test Execution
-        //         serializer: "pickle",
-        //         modelFormat: "sklearn",
-        //         status: "valid"
-        //     }, STATUS: 200
-        // },
+        {
+            TEST_NAME: "With Existing Model ID", CASE_TYPE: "POSITIVE", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", MODEL_TYPE: "classification", EXPECTED: {
+                mode: "upload",
+                modelType: "classification",
+                fileType: "file",
+                zip_hash: "7091938136e17b7f726cbdf60cdea04beea32cc8ce1d09fcb02695cd3746bf84",
+                size: 952,
+                serializer: "pickle",
+                modelFormat: "sklearn",
+                status: "valid"
+            }, STATUS: 200
+        },
         { TEST_NAME: "With Non-existing Model ID", TEST_MODEL_ID: 100000000000000, EXPECTED: { detail: 'Test model not found' }, STATUS: 404 },
         { TEST_NAME: "With String Model ID", TEST_MODEL_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
         { TEST_NAME: "With Float Model ID ", TEST_MODEL_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
@@ -324,17 +324,17 @@ test.describe('Test Models', () => {
         { TEST_NAME: "With Float Model ID ", TEST_MODEL_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
         { TEST_NAME: "With Boolean Model ID", TEST_MODEL_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
         { TEST_NAME: "With Null Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
-        { TEST_NAME: "With No Value Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+        { TEST_NAME: "With No Value Model ID", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 },
     ]
 
     const DOWNLOAD_TEST_MODELS_BY_MODEL_ID = [
-        { TEST_NAME: "With Existing Model ID", CASE_TYPE: "POSITIVE", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { detail: 'Test model deleted successfully' }, STATUS: 200 },
+        { TEST_NAME: "With Existing Model ID", CASE_TYPE: "POSITIVE", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", STATUS: 200 },
         { TEST_NAME: "With Non-existing Model ID", TEST_MODEL_ID: 100000000000000, EXPECTED: { detail: 'Test model not found' }, STATUS: 404 },
         { TEST_NAME: "With String Model ID", TEST_MODEL_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
         { TEST_NAME: "With Float Model ID ", TEST_MODEL_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
         { TEST_NAME: "With Boolean Model ID", TEST_MODEL_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
         { TEST_NAME: "With Null Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
-        { TEST_NAME: "With No Value Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+        { TEST_NAME: "With No Value Model ID", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 },
     ]
 
     for (const data of POST_TEST_MODELS) {
@@ -409,7 +409,6 @@ test.describe('Test Models', () => {
                 })
 
             /* Assert Upload Pipeline Folder */
-            console.log(response.data)
             if(data.CASE_TYPE == "NEGATIVE")
                 expect.soft(response.data).toMatchObject(data.EXPECTED)
             expect.soft(response.status).toBe(data.STATUS)
