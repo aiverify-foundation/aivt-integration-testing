@@ -241,7 +241,7 @@ test.describe('Test Models', () => {
         { folderName: "cs_model", fileType: floatValue, modelType: "classification", subfolders: "" },
         { folderName: "cs_model", fileType: "", modelType: "classification", subfolders: "" },
         { folderName: "test_files", fileType: "pipeline", modelType: "classification", subfolders: "" },
-        { folderName: "bc_image_face", fileType: "pipeline", modelType: "classification", subfolders: "" },
+        { folderName: "bc_image_face_copy", fileType: "pipeline", modelType: "classification", subfolders: "" },
         
     ]
 
