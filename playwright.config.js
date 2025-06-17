@@ -6,13 +6,6 @@ const { devices } = require('@playwright/test');
  * https://github.com/motdotla/dotenv
  */
 
-const testRailOptions = {
-  // Whether to add <properties> with all annotations; default is false
-  embedAnnotationsAsProperties: true,
-  // Where to put the report.
-  outputFile: './test-results/junit-report.xml'
-}
-
 /**
  * @see https://playwright.dev/docs/test-configuration
  * @type {import('@playwright/test').PlaywrightTestConfig}
@@ -40,7 +33,6 @@ const config = {
   reporter: [
     ['list'],
     ['html', { outFolder: 'test-results', open: 'never' }],
-    ['junit', testRailOptions]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
