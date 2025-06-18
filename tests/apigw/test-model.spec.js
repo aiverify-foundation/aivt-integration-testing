@@ -288,7 +288,7 @@ test.describe('Test Models', () => {
         { TEST_NAME: "With Null Model ID", TEST_MODEL_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
     ]
 
-    const PATCH_TEST_MODELS_ID_BY_MODEL_ID = [
+    const PATCH_TEST_MODELS_BY_MODEL_ID = [
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Classification", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "classification", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { modelType: "classification" }, STATUS: 200 },
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Regression", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "regression", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { modelType: "regression" }, STATUS: 200 },
         { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Model Type Uplift", CASE_TYPE: "MODEL_TYPE", MODEL_TYPE: "uplift", MODEL_NAME: "sample_bc_credit_sklearn_linear.LogisticRegression.sav", EXPECTED: { modelType: "uplift" }, STATUS: 200 },
@@ -475,7 +475,7 @@ test.describe('Test Models', () => {
         })
     }
 
-    for (const data of PATCH_TEST_MODELS_ID_BY_MODEL_ID) {
+    for (const data of PATCH_TEST_MODELS_BY_MODEL_ID) {
         test(`Update Test Model By Model ID ${data.TEST_NAME}`, async () => {
 
             let response, test_model_id
