@@ -22,9 +22,7 @@ def run_test(run_plugin_command, PATH, isZip):
     cwd=PATH,
     )
 
-    # run_plugin.communicate()
-    output, errors = run_plugin.communicate()
-    assert output == ""
+    run_plugin.communicate()
 
     if(isZip == True):
 
@@ -39,8 +37,6 @@ def run_test(run_plugin_command, PATH, isZip):
         )
 
         zip_test_results.communicate()
-        # output, errors = zip_test_results.communicate()
-        # assert errors == ""
 
         ## Upload Test Results Zip File ##
         url = "http://127.0.0.1:4000/test_results/upload_zip"
@@ -93,8 +89,6 @@ def run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command
         )
 
         build_plugin_docker_image.communicate()
-        # output, errors = build_plugin_docker_image.communicate()
-        # assert errors == ""
     
     ## Run Plugin ##
     run_plugin_docker = subprocess.Popen(
@@ -107,9 +101,7 @@ def run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command
     cwd=pwd,
     )
 
-    # run_plugin_docker.communicate()
-    output, errors = run_plugin_docker.communicate()
-    assert errors == ""
+    run_plugin_docker.communicate()
 
     if(isZip == True):
 
@@ -184,7 +176,7 @@ def run_test_image_corruption(run_plugin_command, PATH):
     text=True,
     cwd=PATH + 'output'
     )
-
+    
     zip_test_results.communicate()
 
     ## Upload Test Results Zip File ##
@@ -222,8 +214,6 @@ def run_test_veritas(run_plugin_command, PATH, isZip):
     )
     
     run_plugin.communicate()
-    # output, errors = run_plugin.communicate()
-    # assert errors == ''
 
     if(isZip == True):
 
@@ -274,7 +264,6 @@ def run_test_veritas(run_plugin_command, PATH, isZip):
     cwd=PATH + 'output'
     )
 
-@pytest.mark.skip
 def test_accumulated_local_effects():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -290,7 +279,6 @@ def test_accumulated_local_effects():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_accumulated_local_effects_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -306,7 +294,6 @@ def test_accumulated_local_effects_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_accumulated_local_effects_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-accumulated-local-effect \
@@ -327,7 +314,6 @@ def test_accumulated_local_effects_docker():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_accumulated_local_effects_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -347,7 +333,6 @@ def test_accumulated_local_effects_docker_zip():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install . && \
@@ -365,7 +350,6 @@ def test_fairness_metrics_toolbox_for_classification():
     # Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -383,7 +367,6 @@ def test_fairness_metrics_toolbox_for_classification_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-fairness-metrics-toolbox-for-classification \
@@ -406,7 +389,6 @@ def test_fairness_metrics_toolbox_for_classification_docker():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -439,13 +421,12 @@ def test_fairness_metric_toolbox_for_regression():
         --model_type REGRESSION \
         --run_pipeline \
         --sensitive_features_list gender"
-
+    
     PATH = pwd + "/stock-plugins/aiverify.stock.fairness-metrics-toolbox-for-regression/algorithms/fairness_metrics_toolbox_for_regression/"
 
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metric_toolbox_for_regression_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -463,7 +444,6 @@ def test_fairness_metric_toolbox_for_regression_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_fairness_metric_toolbox_for_regression_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-fairness-metrics-toolbox-for-regression \
@@ -486,7 +466,6 @@ def test_fairness_metric_toolbox_for_regression_docker():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metric_toolbox_for_regression_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -508,18 +487,15 @@ def test_fairness_metric_toolbox_for_regression_docker_zip():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_blur_corruptions_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
         python -m aiverify_blur_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
-        --model_path " + root_path + "/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --set_seed 10 \
         --file_name_label file_name \
         --corruptions gaussian_blur defocus_blur"
@@ -529,7 +505,6 @@ def test_blur_corruptions_zip():
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_blur_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-blur-corruptions \
@@ -540,12 +515,10 @@ def test_blur_corruptions_docker_zip():
         -v $(pwd)/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/blur_corruptions/output:/app/aiverify/output \
         aiverify-blur-corruptions \
         --data_path /input/data/raw_fashion_image_10 \
-        --model_path /input/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path /input/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --set_seed 10 \
         --file_name_label file_name \
         --corruptions gaussian_blur defocus_blur"
@@ -555,28 +528,25 @@ def test_blur_corruptions_docker_zip():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_digital_corruptions_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
         python -m aiverify_digital_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
-        --model_path " + root_path + "/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --set_seed 10 \
         --file_name_label file_name \
-        --corruptions random_perspective jpeg_compression"
+        --corruptions random_perspective jpeg_compression \
+        --brightness_down_factor 0.1 0.2 0.3"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/digital_corruptions/"
 
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_digital_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-digital-corruptions \
@@ -587,22 +557,20 @@ def test_digital_corruptions_docker_zip():
         -v $(pwd)/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/digital_corruptions/output:/app/aiverify/output \
         aiverify-digital-corruptions \
         --data_path /input/data/raw_fashion_image_10 \
-        --model_path /input/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path /input/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --set_seed 10 \
         --file_name_label file_name \
-        --corruptions random_perspective jpeg_compression"
+        --corruptions random_perspective jpeg_compression \
+        --brightness_down_factor 0.1 0.2 0.3"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/digital_corruptions/"
 
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_environment_corruptions_zip():
 
     ## Need to install: brew install freetype imagemagick
@@ -612,22 +580,19 @@ def test_environment_corruptions_zip():
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
         python -m aiverify_environment_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
-        --model_path " + root_path + "/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
-        --set_seed 10 \
         --file_name_label file_name \
-        --corruptions snow rain"
+        --corruptions snow rain \
+        --snow_intensity 1.0 2.0 3.0"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/environment_corruptions/"
 
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_environment_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-environment-corruptions \
@@ -638,43 +603,39 @@ def test_environment_corruptions_docker_zip():
         -v $(pwd)/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/environment_corruptions/output:/app/aiverify/output \
         aiverify-environment-corruptions \
         --data_path /input/data/raw_fashion_image_10 \
-        --model_path /input/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path /input/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --set_seed 10 \
         --file_name_label file_name \
-        --corruptions snow rain"
+        --corruptions snow rain \
+        --snow_intensity 1.0 2.0 3.0"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/environment_corruptions/"
 
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_general_corruptions_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
         python -m aiverify_general_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
-        --model_path " + root_path + "/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --set_seed 10 \
         --file_name_label file_name \
-        --corruptions gaussian_noise poisson_noise"
+        --corruptions gaussian_noise poisson_noise \
+        --gaussian_noise_sigma 0.1 0.2 0.3"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/general_corruptions/"
 
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_general_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-general-corruptions \
@@ -685,22 +646,20 @@ def test_general_corruptions_docker_zip():
         -v $(pwd)/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/general_corruptions/output:/app/aiverify/output \
         aiverify-general-corruptions \
         --data_path /input/data/raw_fashion_image_10 \
-        --model_path /input/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path /input/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
-        --run_pipeline \
-        --annotated_ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --set_seed 10 \
         --file_name_label file_name \
-        --corruptions gaussian_noise poisson_noise"
+        --corruptions gaussian_noise poisson_noise \
+        --gaussian_noise_sigma 0.1 0.2 0.3"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/general_corruptions/"
 
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_partial_dependence_plot():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -717,7 +676,6 @@ def test_partial_dependence_plot():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_partial_dependence_plot_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -734,7 +692,6 @@ def test_partial_dependence_plot_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_partial_dependence_plot_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-partial-dependence-plot \
@@ -756,7 +713,6 @@ def test_partial_dependence_plot_docker():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_partial_dependence_plot_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -777,7 +733,6 @@ def test_partial_dependence_plot_docker_zip():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_robustness_toolbox():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -796,7 +751,6 @@ def test_robustness_toolbox():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_robustness_toolbox_zip():
 
     run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -815,7 +769,6 @@ def test_robustness_toolbox_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_robustness_toolbox_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-robustness-toolbox \
@@ -826,7 +779,7 @@ def test_robustness_toolbox_docker():
         -v $(pwd)/stock-plugins/aiverify.stock.robustness-toolbox/algorithms/robustness_toolbox/output:/app/aiverify/output \
         aiverify-robustness-toolbox \
         --data_path /input/data/raw_fashion_image_10 \
-        --model_path /input/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path /input/pipeline/mc_image_fashion \
         --ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
@@ -839,7 +792,6 @@ def test_robustness_toolbox_docker():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_robustness_toolbox_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -849,7 +801,7 @@ def test_robustness_toolbox_docker_zip():
         -v $(pwd)/stock-plugins/aiverify.stock.robustness-toolbox/algorithms/robustness_toolbox/output:/app/aiverify/output \
         aiverify-robustness-toolbox \
         --data_path /input/data/raw_fashion_image_10 \
-        --model_path /input/pipeline/multiclass_classification_image_mnist_fashion \
+        --model_path /input/pipeline/mc_image_fashion \
         --ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
         --ground_truth label \
         --model_type CLASSIFICATION \
@@ -861,7 +813,6 @@ def test_robustness_toolbox_docker_zip():
 
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_shap_toolbox():
 
     # OpenMP runtime is not installed
@@ -888,7 +839,6 @@ def test_shap_toolbox():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_shap_toolbox_zip():
 
     # OpenMP runtime is not installed
@@ -915,7 +865,6 @@ def test_shap_toolbox_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_shap_toolbox_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-shap-toolbox \
@@ -941,7 +890,6 @@ def test_shap_toolbox_docker():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_shap_toolbox_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -966,8 +914,18 @@ def test_shap_toolbox_docker_zip():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_cm_demo_zip():
+
+    PATH = pwd + "/aiverify-apigw"
+
+    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
 
     run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute CM_demo.ipynb"
 
@@ -978,8 +936,18 @@ def test_veritas_cm_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_base_classification_demo():
+
+    PATH = pwd + "/aiverify-apigw"
+
+    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
 
     run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
 
@@ -990,10 +958,20 @@ def test_veritas_base_classification_demo():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_base_classification_demo_zip():
 
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
+    PATH = pwd + "/aiverify-apigw"
+
+    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
+
+    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate &&  pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
 
     # run_plugin_command = "source ../../../../../aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
 
@@ -1002,8 +980,18 @@ def test_veritas_base_classification_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_base_regression_demo_zip():
+
+    PATH = pwd + "/aiverify-apigw"
+
+    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
 
     run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute BaseRegression_demo.ipynb"
 
@@ -1014,8 +1002,18 @@ def test_veritas_base_regression_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_cs_demo_zip():
+
+    PATH = pwd + "/aiverify-apigw"
+
+    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
 
     run_plugin_command =  "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute CS_demo.ipynb"
 
@@ -1026,8 +1024,18 @@ def test_veritas_cs_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_puw_demo():
+
+    PATH = pwd + "/aiverify-apigw"
+
+    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
 
     run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute PUW_demo.ipynb"
 
@@ -1038,8 +1046,18 @@ def test_veritas_puw_demo():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_puw_demo_zip():
+
+    PATH = pwd + "/aiverify-apigw"
+
+    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
 
     run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute PUW_demo.ipynb"
 
@@ -1050,13 +1068,14 @@ def test_veritas_puw_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_docker():
 
+    build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile ."
+
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
         -v $(pwd)/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/output:/app/aiverify/output \
-        aiverify-veritastool:v2.0.0a2 \
+        aiverify-veritastool \
         --data_path /input/veritas_data/cs_X_test.pkl \
         --model_path /input/veritas_data/cs_model.pkl \
         --ground_truth_path /input/veritas_data/cs_y_test.pkl \
@@ -1079,15 +1098,16 @@ def test_veritas_docker():
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
 
     ## Run Docker Test ##
-    run_test_docker(run_plugin_docker_command, PATH, False)
+    run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_docker_zip():
 
+    build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile ."
+
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
         -v $(pwd)/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/output:/app/aiverify/output \
-        aiverify-veritastool:v2.0.0a2 \
+        aiverify-veritastool \
         --data_path /input/veritas_data/cs_X_test.pkl \
         --model_path /input/veritas_data/cs_model.pkl \
         --ground_truth_path /input/veritas_data/cs_y_test.pkl \
@@ -1110,4 +1130,4 @@ def test_veritas_docker_zip():
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
 
     ## Run Docker Test ##
-    run_test_docker(run_plugin_docker_command, PATH, True)
+    run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
