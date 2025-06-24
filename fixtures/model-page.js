@@ -25,7 +25,7 @@ export class ModelPage {
     this.uploadFileBackButton = page.locator('div').filter({ hasText: /^Add New AI Model > Upload Model$/ }).getByRole('img');
 
     /* Upload AI Model Pipeline */
-    this.uploadPipelineButton = page.getByRole('button', { name: 'UPLOAD PIPELINE' });
+    this.uploadPipelineButton = page.getByRole('button', { name: 'UPLOAD 1 PIPELINE' });
     this.uploadFolderButton = page.getByRole('button', { name: 'UPLOAD FOLDER' });
     this.uploadFolderCloseDialogButton = page.locator('header').filter({ hasText: 'Upload Status' }).getByRole('img');
 
@@ -84,13 +84,14 @@ export class ModelPage {
     if (modelType == "pipelineInput") {
       for (const folderPath of folderPathStringArray) {
         await this.page.locator('#pipelineInput').setInputFiles(folderPath);
-        await this.modelTypeComboBox.click();
+        await this.uploadFolderCloseDialogButton.click();
+        await this.modelTypeComboBox.first().click();
         if(folderPath.includes('regression_tabular_donation'))
-          await this.modelTypeComboBox.selectOption('regression');
+          await this.modelTypeComboBox.first().selectOption('regression');
         else
-          await this.modelTypeComboBox.selectOption('classification');
+          await this.modelTypeComboBox.first().selectOption('classification');
         await this.uploadPipelineButton.click();
-        await expect.soft(this.page.getByText('Pipeline uploaded successfully!')).toBeVisible();
+        await expect.soft(this.page.getByText('Upload completed: 1 successful, 0 failed.')).toBeVisible();
         await this.uploadFolderCloseDialogButton.click();
       }
     }
