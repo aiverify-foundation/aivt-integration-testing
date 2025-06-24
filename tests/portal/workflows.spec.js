@@ -30,16 +30,13 @@ test.describe('Setup', () => {
 
         /* Upload AI Model Folder */
         console.log('[INFO] Upload AI Model Folder')
-        let folderPathStringArray = [root_path + '/veritas_data/cs_model']
-        await modelPage.uploadModelFolderButton.click()
-        await modelPage.uploadFolder(folderPathStringArray, "folderInput")
         await modelPage.uploadFileBackButton.click()
 
         /* Upload AI Model Pipeline */
         console.log('[INFO] Upload AI Model Pipelines')
-        folderPathStringArray = [root_path + '/pipeline/bc_image_face', root_path + '/pipeline/bc_tabular_credit', root_path + '/pipeline/mc_image_fashion',
+        let folderPathStringArray = [root_path + '/pipeline/bc_image_face', root_path + '/pipeline/bc_tabular_credit', root_path + '/pipeline/mc_image_fashion',
         root_path + '/pipeline/mc_tabular_toxic', root_path + '/pipeline/regression_tabular_donation', root_path + '/pipeline/sample_fashion_mnist_pytorch',
-        root_path + '/pipeline/sample_fashion_mnist_sklearn'
+        root_path + '/pipeline/sample_fashion_mnist_sklearn', root_path + '/veritas_data/cs_model'
         ]
         await modelPage.uploadAIModelPipelineButton.click()
         await modelPage.nextButton.click()
@@ -56,7 +53,7 @@ test.describe('Setup', () => {
 
         /* Upload Dataset File */
         console.log('[INFO] Upload Dataset Files')
-        filePathStringArray = [root_path + '/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav', root_path + '/data/sample_bc_credit_data.sav', root_path + '/data/sample_bc_credit_data.sav',
+        filePathStringArray = [root_path + '/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav', root_path + '/data/sample_bc_credit_data.sav',
         root_path + '/data/sample_bc_pipeline_credit_data.sav', root_path + '/data/sample_bc_pipeline_credit_ytest_data.sav', root_path + '/data/sample_reg_pipeline_data.sav',
         root_path + '/data/sample_reg_pipeline_ytest_data.sav', root_path + '/veritas_data/cs_X_test.pkl', root_path + '/veritas_data/cs_y_test.pkl'
         ]
@@ -496,7 +493,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Summary Report for Classification Model',
             companyName: 'AI Verify Summary Report for Classification Model'
         }
-        const arrayofIDs = ['64', '51', '11', '1', '978'] //shap, robustness, fmtc, aivpc, fairness tree
+        const arrayofIDs = ['15', '13', '2', '1', '17'] //shap, robustness, fmtc, aivpc, fairness tree
 
         await createProjectPage.createProject(projectInfo)
 
@@ -529,7 +526,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Technical Tests Report for Classification Model',
             companyName: 'AI Verify Technical Tests Report for Classification Model'
         }
-        const arrayofIDs = ['11', '51', '64', '978'] 
+        const arrayofIDs = ['2', '13', '15', '17'] //fmtc, robustness, shap, fairness tree
 
         await createProjectPage.createProject(projectInfo)
 
@@ -562,7 +559,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Technical Tests Report for Regression Model',
             companyName: 'AI Verify Technical Tests Report for Regression Model'
         }
-        const arrayofIDs = ['12', '51', '64']
+        const arrayofIDs = ['3', '13', '15'] //fmtr, robustness, shap
 
         await createProjectPage.createProject(projectInfo)
 
@@ -595,7 +592,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Report for Process Checklists',
             companyName: 'AI Verify Report for Process Checklistsl'
         }
-        const arrayofIDs = ['1']
+        const arrayofIDs = ['1'] //aivpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -628,7 +625,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Summary Report for Regression Model',
             companyName: 'AI Verify Summary Report for Regression Model'
         }
-        const arrayofIDs = ['64', '51', '12', '1']
+        const arrayofIDs = ['15', '13', '3', '1'] //shap, robustness, fmtr, aivpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -661,7 +658,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Predictive Underwriting Report',
             companyName: 'Veritas Predictive Underwriting Report'
         }
-        const arrayofIDs = ['67','78']
+        const arrayofIDs = ['16','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -694,7 +691,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Base Regression Report',
             companyName: 'Veritas Base Regression Report'
         }
-        const arrayofIDs = ['67','78']
+        const arrayofIDs = ['16','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -727,7 +724,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Credit Scoring Report',
             companyName: 'Veritas Credit Scoring Report'
         }
-        const arrayofIDs = ['67','78']
+        const arrayofIDs = ['16','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -760,7 +757,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Customer Marketing Report',
             companyName: 'Veritas Customer Marketing Report'
         }
-        const arrayofIDs = ['67','78']
+        const arrayofIDs = ['16','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -793,7 +790,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Base Classification Report',
             companyName: 'Veritas Base Classification Report'
         }
-        const arrayofIDs = ['67','78']
+        const arrayofIDs = ['16','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
