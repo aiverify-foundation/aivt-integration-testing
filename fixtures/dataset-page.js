@@ -21,7 +21,7 @@ export class DatasetPage {
     this.uploadFileCloseDialogButton = page.locator('header').filter({ hasText: 'Upload Dataset' }).getByRole('img');
 
     /* Upload Dataset Folder */
-    this.uploadFolderButton = page.getByRole('button', { name: 'UPLOAD FOLDER' })
+    this.uploadFolderButton = page.getByRole('button', { name: 'UPLOAD 1 FOLDER' })
     this.uploadFolderCloseDialogButton = page.locator('header').filter({ hasText: 'Upload Status' }).getByRole('img');
 
   }
@@ -65,8 +65,9 @@ export class DatasetPage {
   async uploadFolder(folderPathStringArray) {
     for(const folderPath of folderPathStringArray) {
       await this.page.locator('#folderInput').setInputFiles(folderPath);
+      await this.uploadFolderCloseDialogButton.click();
       await this.uploadFolderButton.click();
-      await expect.soft(this.page.getByText('Dataset folder uploaded successfully!')).toBeVisible();
+      await expect.soft(this.page.getByText('Upload completed: 1 successful, 0 failed.')).toBeVisible();
       await this.uploadFolderCloseDialogButton.click();
     }
 
