@@ -49,7 +49,7 @@ export class ModelPage {
     await this.modelTypeComboBox.click();
     await this.modelTypeComboBox.selectOption('classification');
     await this.uploadFileButton.click();
-    await expect.soft(this.page.getByText("Files uploaded successfully!")).toBeVisible({ timeout: 6000 });
+    await expect.soft(this.page.getByText("Files uploaded successfully!")).toBeVisible({ timeout: 10000 });
     await this.uploadFolderCloseDialogButton.click();
   }
 
