@@ -5,9 +5,9 @@ import subprocess, requests, pytest, json
 ## python -m pip install jupyter ##
 ## jupyter execute <notebook name>.ipynb ##
 
-pwd = ""
+pwd = "../../../aiverify"
 
-root_path = pwd + ""
+root_path = pwd + "/stock-plugins/user_defined_files"
 
 def run_test(run_plugin_command, PATH, isZip):
 
@@ -141,6 +141,85 @@ def run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command
         result = requests.request("POST", url, data={ "test_result" : payload })
 
         assert result.status_code == 200
+
+    ## Delete Test Results ##
+    subprocess.Popen("rm -rf * -y",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH + 'output'
+    )
+
+def run_test_docker_veritas(build_plugin_docker_image_command, run_plugin_docker_command, PATH, isZip):
+
+    if (build_plugin_docker_image_command != ""):
+
+        ## Build Docker Image ##
+        build_plugin_docker_image = subprocess.Popen(
+        build_plugin_docker_image_command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        shell=True,
+        text=True,
+        cwd=pwd,
+        )
+
+        build_plugin_docker_image.communicate()
+    
+    ## Run Plugin ##
+    run_plugin_docker = subprocess.Popen(
+    run_plugin_docker_command,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=pwd,
+    )
+
+    run_plugin_docker.communicate()
+
+    if(isZip == True):
+
+        ## Zip Test Results ##
+        zip_test_results_docker = subprocess.Popen("zip -r output.zip .",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        shell=True,
+        text=True,
+        cwd=PATH + 'output'
+        )
+
+        zip_test_results_docker.communicate()
+
+        ## Upload Test Results Zip File ##
+        url = "http://127.0.0.1:4000/test_results/upload_zip"
+
+        files=[
+            ('file',("output.zip",open(PATH + 'output/output.zip','rb'),'application/zip'))
+        ]
+
+        result = requests.request("POST", url, files=files)
+
+        assert result.status_code == 200
+    
+    if(isZip == False):
+
+        ## Upload Test Results ##
+        url = "http://127.0.0.1:4000/test_results/upload"
+
+        with open(PATH + 'output/results.json', 'r') as file:
+            data = json.load(file)
+
+        payload = json.dumps(data)
+
+        # result = requests.request("POST", url, data={ "test_result" : payload })
+
+        # assert result.status_code == 200
 
     ## Delete Test Results ##
     subprocess.Popen("rm -rf * -y",
@@ -1004,6 +1083,8 @@ def test_veritas_base_regression_demo_zip():
 
 def test_veritas_cs_demo_zip():
 
+    ## Need to install imblearn
+
     PATH = pwd + "/aiverify-apigw"
 
     subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
@@ -1015,7 +1096,7 @@ def test_veritas_cs_demo_zip():
     cwd=PATH,
     )
 
-    run_plugin_command =  "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute CS_demo.ipynb"
+    run_plugin_command =  "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install imblearn && pip install jupyter && jupyter execute CS_demo.ipynb"
 
     # run_plugin_command = "source ../../../../../aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute CS_demo.ipynb"
 
@@ -1098,7 +1179,7 @@ def test_veritas_docker():
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
 
     ## Run Docker Test ##
-    run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
+    run_test_docker_veritas(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
 def test_veritas_docker_zip():
 
@@ -1130,4 +1211,4 @@ def test_veritas_docker_zip():
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
 
     ## Run Docker Test ##
-    run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
+    run_test_docker_veritas(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
