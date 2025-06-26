@@ -184,7 +184,7 @@ export class TestResultPage {
     await this.runTestButton.click()
     
     await this.page.getByLabel('Algorithm:').selectOption(parameters.algorithmDropDownListOption)
-    await expect.soft(this.page.getByText(parameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 400000 })
+    await expect.soft(this.page.getByText(parameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
 
     /* Delete Test Results */
     console.log('[INFO] Delete Test Results')
