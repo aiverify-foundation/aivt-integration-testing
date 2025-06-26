@@ -76,7 +76,7 @@ test.describe('Setup', () => {
     })
 })
 
-test.skip('Algorithm Workflows', () => {
+test.describe('Algorithm Workflows', () => {
 
     test.beforeEach(async ({ homePage, managePage, testResultPage }) => {
 
@@ -398,7 +398,7 @@ test.skip('Algorithm Workflows', () => {
 
 })
 
-test.skip('User Input Workflows', () => {
+test.describe('User Input Workflows', () => {
 
     test.beforeEach(async ({ homePage, managePage }) => {
 
@@ -472,7 +472,7 @@ test.skip('User Input Workflows', () => {
 
 })
 
-test.skip('Report Template Workflows', () => {
+test.describe('Report Template Workflows', () => {
     test.beforeEach(async ({ homePage }) => {
 
         /* AI Verify Homepage */
