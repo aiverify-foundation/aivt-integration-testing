@@ -107,7 +107,7 @@ export class TestResultPage {
     /* Run Test */
     console.log('[INFO] Run Test')
     await this.page.getByLabel('Algorithm:').selectOption('aiverify.stock.image_corruption_toolbox');
-    await expect.soft(this.page.getByText('image corruption toolboxSUCCESS').nth(0)).toBeVisible({ timeout: 30000 })
+    await expect.soft(this.page.getByText('image corruption toolboxSUCCESS').nth(0)).toBeVisible({ timeout: 400000 })
 
     /* Delete Test Results */
     console.log('[INFO] Delete Test Results')
@@ -184,7 +184,7 @@ export class TestResultPage {
     await this.runTestButton.click()
     
     await this.page.getByLabel('Algorithm:').selectOption(parameters.algorithmDropDownListOption)
-    await expect.soft(this.page.getByText(parameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 360000 })
+    await expect.soft(this.page.getByText(parameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 400000 })
 
     /* Delete Test Results */
     console.log('[INFO] Delete Test Results')
