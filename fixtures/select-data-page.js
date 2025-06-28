@@ -10,6 +10,7 @@ export class SelectDataPage {
         this.inputDropDownBox = page.locator('.relative > .w-full')
         this.inputComboBox = page.getByRole('combobox');
         this.nextButton = page.getByRole('button', { name: 'Next' })
+        this.backButton = page.getByRole('button', { name: 'Back' })
 
     }
 
