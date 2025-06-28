@@ -5,7 +5,7 @@ import { DatasetPage } from './dataset-page';
 import { HomePage } from './home-page';
 import { ManagePage } from './manage-page';
 import { ModelPage } from './model-page';
-import { PluginPage } from './plugin';
+import { PluginPage } from './plugin-page';
 import { ReportTemplatePage } from './report-template-page';
 import { SelectDataPage } from './select-data-page';
 import { TestResultPage } from './test-result-page';
