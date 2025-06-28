@@ -4,7 +4,7 @@ const url = process.env.URL
 const port_number = process.env.PORT_NUMBER
 const root_path = process.env.ROOT_PATH
 
-test.describe('Setup', () => {
+test.describe('Workflow Test Case Setup', () => {
 
     test.beforeEach(async ({ homePage, managePage, modelPage, datasetPage }) => {
 
@@ -498,9 +498,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectData(arrayofIDs)
 
         /* Canvas Page */
@@ -531,9 +533,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -564,9 +568,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -597,9 +603,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -630,9 +638,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -663,9 +673,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -696,9 +708,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -729,9 +743,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -762,9 +778,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
@@ -795,9 +813,11 @@ test.describe('Report Template Workflows', () => {
         await createProjectPage.createProject(projectInfo)
 
         /* Select Report Template */
+        console.log('[INFO] Select Report Template')
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
-        /* Select Data Template */
+        /* Select Data */
+        console.log('[INFO] Select Data')
         await selectDataPage.selectDataComboBox(arrayofIDs)
 
         /* Canvas Page */
