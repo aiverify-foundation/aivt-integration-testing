@@ -34,7 +34,7 @@ export class CreateProjectPage {
     /** 
      * @param { object }
      */
-    async createProjectError(projectInfo) {
+    async createProjectError(projectInfo, url, port_number) {
 
         /* Create Project */
         console.log('[INFO] Create Project')

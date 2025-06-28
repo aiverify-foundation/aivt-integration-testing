@@ -35,7 +35,7 @@ test.describe('Create Project', () => {
 
     })
 
-    test('No Project Name', async({ createProjectPage, page }) => {
+    test('No Project Name', async({ createProjectPage }) => {
 
         /* Create Project Page */
         console.log('[INFO] Create Project Page')
@@ -49,7 +49,7 @@ test.describe('Create Project', () => {
         }
 
         /* Assert Next Button Is Disabled */
-        await createProjectPage.createProjectError(projectInfo)
+        await createProjectPage.createProjectError(projectInfo, url, port_number)
 
     })
 
@@ -67,7 +67,7 @@ test.describe('Create Project', () => {
         }
 
         /* Assert Next Button Is Disabled */
-        await createProjectPage.createProjectError(projectInfo)
+        await createProjectPage.createProjectError(projectInfo, url, port_number)
 
     })
 
@@ -85,7 +85,7 @@ test.describe('Create Project', () => {
         }
 
         /* Assert Next Button Is Disabled */
-        await createProjectPage.createProjectError(projectInfo)
+        await createProjectPage.createProjectError(projectInfo, url, port_number)
 
     })
 
@@ -103,7 +103,7 @@ test.describe('Create Project', () => {
         }
 
         /* Assert Next Button Is Disabled */
-        await createProjectPage.createProjectError(projectInfo)
+        await createProjectPage.createProjectError(projectInfo, url, port_number)
 
     })
 
