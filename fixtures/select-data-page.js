@@ -6,9 +6,13 @@ export class SelectDataPage {
         this.page = page;
 
         /* Select Data Page */
-        this.modelDropDownBox = page.locator('select')
+        this.modelDropDownBox = page.getByRole('combobox').first()
+        this.addNewAIModelButton = page.getByRole('button', { name: 'ADD NEW AI MODEL' })
         this.inputDropDownBox = page.locator('.relative > .w-full')
         this.inputComboBox = page.getByRole('combobox');
+        this.runTestButton = page.getByRole('button', { name: 'RUN TESTS' })
+        this.uploadTestResultsButton = page.getByRole('button', { name: 'UPLOAD TEST RESULTS' })
+        this.addInputButton = page.getByRole('button', { name: 'ADD INPUT' })
         this.nextButton = page.getByRole('button', { name: 'Next' })
         this.backButton = page.getByRole('button', { name: 'Back' })
 
