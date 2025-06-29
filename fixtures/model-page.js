@@ -11,6 +11,30 @@ export class ModelPage {
     /* Model Page */
     this.aivlogo = page.getByRole('link', { name: 'AI Verify' }).nth(1);
     this.uploadModelButton = page.getByRole('button', { name: 'UPLOAD MODEL' });
+    this.searchModelBar = page.getByPlaceholder('Search Models');
+    this.modelFilter = page.getByRole('button', { name: 'MODEL', exact: true });
+    this.pipelineFilter = page.getByRole('button', { name: 'PIPELINE', exact: true });
+    this.modelTypeCell = page.locator("tr > td.border-b.border-secondary-500.px-4.py-3.text-white");
+    this.editModelDetailsButton = page.locator('.flex > div:nth-child(2) > .icon_icon_wrapper__T4ODW > svg');
+    this.downloadModelFileButton = page.getByRole('button', { name: 'DOWNLOAD MODEL FILE' });
+    this.page1Button = page.getByRole('button', { name: '1' });
+    this.page2Button = page.getByRole('button', { name: '2' });
+    this.checkBox = page.getByRole('checkbox');
+    this.deleteButton = page.locator('.mb-4 > .icon_icon_wrapper__T4ODW');
+    this.modelsDropdownList = page.getByRole('combobox');
+
+    /* Edit Model Dialog Box */
+    this.editModelName = page.locator('input[name="name"]');
+    this.editDescription = page.locator('input[name="description"]');
+    this.toggleModelType = page.getByRole('button', { name: 'Toggle dropdown' });
+    this.editModelType = page.getByRole('listitem');
+    this.saveChangesButton = page.getByRole("button", { name: "SAVE CHANGES" });
+    this.cancelEditDialogBoxButton = page.getByRole('button', { name: 'CANCEL' });
+    this.closeEditDialogBoxButton = page.locator('line').nth(3);
+
+    /* Delete Model Dialog Box */
+    this.deleteDialogBoxButton = page.getByRole('button', { name: 'DELETE', exact: true });
+    this.cancelDeleteDialogBoxButton = page.getByRole('button', { name: 'CANCEL', exact: true });
 
     /* Upload Model Option */
     this.uploadAIModelButton = page.getByText('Upload AI ModelSupported');
@@ -86,7 +110,7 @@ export class ModelPage {
         await this.page.locator('#pipelineInput').setInputFiles(folderPath);
         await this.uploadFolderCloseDialogButton.click();
         await this.modelTypeComboBox.first().click();
-        if(folderPath.includes('regression_tabular_donation'))
+        if (folderPath.includes('regression_tabular_donation'))
           await this.modelTypeComboBox.first().selectOption('regression');
         else
           await this.modelTypeComboBox.first().selectOption('classification');
@@ -95,6 +119,16 @@ export class ModelPage {
         await this.uploadFolderCloseDialogButton.click();
       }
     }
+  }
+
+  /**
+   * @param { string }
+   */
+  async searchModel(term) {
+
+    console.log('[INFO] Search Model')
+    await this.searchModelBar.fill(term)
+
   }
 
 }
