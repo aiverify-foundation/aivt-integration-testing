@@ -68,7 +68,7 @@ test.describe('Canvas', () => {
 
         /* Edit Canvas */
         console.log('[INFO] Edit Project Report Canvas')
-        await homePage.editCanvasProjectButton.click()
+        await homePage.editProjectButton.click()
         await selectDataPage.backButton.click()
 
     })
