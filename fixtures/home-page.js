@@ -11,7 +11,7 @@ export class HomePage {
     this.aivlogo = page.getByRole('link', { name: 'AI Verify' });
     this.manageButton = page.getByRole('link', { name: 'Manage Models, Datasets, etc' });
     this.createProjectButton = page.getByRole('link', { name: 'Test an AI Model and generate' });
-    this.editCanvasProjectButton = page.locator('div:nth-child(11) > .card_cardFlexbox__uYoDY > .undefined > a:nth-child(2)');
+    this.editProjectButton = page.locator('div:nth-child(11) > .card_cardFlexbox__uYoDY > .undefined > a:nth-child(2)');
     
   }
 
