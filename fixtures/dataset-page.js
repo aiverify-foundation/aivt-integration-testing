@@ -11,6 +11,11 @@ export class DatasetPage {
     /* Dataset Page */
     this.aivlogo = page.getByRole('link', { name: 'AI Verify' });
     this.uploadDatasetButton = page.getByRole('button', { name: 'UPLOAD DATASET' });
+    this.searchDatasetBar = page.getByPlaceholder('Search by Name');
+    this.checkBox = page.getByRole('checkbox');
+    this.algorithmNameCell = page.locator('td:nth-child(3)');
+    this.deleteDatasetButton = page.locator('.p-6 > section > div > div > .icon_icon_wrapper__T4ODW > svg');
+    this.deleteDialogBoxButton = page.getByRole('button', { name: "DELETE" });
 
     /* Upload Dataset Option */
     this.uploadDatasetFileButton = page.getByRole('button', { name: 'FILE' });
@@ -31,7 +36,6 @@ export class DatasetPage {
    */
   async dragAndDropFile(filePathStringArray) {
     for (const filePath of filePathStringArray) {
-      const fileName = filePath
       const bufferData = readFileSync(filePath).toString('base64');
       const dataTransfer = await this.page.evaluateHandle(async (data) => {
         const transferData = new DataTransfer();
@@ -70,6 +74,16 @@ export class DatasetPage {
       await expect.soft(this.page.getByText('Upload completed: 1 successful, 0 failed.')).toBeVisible();
       await this.uploadFolderCloseDialogButton.click();
     }
+
+  }
+
+  /**
+   * @param { string }
+   */
+  async searchDataset(term) {
+
+    console.log('[INFO] Search Dataset')
+    await this.searchDatasetBar.fill(term)
 
   }
 
