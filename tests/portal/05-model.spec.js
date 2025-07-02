@@ -23,13 +23,13 @@ test.describe('View Uploaded Models', () => {
 
     })
 
-    test('Search Model Bar', async ({ modelPage }) => {
+    test('Search Model Bar', async ({ modelPage, page }) => {
 
         /* Search Model */
         modelPage.searchModel('pytorch')
 
         /* Assert Search Model */
-        await expect.soft(this.page.getByText('sample_fashion_mnist_pytorch')).toBeVisible()
+        await expect.soft(page.getByText('sample_fashion_mnist_pytorch')).toBeVisible()
 
     })
 
@@ -352,7 +352,7 @@ test.describe('Upload Model', () => {
         await modelPage.nextButton.click()
 
         /* Assert Upload AI Model Option */
-        await expect(page.getByRole('heading', { name: 'Add New AI Model > Upload' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'Add New AI Model > Upload' })).toBeVisible()
 
     })
 
@@ -363,7 +363,7 @@ test.describe('Upload Model', () => {
         await modelPage.nextButton.click()
 
         /* Assert Upload Pipeline Option */
-        await expect(page.getByRole('heading', { name: 'Add New AI Model > Upload Model Pipeline' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'Add New AI Model > Upload Model Pipeline' })).toBeVisible()
 
     })
 
@@ -444,7 +444,7 @@ test.describe('Upload Model', () => {
         await modelPage.uploadFileButton.click()
 
         /* Assert Uploading Invalid Files */
-        await expect(page.getByText('Error uploading files.')).toBeVisible()
+        await expect.soft(page.getByText('Error uploading files.')).toBeVisible()
 
     })
 
