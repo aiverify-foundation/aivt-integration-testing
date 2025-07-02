@@ -22,6 +22,7 @@ export class ModelPage {
     this.checkBox = page.getByRole('checkbox');
     this.deleteButton = page.locator('.mb-4 > .icon_icon_wrapper__T4ODW');
     this.modelsDropdownList = page.getByRole('combobox');
+    this.folderButton = page.getByRole('button', { name: 'FOLDER' });
 
     /* Edit Model Dialog Box */
     this.editModelName = page.locator('input[name="name"]');
@@ -47,11 +48,16 @@ export class ModelPage {
     this.modelTypeComboBox = page.getByRole('combobox');
     this.uploadFileButton = page.getByRole('button', { name: 'UPLOAD FILE(S)' });
     this.uploadFileBackButton = page.locator('div').filter({ hasText: /^Add New AI Model > Upload Model$/ }).getByRole('img');
+    this.modelFolderNameTextBox = page.getByRole('textbox', { name: 'Enter a name for this model' });
+    this.clearAllButton = page.getByRole('button', { name: 'CLEAR ALL' });
+    this.cancelButton = page.getByRole('button', { name: 'CANCEL' });
+    this.removeModelFile = page.locator('line');
 
     /* Upload AI Model Pipeline */
     this.uploadPipelineButton = page.getByRole('button', { name: 'UPLOAD 1 PIPELINE' });
     this.uploadFolderButton = page.getByRole('button', { name: 'UPLOAD FOLDER' });
     this.uploadFolderCloseDialogButton = page.locator('header').filter({ hasText: 'Upload Status' }).getByRole('img');
+    this.removeButton = page.getByRole('button', { name: 'Remove' });
 
   }
 
@@ -70,8 +76,14 @@ export class ModelPage {
       }, 'data:application/octet-stream;base64,' + bufferData);
       await this.page.dispatchEvent('#fileInput', 'drop', { dataTransfer });
     }
-    await this.modelTypeComboBox.click();
-    await this.modelTypeComboBox.selectOption('classification');
+
+    let i = 0
+    while(await this.modelTypeComboBox.nth(i).isVisible()) {
+      await this.modelTypeComboBox.nth(i).click();
+      await this.modelTypeComboBox.nth(i).selectOption('classification');
+      i++
+    }
+
     await this.uploadFileButton.click();
     await expect.soft(this.page.getByText("Files uploaded successfully!")).toBeVisible({ timeout: 10000 });
     await this.uploadFolderCloseDialogButton.click();
@@ -91,17 +103,37 @@ export class ModelPage {
   }
 
   /**
+  * @param { string array }
+  */
+  async uploadFile(filePathStringArray) {
+    for (const filePath of filePathStringArray) {
+      await this.page.locator('#fileInput').setInputFiles(filePath);
+    }
+
+    let i = 0
+    while (await this.modelTypeComboBox.nth(i).isVisible()) {
+      await this.modelTypeComboBox.nth(i).click();
+      await this.modelTypeComboBox.nth(i).selectOption('classification');
+      i++
+    }
+
+    await this.uploadFileButton.click();
+    await expect.soft(this.page.getByText("Files uploaded successfully!")).toBeVisible({ timeout: 10000 });
+    await this.uploadFolderCloseDialogButton.click();
+  }
+
+  /**
    * @param {string}
    */
   async uploadFolder(folderPathStringArray, modelType) {
     if (modelType == "folderInput") {
       for (const folderPath of folderPathStringArray) {
+        await this.folderButton.click();
         await this.page.locator('#folderInput').setInputFiles(folderPath);
         await this.modelTypeComboBox.click();
         await this.modelTypeComboBox.selectOption('classification');
         await this.uploadFolderButton.click();
         await expect.soft(this.page.getByText('Folder uploaded successfully!')).toBeVisible();
-        await this.uploadFolderCloseDialogButton.click();
       }
     }
 
