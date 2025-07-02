@@ -20,6 +20,7 @@ export class DatasetPage {
     /* Upload Dataset Option */
     this.uploadDatasetFileButton = page.getByRole('button', { name: 'FILE' });
     this.uploadDatasetFolderButton = page.getByRole('button', { name: 'FOLDER' });
+    this.removeDatasetFile = page.getByRole('button').filter({ hasText: /^$/ });
 
     /* Upload Dataset File */
     this.uploadFileButton = page.getByRole('button', { name: 'CONFIRM UPLOAD' });
@@ -28,6 +29,9 @@ export class DatasetPage {
     /* Upload Dataset Folder */
     this.uploadFolderButton = page.getByRole('button', { name: 'UPLOAD 1 FOLDER' })
     this.uploadFolderCloseDialogButton = page.locator('header').filter({ hasText: 'Upload Status' }).getByRole('img');
+    this.clearAllButton = page.getByRole('button', { name: 'CLEAR ALL' });
+    this.removeDatasetFolder = page.getByRole('button', { name: 'Remove' });
+    this.viewDatasetButton = page.getByRole('button', { name: 'VIEW DATASETS' });
 
   }
 
@@ -40,7 +44,7 @@ export class DatasetPage {
       const dataTransfer = await this.page.evaluateHandle(async (data) => {
         const transferData = new DataTransfer();
         const blobData = await fetch(data).then(res => res.blob());
-        const file = new File([blobData], 'sample_bc_credit_sklearn_linear.LogisticRegression.sav', { type: 'application/x-spss-sav' });
+        const file = new File([blobData], 'pickle_pandas_fashion_mnist_annotated_labels_10.sav', { type: 'application/x-spss-sav' });
         transferData.items.add(file);
         return transferData;
       }, 'data:application/octet-stream;base64,' + bufferData);
