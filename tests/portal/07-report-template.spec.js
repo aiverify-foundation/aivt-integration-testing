@@ -2,6 +2,7 @@ import { test, expect } from '../../fixtures/base-test'
 
 const url = process.env.URL
 const port_number = process.env.PORT_NUMBER
+const root_path = process.env.ROOT_PATH
 
 test.describe('View Uploaded Template', () => {
 
@@ -74,7 +75,7 @@ test.describe('View Uploaded Template', () => {
 
     })
 
-    test('Edit Mode Button', async ({ reportTemplatePage, canvasPage, page }) => {
+    test('Edit Mode Button', async ({ reportTemplatePage, canvasPage}) => {
 
         console.log('[INFO] Report Template Page')
 
@@ -109,4 +110,49 @@ test.describe('View Uploaded Template', () => {
 
     })
 
+})
+
+test.describe('Upload Report Template', () => {
+
+    test.beforeEach(async ({ homePage, managePage, reportTemplatePage }) => {
+
+        /* AI Verify Homepage */
+        console.log('[INFO] Navigate to AI Verify Home Page')
+        await homePage.goto(url + ":" + port_number)
+        await expect.soft(homePage.aivlogo).toBeVisible({ timeout: 60000 })
+        await homePage.manageButton.click()
+
+        /* Manage Page */
+        console.log('[INFO] Manage Page')
+        await managePage.reportTemplateButton.click()
+
+        /* Report Template Page */
+        console.log('[INFO] Report Template Page')
+        await reportTemplatePage.uploadTemplateButton.click()
+
+    })
+
+    test('Upload Report Template - Drag and Drop', async ({ reportTemplatePage }) => {
+
+        /* Upload Report Template*/
+        let filePathStringArray = [root_path + "/template/templates/Project-1-12.data.json"]
+        
+        console.log('[INFO] Upload Report Template')
+        await reportTemplatePage.dragAndDropFile(filePathStringArray)
+
+    })
+
+    test('Remove Report Template File To Be Uploaded', async ({ reportTemplatePage }) => {
+
+        /* Upload Report Template*/
+        let filePathStringArray = [root_path + "/template/templates/Project-1-12.data.json"]
+        
+        console.log('[INFO] Upload Report Template')
+        await reportTemplatePage.dragAndDropFile(filePathStringArray)
+        await reportTemplatePage.removeReportTemplateFileButton.click()
+
+        /* Assert Remove Report Template File To Be Uploaded */
+        await expect.soft(page.getByText('Project-1-12.data.json')).not.toBeVisible()
+
+    })
 })
