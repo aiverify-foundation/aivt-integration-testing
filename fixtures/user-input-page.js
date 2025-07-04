@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs'
 import { expect } from './base-test'
 
 export class UserInputPage {
@@ -14,11 +15,28 @@ export class UserInputPage {
 
         /* Shared Components */
         this.addNewChecklist = page.getByRole('button', { name: 'ADD CHECKLISTS' });
+        this.userInputSearchBar = page.getByPlaceholder('Search');
+        this.addCheckListButton = page.getByRole('button', { name: 'ADD CHECKLISTS' });
 
         /* AI Verify Process Checklist */
         this.createNewChecklist = page.getByRole('button', { name: 'Create New' });
         this.elaborationTextArea = page.locator('textarea');
         this.summaryJustificationTextBox = page.getByRole('textbox').filter({ hasText: /^$/ });
+        this.createNewButton = page.getByRole('button', { name: 'Create New' });
+        this.exportCheckListButton = page.getByRole('button', { name: 'Export checklists' });
+        this.excelSheetRadioButton = page.getByRole('radio', { name: 'Excel (.xlsx)' });
+        this.jsonRadioButton = page.getByRole('radio', { name: 'JSON (.json)' });
+        this.exportCheckListExportDialogButton = page.getByRole('button', { name: 'Export', exact: true });
+        this.editChecklistNameButton = page.getByRole('button').nth(2);
+        this.editChecklistTextBox = page.locator('#edit-name-form').getByRole('textbox');
+        this.saveChecklistNameButton = page.getByRole('button', { name: 'Save' });
+        this.cancelChecklistNameButton = page.getByRole('button', { name: 'Cancel' });
+        this.deleteChecklistButton = page.getByRole('button').nth(3);
+        this.confirmDeleteDialogBoxButton = page.getByRole('button', { name: "Confirm" });
+        this.AIVerifyProcessChecklistSearchBar = page.getByPlaceholder('Search');
+        this.uploadExcelSheetButton = page.getByRole('button', { name: 'Upload Excel' });
+        this.removeExcelSheetButton = page.getByRole('button').filter({ hasText: /^$/ });
+        this.confirmUploadDialogBoxButton = page.getByRole('button', { name: 'CONFIRM UPLOAD' });
 
         /* Fairness Tree */
         this.addInputBlock = page.getByRole('button', { name: 'ADD INPUT BLOCK' });
@@ -42,11 +60,11 @@ export class UserInputPage {
         for (const checklistParameters of processCheckListParameters) {
             console.log('[INFO] Completing ' + checklistParameters.name + ' Category');
             await this.page.getByText(checklistParameters.name).nth(1).click();
-            for(let counter = 0; counter < checklistParameters.numberOfRows; counter++) {
+            for (let counter = 0; counter < checklistParameters.numberOfRows; counter++) {
                 await this.page.getByText(checklistParameters.yesNoNAOptions, { exact: true }).nth(counter).click()
                 await this.elaborationTextArea.nth(counter).fill('test')
             }
-            if(processChecklistType == "aiverify")
+            if (processChecklistType == "aiverify")
                 await this.summaryJustificationTextBox.fill('Summary Justification')
             await this.page.evaluate(() => window.scrollTo(0, 0));
             await this.page.getByRole('link', { name: processChecklistID }).click();
@@ -56,7 +74,47 @@ export class UserInputPage {
     }
 
     /**
-     * @param { }
+     * @param {}
+     */
+    async dragAndDropFile(filePathStringArray, format) {
+        for (const filePath of filePathStringArray) {
+            const bufferData = readFileSync(filePath).toString('base64');
+            const dataTransfer = await this.page.evaluateHandle(async (data) => {
+                const transferData = new DataTransfer();
+                const blobData = await fetch(data).then(res => res.blob());
+                const file = new File([blobData], 'AI Verify Process Checklists Exported Excel_checklists.xlsx', { type: 'application/vnd.ms-excel' });
+                transferData.items.add(file);
+                return transferData;
+            }, 'data:application/octet-stream;base64,' + bufferData);
+            await this.page.dispatchEvent('#fileInput', 'drop', { dataTransfer });
+        }
+    }
+
+    /**
+     * @param {*} filePathStringArray 
+     */
+    async uploadFile(filePathStringArray) {
+        for (const filePath of filePathStringArray) {
+            await this.page.locator('#fileInput').setInputFiles(filePath);
+        }
+    }
+
+    /**
+     * @param {}
+     */
+    async validateProcessChecklist() {
+        let i = 0
+        while (await this.page.locator('circle').nth(i).isVisible()) {
+            if (i < 5)
+                await expect.soft(this.page.locator('circle').nth(i)).toHaveCSS('fill', 'rgb(59, 177, 64)')
+            else
+                await expect.soft(this.page.locator('circle').nth(i)).toHaveCSS('fill', 'rgb(238, 145, 78)')
+            i++
+        }
+    }
+
+    /**
+     * @param {}
      */
     async completeFairnessTree() {
         await this.addInputBlock.click()
@@ -80,7 +138,16 @@ export class UserInputPage {
         await this.textArea.fill('test')
         await this.nextButton.click()
         await this.submitButton.click()
-        await expect(this.page.getByText('Tree updated successfully')).toBeVisible()
+        await expect.soft(this.page.getByText('Tree updated successfully')).toBeVisible()
+
+    }
+
+    /**
+     * @param { string }
+     */
+    async searchUserInput(reportTemplateName) {
+
+        await this.reportTemplateSearchBar.fill(reportTemplateName);
 
     }
 
