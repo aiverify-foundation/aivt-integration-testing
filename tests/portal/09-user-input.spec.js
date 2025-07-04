@@ -138,7 +138,7 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Fill Up Checklist Incomplete', async ({ userInputPage, page }) => {
+    test('Fill Up Checklist Incomplete', async ({ userInputPage }) => {
 
         /* AI Verify Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -351,7 +351,7 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Confirm Upload Button Enabled', async ({ userInputPage, page }) => {
+    test('Confirm Upload Button Enabled', async ({ userInputPage }) => {
 
         /* AI Verify Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
