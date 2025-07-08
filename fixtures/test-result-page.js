@@ -10,8 +10,16 @@ export class TestResultPage {
     /* Test Result Page */
     this.aivlogo = page.getByRole('link', { name: 'AI Verify' });
     this.runNewTestButton = page.getByRole('button', { name: 'RUN NEW TESTS' });
+    this.uploadTestResultsButton = page.getByRole('button', { name: 'UPLOAD TEST RESULTS' });
+    this.searchBar = page.getByPlaceholder('Search Test Results');
+    this.testResultRow = page.locator('h3.mb-2');
+    this.modelTypeFilterDropDownList = page.locator('#filter-dropdown');
+    this.deleteTestResult = page.getByRole('region', { name: 'Right pane content' }).getByRole('img').nth(1)
+    this.deleteTestResultDialogBoxButton = page.getByRole('button', { name: 'DELETE' })
+    this.closeDeleteTestResultDialogBoxButton = page.getByLabel('Right pane content').locator('header').getByRole('img');
 
     /* Run New Test Page */
+    this.viewRunningTestButton = page.getByRole('button', { name: 'VIEW RUNNING TESTS' });
     this.algorithmDropDownList = page.getByRole('button', { name: 'Algorithm' });
     this.modelDropDownList = page.getByRole('button', { name: 'Model', exact: true });
     this.datasetDropDownList = page.getByRole('button', { name: 'Test Dataset' });
@@ -24,6 +32,8 @@ export class TestResultPage {
     this.nameOfCorruptionAddButton = page.locator('.array-field-container > .mb-2').first();
     this.nameOfCorruption = page.locator('#root_corruptions_0');
     this.runTestButton = page.getByRole('button', { name: 'Run Test' });
+    this.cancelButton = page.getByRole('button', { name: 'Cancel' });
+    this.backToResultsButton = page.getByRole('button', { name: 'Back to Results' });
 
     /* View Running Test Page */
     this.deleteTestRunButton = page.getByRole('button', { name: 'Delete test run' })
@@ -192,4 +202,5 @@ export class TestResultPage {
     await this.confirmDeleteTestRunButton.click()
     await this.confirmDeleteTestRunOkayButton.click()
   }
+
 }
