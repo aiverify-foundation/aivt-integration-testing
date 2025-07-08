@@ -229,6 +229,15 @@ test.describe('View All Plugins', () => {
         
     })
 
+    test('Uninstall Plugin', async ({ pluginPage, page }) => {
+
+        console.log('[INFO] Plugin Page')
+        await pluginPage.uninstallPlugin('CCCS Process Checklist')
+
+        /* Assert Uninstalled Plugin */
+        await expect(page.getByText('CCCS Process Checklist')).not.toBeVisible()
+
+    })
 
 })
 
