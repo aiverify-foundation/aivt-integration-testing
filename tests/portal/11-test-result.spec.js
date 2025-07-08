@@ -92,11 +92,11 @@ test.describe('View All Test Results', () => {
         await page.getByRole('heading', { name: 'Result for aiverify_partial_dependence_plot' }).click()
 
         /* Assert More Test Result Details */
-        await expect(page.getByLabel('Right pane content').getByRole('heading', { name: 'Result for aiverify_partial_dependence_plot' })).toBeVisible()
-        await expect(page.getByLabel('Right pane content').getByText('Model File: sample_bc_credit_sklearn_linear.LogisticRegression.sav')).toBeVisible()
-        await expect(page.getByLabel('Right pane content').getByText('Test Dataset: sample_bc_credit_data.sav')).toBeVisible()
-        await expect(page.getByLabel('Right pane content').getByText('Ground Truth Dataset: sample_bc_credit_data.sav')).toBeVisible()
-        await expect(page.getByLabel('Right pane content').getByText('GID: aiverify.stock.partial_dependence_plot')).toBeVisible()
+        await expect.soft(page.getByLabel('Right pane content').getByRole('heading', { name: 'Result for aiverify_partial_dependence_plot' })).toBeVisible()
+        await expect.soft(page.getByLabel('Right pane content').getByText('Model File: sample_bc_credit_sklearn_linear.LogisticRegression.sav')).toBeVisible()
+        await expect.soft(page.getByLabel('Right pane content').getByText('Test Dataset: sample_bc_credit_data.sav')).toBeVisible()
+        await expect.soft(page.getByLabel('Right pane content').getByText('Ground Truth Dataset: sample_bc_credit_data.sav')).toBeVisible()
+        await expect.soft(page.getByLabel('Right pane content').getByText('GID: aiverify.stock.partial_dependence_plot')).toBeVisible()
     })
 
     test('Download Algorithm Arguments', async ({ testResultPage, page }) => {
@@ -173,7 +173,7 @@ test.describe('View All Test Results', () => {
 
         /* Assert Run New Test Button */
         console.log('[INFO] Run New Test Page')
-        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/run"))
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/run"))
     })
 
     test('Upload Test Results Button', async ({ testResultPage, page }) => {
@@ -183,7 +183,7 @@ test.describe('View All Test Results', () => {
 
         /* Assert Run New Test Button */
         console.log('Upload Test Results Page')
-        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/upload/zipfile"))
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/upload/zipfile"))
 
     })
 
@@ -209,7 +209,7 @@ test.describe('Run New Tests', () => {
 
     })
 
-    test('Complete All Required Fields', async ({ testResultPage }) => {
+    test('Complete All Required Fields', async ({ testResultPage, page }) => {
 
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
@@ -224,9 +224,17 @@ test.describe('Run New Tests', () => {
         }
 
         await testResultPage.runAlgorithms(pdpParameters)
+        await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
+        await expect.soft(page.getByText(pdpParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
     })
 
-    test('Incompleted Fields', async ({ testResultPage, page }) => {
+    test('Incompleted Fields', async ({ testResultPage }) => {
 
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
@@ -244,7 +252,7 @@ test.describe('Run New Tests', () => {
         await testResultPage.groundTruthDatasetDropDownList.click()
 
         /* Assert Incompleted Fields */
-        await expect(testResultPage.runTestButton).not.toBeEnabled()
+        await expect.soft(testResultPage.runTestButton).not.toBeEnabled()
     })
 
     test('Cancel Button', async ({ testResultPage, page }) => {
@@ -253,7 +261,7 @@ test.describe('Run New Tests', () => {
 
         /* Assert Cancel Button */
         console.log('[INFO] Test Results Page')
-        await expect(page).toHaveURL(url + ":" + port_number + "/results")
+        await expect.soft(page).toHaveURL(url + ":" + port_number + "/results")
 
     })
 
@@ -263,7 +271,7 @@ test.describe('Run New Tests', () => {
 
         /* Assert Back To Results Button */
         console.log('[INFO] Test Results Page')
-        await expect(page).toHaveURL(url + ":" + port_number + "/results")
+        await expect.soft(page).toHaveURL(url + ":" + port_number + "/results")
 
     })
 
@@ -299,7 +307,7 @@ test.describe('View Running Tests', () => {
 
     })
 
-    test('Refreshing Running Test List - 1m', async ({ testResultPage }) => {
+    test('Refreshing Running Test List - 1m', async ({ testResultPage, page }) => {
 
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
@@ -314,10 +322,19 @@ test.describe('View Running Tests', () => {
         }
 
         await testResultPage.runAlgorithms(pdpParameters)
+        await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
+        await testResultPage.autoRefreshTimingDropDownList.selectOption('60')
+        await expect.soft(page.getByText(pdpParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
 
     })
 
-    test('Refresh Button', async ({ testResultPage }) => {
+    test('Refresh Button', async ({ testResultPage, page }) => {
 
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
@@ -332,8 +349,255 @@ test.describe('View Running Tests', () => {
         }
 
         await testResultPage.runAlgorithms(pdpParameters)
+        await setTimeout(1000)
+        await testResultPage.refreshButton.click()
+        await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
+        await expect.soft(page.getByText(pdpParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
 
     })
 
+    test('Filter By Algorithms', async ({ testResultPage, page }) => {
+
+        /* Input Partial Dependence Plot Parameters */
+        console.log('[INFO] Input Partial Dependence Plot Test Parameters')
+        const pdpParameters = {
+            algorithm: "aiverify_partial_dependence_plot",
+            model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
+            dataset: "sample_bc_credit_data.sav",
+            groundTruthDataset: "sample_bc_credit_data.sav",
+            groundTruthColumn: "default",
+            algorithmDropDownListOption: "aiverify.stock.partial_dependence_plot",
+            testrunValidationSuccessText: "partial dependence plotSUCCESS"
+        }
+
+        await testResultPage.runAlgorithms(pdpParameters)
+        await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
+        await expect.soft(page.getByText(pdpParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
+
+    test('Filter By Pending Status', async ({ testResultPage, page }) => {
+
+        /* Input Partial Dependence Plot Parameters */
+        console.log('[INFO] Input Partial Dependence Plot Test Parameters')
+        const pdpParameters = {
+            algorithm: "aiverify_partial_dependence_plot",
+            model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
+            dataset: "sample_bc_credit_data.sav",
+            groundTruthDataset: "sample_bc_credit_data.sav",
+            groundTruthColumn: "default",
+            algorithmDropDownListOption: "aiverify.stock.partial_dependence_plot",
+            testrunValidationPendingText: "partial dependence plotPENDING",
+            testrunValidationSuccessText: "partial dependence plotSUCCESS"
+        }
+
+        await testResultPage.runAlgorithms(pdpParameters)
+        await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
+        await testResultPage.pendingFilterButton.click()
+        await expect.soft(page.getByText(pdpParameters.testrunValidationPendingText).nth(0)).toBeVisible()
+        await testResultPage.successFilterButton.click()
+        await expect.soft(page.getByText(pdpParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
+
+    test('Filter By Running Status', async ({ testResultPage, page }) => {
+
+        /* Input Robustness ToolBox Image Parameters */
+        console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
+        const robustnessImageParameters = {
+            algorithm: "aiverify_robustness_toolbox",
+            model: "mc_image_fashion",
+            dataset: "raw_fashion_image_10",
+            groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            groundTruthColumn: "label",
+            annotatedGroundTruthPath: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            nameOfImageColumn: "file_name",
+            algorithmDropDownListOption: "aiverify.stock.robustness_toolbox",
+            testrunValidationRunningText: "robustness toolboxRUNNING",
+            testrunValidationSuccessText: "robustness toolboxSUCCESS"
+        }
+        await testResultPage.runAlgorithms(robustnessImageParameters)
+        await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
+        await testResultPage.runningFilterButton.click()
+        await testResultPage.refreshButton.click()
+        await expect.soft(page.getByText(robustnessImageParameters.testrunValidationRunningText).nth(0)).toBeVisible()
+        await testResultPage.successFilterButton.click()
+        await expect.soft(page.getByText(robustnessImageParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
+
+    test('Filter By Success Status', async ({ testResultPage, page }) => {
+
+        /* Input Partial Dependence Plot Parameters */
+        console.log('[INFO] Input Partial Dependence Plot Test Parameters')
+        const pdpParameters = {
+            algorithm: "aiverify_partial_dependence_plot",
+            model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
+            dataset: "sample_bc_credit_data.sav",
+            groundTruthDataset: "sample_bc_credit_data.sav",
+            groundTruthColumn: "default",
+            algorithmDropDownListOption: "aiverify.stock.partial_dependence_plot",
+            testrunValidationSuccessText: "partial dependence plotSUCCESS"
+        }
+
+        await testResultPage.runAlgorithms(pdpParameters)
+        await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
+        await testResultPage.successFilterButton.click()
+        await expect.soft(page.getByText(pdpParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
+
+    test('Filter By Error Status', async ({ testResultPage, page }) => {
+
+        /* Input Partial Dependence Plot Parameters */
+        console.log('[INFO] Input Partial Dependence Plot Test Parameters')
+        const pdpParameters = {
+            algorithm: "aiverify_partial_dependence_plot",
+            model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
+            dataset: "sample_bc_pipeline_credit_data.sav",
+            groundTruthDataset: "sample_bc_pipeline_credit_ytest_data.sav",
+            groundTruthColumn: "default",
+            algorithmDropDownListOption: "aiverify.stock.partial_dependence_plot",
+            testrunValidationErrorText: "partial dependence plotERROR"
+        }
+
+        await testResultPage.runAlgorithms(pdpParameters)
+        await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
+        await testResultPage.errorFilterButton.click()
+        await expect.soft(page.getByText(pdpParameters.testrunValidationErrorText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
+
+    test('Filter By Cancel Status', async ({ testResultPage, page }) => {
+
+        /* Input Robustness ToolBox Image Parameters */
+        console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
+        const robustnessImageParameters = {
+            algorithm: "aiverify_robustness_toolbox",
+            model: "mc_image_fashion",
+            dataset: "raw_fashion_image_10",
+            groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            groundTruthColumn: "label",
+            annotatedGroundTruthPath: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            nameOfImageColumn: "file_name",
+            algorithmDropDownListOption: "aiverify.stock.robustness_toolbox",
+            testrunValidationCancelledText: "robustness toolboxCANCELLED",
+            testrunValidationSuccessText: "robustness toolboxSUCCESS"
+        }
+        await testResultPage.runAlgorithms(robustnessImageParameters)
+        await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
+        await testResultPage.cancelTestRunButton.click()
+        await testResultPage.cancelTestDialogBoxButton.click()
+        await testResultPage.okTestDialogButton.click()
+        await testResultPage.cancelledFilterButton.click()
+        await expect.soft(page.getByText(robustnessImageParameters.testrunValidationCancelledText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
+
+    test('Cancel Button', async ({ testResultPage, page }) => {
+
+        /* Input Robustness ToolBox Image Parameters */
+        console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
+        const robustnessImageParameters = {
+            algorithm: "aiverify_robustness_toolbox",
+            model: "mc_image_fashion",
+            dataset: "raw_fashion_image_10",
+            groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            groundTruthColumn: "label",
+            annotatedGroundTruthPath: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            nameOfImageColumn: "file_name",
+            algorithmDropDownListOption: "aiverify.stock.robustness_toolbox",
+            testrunValidationCancelledText: "robustness toolboxCANCELLED",
+            testrunValidationSuccessText: "robustness toolboxSUCCESS"
+        }
+        await testResultPage.runAlgorithms(robustnessImageParameters)
+        await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
+        await testResultPage.cancelTestRunButton.click()
+        await testResultPage.cancelTestDialogBoxButton.click()
+        await testResultPage.okTestDialogButton.click()
+        await testResultPage.cancelledFilterButton.click()
+        await expect.soft(page.getByText(robustnessImageParameters.testrunValidationCancelledText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
+
+    test('Delete Button', async ({ testResultPage, page }) => {
+
+        /* Input Robustness ToolBox Image Parameters */
+        console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
+        const robustnessImageParameters = {
+            algorithm: "aiverify_robustness_toolbox",
+            model: "mc_image_fashion",
+            dataset: "raw_fashion_image_10",
+            groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            groundTruthColumn: "label",
+            annotatedGroundTruthPath: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
+            nameOfImageColumn: "file_name",
+            algorithmDropDownListOption: "aiverify.stock.robustness_toolbox",
+            testrunValidationCancelledText: "robustness toolboxCANCELLED",
+            testrunValidationSuccessText: "robustness toolboxSUCCESS"
+        }
+        await testResultPage.runAlgorithms(robustnessImageParameters)
+        await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
+        await testResultPage.cancelTestRunButton.click()
+        await testResultPage.cancelTestDialogBoxButton.click()
+        await testResultPage.okTestDialogButton.click()
+        await testResultPage.cancelledFilterButton.click()
+        await expect.soft(page.getByText(robustnessImageParameters.testrunValidationCancelledText).nth(0)).toBeVisible({ timeout: 600000 })
+
+        /* Delete Test Results */
+        console.log('[INFO] Delete Test Results')
+        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunButton.click()
+        await testResultPage.confirmDeleteTestRunOkayButton.click()
+
+    })
 
 })
