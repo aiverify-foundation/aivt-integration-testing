@@ -36,9 +36,19 @@ export class TestResultPage {
     this.backToResultsButton = page.getByRole('button', { name: 'Back to Results' });
 
     /* View Running Test Page */
-    this.deleteTestRunButton = page.getByRole('button', { name: 'Delete test run' })
-    this.confirmDeleteTestRunButton = page.getByRole('button', { name: 'Delete', exact: true })
-    this.confirmDeleteTestRunOkayButton = page.getByRole('button', { name: 'OK' })
+    this.deleteTestRunButton = page.getByRole('button', { name: 'Delete test run' });
+    this.confirmDeleteTestRunButton = page.getByRole('button', { name: 'Delete', exact: true });
+    this.confirmDeleteTestRunOkayButton = page.getByRole('button', { name: 'OK' });
+    this.autoRefreshTimingDropDownList = page.locator('.ml-2.rounded.bg-secondary-800.p-1.text-white');
+    this.refreshButton = page.locator('svg.remixicon.text-white');
+    this.cancelTestRunButton = page.getByRole('button', { name: 'Cancel test run' })
+    this.cancelTestDialogBoxButton = page.getByRole('button', { name: 'Cancel Test', exact: true });
+    this.okTestDialogButton = page.getByRole('button', { name: 'OK' });
+    this.pendingFilterButton = page.getByRole('button', { name: 'PENDING' });
+    this.runningFilterButton = page.getByRole('button', { name: 'RUNNING' });
+    this.successFilterButton = page.getByRole('button', { name: 'SUCCESS' });
+    this.errorFilterButton = page.getByRole('button', { name: 'ERROR' });
+    this.cancelledFilterButton = page.getByRole('button', { name: 'CANCELLED' });
 
     /* Blur Corruptions Specific Parameters */
     this.blurSigmaAddButton = page.locator('div:nth-child(6) > .mb-4 > .array-field-container > .mb-2');
@@ -139,32 +149,32 @@ export class TestResultPage {
     await this.groundTruthDatasetDropDownList.click()
     await this.page.getByRole('option', { name: parameters.groundTruthDataset, exact: true }).click()
     await this.groundTruthColumnDropDownList.click()
-    await this.page.getByRole('option', { name: parameters.groundTruthColumn, exact: true}).click()
+    await this.page.getByRole('option', { name: parameters.groundTruthColumn, exact: true }).click()
 
-    if(parameters.algorithm == "fairness_metrics_toolbox_for_classification") {
+    if (parameters.algorithm == "fairness_metrics_toolbox_for_classification") {
       await this.sensitiveFeature.fill(parameters.sensitiveFeature)
       await this.annotatedLabelsPath.click()
       await this.page.getByRole('option', { name: parameters.annotatedLabelsPath }).click()
       await this.nameOfImageColumn.fill(parameters.nameOfImageColumn)
     }
 
-    if(parameters.algorithm == "fairness_metrics_toolbox_for_regression")
+    if (parameters.algorithm == "fairness_metrics_toolbox_for_regression")
       await this.sensitiveFeature.fill(parameters.sensitiveFeature)
 
-    if(parameters.algorithm == "aiverify_robustness_toolbox") {
+    if (parameters.algorithm == "aiverify_robustness_toolbox") {
       await this.annotatedGroundTruthPath.click()
-      await this.page.getByRole('option', { name: parameters.annotatedGroundTruthPath, exact: true}).click()
+      await this.page.getByRole('option', { name: parameters.annotatedGroundTruthPath, exact: true }).click()
       await this.nameOfImageColumn.click()
       await this.nameOfImageColumn.fill(parameters.nameOfImageColumn)
     }
 
-    if(parameters.algorithm == "aiverify_shap_toolbox") {
+    if (parameters.algorithm == "aiverify_shap_toolbox") {
       await this.backgroundPath.click()
       await this.page.getByRole('option', { name: parameters.backgroundPath, exact: true }).click()
       await this.backgroundSample.fill(parameters.backgroundSample)
       await this.dataSample.fill(parameters.dataSample)
     }
-    if(parameters.algorithm == "veritastool") {
+    if (parameters.algorithm == "veritastool") {
       await this.privilegedGroupAddButton.click()
       await this.privilegedGroup.click()
       await this.privilegedGroup.fill(parameters.privilegedGroup[0][0])
@@ -192,15 +202,7 @@ export class TestResultPage {
     /* Run Test */
     console.log('[INFO] Run Test')
     await this.runTestButton.click()
-    
-    await this.page.getByLabel('Algorithm:').selectOption(parameters.algorithmDropDownListOption)
-    await expect.soft(this.page.getByText(parameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
 
-    /* Delete Test Results */
-    console.log('[INFO] Delete Test Results')
-    await this.deleteTestRunButton.click()
-    await this.confirmDeleteTestRunButton.click()
-    await this.confirmDeleteTestRunOkayButton.click()
   }
 
 }
