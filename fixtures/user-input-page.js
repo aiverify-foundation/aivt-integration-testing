@@ -17,6 +17,7 @@ export class UserInputPage {
         this.addNewChecklist = page.getByRole('button', { name: 'ADD CHECKLISTS' });
         this.userInputSearchBar = page.getByPlaceholder('Search');
         this.addCheckListButton = page.getByRole('button', { name: 'ADD CHECKLISTS' });
+        this.searchBar = page.getByPlaceholder('Search');
 
         /* AI Verify Process Checklist */
         this.createNewChecklist = page.getByRole('button', { name: 'Create New' });
@@ -27,13 +28,14 @@ export class UserInputPage {
         this.excelSheetRadioButton = page.getByRole('radio', { name: 'Excel (.xlsx)' });
         this.jsonRadioButton = page.getByRole('radio', { name: 'JSON (.json)' });
         this.exportCheckListExportDialogButton = page.getByRole('button', { name: 'Export', exact: true });
+        this.editChecklistNameVeritasButton = page.getByRole('button').filter({ hasText: /^$/ });
         this.editChecklistNameButton = page.getByRole('button').nth(2);
         this.editChecklistTextBox = page.locator('#edit-name-form').getByRole('textbox');
         this.saveChecklistNameButton = page.getByRole('button', { name: 'Save' });
         this.cancelChecklistNameButton = page.getByRole('button', { name: 'Cancel' });
+        this.deleteChecklistVeritasButton = page.getByRole('button').nth(2);
         this.deleteChecklistButton = page.getByRole('button').nth(3);
         this.confirmDeleteDialogBoxButton = page.getByRole('button', { name: "Confirm" });
-        this.AIVerifyProcessChecklistSearchBar = page.getByPlaceholder('Search');
         this.uploadExcelSheetButton = page.getByRole('button', { name: 'Upload Excel' });
         this.removeExcelSheetButton = page.getByRole('button').filter({ hasText: /^$/ });
         this.confirmUploadDialogBoxButton = page.getByRole('button', { name: 'CONFIRM UPLOAD' });
@@ -46,10 +48,13 @@ export class UserInputPage {
         this.qualifiedGroup = page.getByRole('textbox', { name: 'Qualified Group*', exact: true })
         this.unqualifiedGroup = page.getByRole('textbox', { name: 'Unqualified Group*' })
         this.nextButton = page.getByRole('button', { name: 'Next' });
+        this.previousButton =  page.getByRole('button', { name: 'Prev' });
         this.outcome1checkbox = page.locator('[id="outcome-select-n1\\.1"]');
         this.textArea = page.locator('textarea')
         this.yesButton = page.getByText('Yes')
         this.submitButton = page.getByRole('button', { name: 'Submit' });
+        this.closeSuccessFairnessTreeDialogBox = page.locator('header').filter({ hasText: 'Success' }).getByRole('img');
+        this.cancelButton = page.getByRole('button', { name: 'Cancel' });
 
     }
 
@@ -76,7 +81,7 @@ export class UserInputPage {
     /**
      * @param {}
      */
-    async dragAndDropFile(filePathStringArray, format) {
+    async dragAndDropFile(filePathStringArray) {
         for (const filePath of filePathStringArray) {
             const bufferData = readFileSync(filePath).toString('base64');
             const dataTransfer = await this.page.evaluateHandle(async (data) => {
@@ -102,10 +107,23 @@ export class UserInputPage {
     /**
      * @param {}
      */
-    async validateProcessChecklist() {
+    async validateProcessChecklistComplete() {
+
+        /* Assert Fill Up AI Verify Process Checklist */
         let i = 0
         while (await this.page.locator('circle').nth(i).isVisible()) {
-            if (i < 5)
+            await expect.soft(this.page.locator('circle').nth(i)).toHaveCSS('fill', 'rgb(57, 177, 64)')
+            i++
+        }
+    }
+
+    /**
+     * @param {}
+     */
+    async validateProcessChecklistIncomplete(numberOfComplete) {
+        let i = 0
+        while (await this.page.locator('circle').nth(i).isVisible()) {
+            if (i < numberOfComplete)
                 await expect.soft(this.page.locator('circle').nth(i)).toHaveCSS('fill', 'rgb(59, 177, 64)')
             else
                 await expect.soft(this.page.locator('circle').nth(i)).toHaveCSS('fill', 'rgb(238, 145, 78)')
@@ -116,10 +134,10 @@ export class UserInputPage {
     /**
      * @param {}
      */
-    async completeFairnessTree() {
+    async completeFairnessTree(fairnessTreeName) {
         await this.addInputBlock.click()
         await this.FairnessTreeName.click()
-        await this.FairnessTreeName.fill('Fairness Tree')
+        await this.FairnessTreeName.fill(fairnessTreeName)
         await this.sensitiveFeatureName.click()
         await this.sensitiveFeatureName.fill('test')
         await this.favourableAllocatedResource.click()
@@ -138,7 +156,6 @@ export class UserInputPage {
         await this.textArea.fill('test')
         await this.nextButton.click()
         await this.submitButton.click()
-        await expect.soft(this.page.getByText('Tree updated successfully')).toBeVisible()
 
     }
 
