@@ -10,6 +10,7 @@ export class ManagePage {
         this.datasetButton = page.getByRole('link', { name: 'Manage datasets Data' });
         this.reportTemplateButton = page.getByRole('link', { name: 'Manage report templates' });
         this.testResultButton = page.getByRole('link', { name: 'Manage test results Test' });
+        this.pluginButton = page.getByRole('link', { name: 'Manage plugins Plugins' });
         this.userInputButton = page.getByRole('link', { name: 'Manage user inputs User Inputs' });
     }
 
