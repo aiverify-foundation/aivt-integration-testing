@@ -45,8 +45,8 @@ export class ReportTemplatePage {
     }
 
     /**
-   * @param { string array }
-   */
+     * @param {*} filePathStringArray 
+     */
     async dragAndDropFile(filePathStringArray) {
         for (const filePath of filePathStringArray) {
             const bufferData = readFileSync(filePath).toString('base64');
