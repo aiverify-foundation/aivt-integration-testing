@@ -461,12 +461,13 @@ test.describe('User Input Workflows', () => {
 
     })
 
-    test('Fairness Tree', async ({ userInputPage }) => {
+    test('Fairness Tree', async ({ userInputPage, page }) => {
 
         /* User Input Page */
         console.log('[INFO] User Input Page')
         await userInputPage.FairnessTreeButton.click()
-        await userInputPage.completeFairnessTree()
+        await userInputPage.completeFairnessTree('Fairness Tree')
+        await expect.soft(page.getByText('Tree updated successfully')).toBeVisible()
 
     })
 
