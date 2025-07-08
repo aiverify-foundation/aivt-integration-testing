@@ -1,4 +1,5 @@
 import { test, expect } from '../../fixtures/base-test'
+import { setTimeout } from "timers/promises"
 
 const url = process.env.URL
 const port_number = process.env.PORT_NUMBER
@@ -95,15 +96,15 @@ test.describe('AI Verify Process Checklist', () => {
 
         /* Search AI Verify Process Checklist */
         console.log('[INFO] Search AI Verify Process Checklist')
-        await userInputPage.AIVerifyProcessChecklistSearchBar.fill('Accounta')
+        await userInputPage.searchBar.fill('Accounta')
 
         /* Assert AI Verify Process Checklist By Search Term */
         await expect.soft(page.getByText('Accountability Process').nth(1)).toBeVisible()
     })
 
-    test('Fill Up Checklist', async ({ userInputPage, page }) => {
+    test('Fill Up AI Verify Process Checklist', async ({ userInputPage, page }) => {
 
-        /* AI Verify Add Checklist Dialog Box */
+        /* AI Verify Process Checklist Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
         await userInputPage.addCheckListButton.click()
 
@@ -111,7 +112,7 @@ test.describe('AI Verify Process Checklist', () => {
         console.log('[INFO] AI Verify Process Checklist')
         await userInputPage.createNewButton.click()
 
-        /* Fill Up Checklist Completely */
+        /* Fill Up AI Verify Process Checklist Completely */
         const processCheckListParameters = [
             { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 10 },
             { name: "Explainability Process Checklist", yesNoNAOptions: "No", numberOfRows: 1 },
@@ -129,18 +130,14 @@ test.describe('AI Verify Process Checklist', () => {
 
         await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 3)
 
-        /* Assert Fill Up Checklist */
-        let i = 0
-        while (await page.locator('circle').nth(i).isVisible()) {
-            await expect.soft(page.locator('circle').nth(i)).toHaveCSS('background-color', 'rgb(57, 177, 64)')
-            i++
-        }
+        /* Assert Fill Up AI Verify Process Checklist */
+        await userInputPage.validateProcessChecklistComplete()
 
     })
 
-    test('Fill Up Checklist Incomplete', async ({ userInputPage, page }) => {
+    test('Fill Up AI Verify Process Checklist Incomplete', async ({ userInputPage }) => {
 
-        /* AI Verify Add Checklist Dialog Box */
+        /* AI Verify Process Checklist Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
         await userInputPage.addCheckListButton.click()
 
@@ -158,9 +155,8 @@ test.describe('AI Verify Process Checklist', () => {
 
         await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 4)
 
-        /* Assert Fill Up Checklist Incomplete */
-        await userInputPage.validateProcessChecklist()
-
+        /* Assert Fill Up AI Verify Process Checklist Incomplete */
+        await userInputPage.validateProcessChecklistIncomplete(5)
 
     })
 
@@ -179,6 +175,9 @@ test.describe('AI Verify Process Checklist', () => {
         const downloadPromise = page.waitForEvent('download')
         await userInputPage.exportCheckListExportDialogButton.click()
         const download = await downloadPromise
+
+        /* Assert Download Model File */
+        await download.saveAs(root_path + download.suggestedFilename())
         await expect.soft(page.getByText('Export as XLSX completed')).toBeVisible()
 
     })
@@ -212,6 +211,7 @@ test.describe('AI Verify Process Checklist', () => {
         await userInputPage.editChecklistNameButton.click()
         await userInputPage.editChecklistTextBox.fill('AI Verify Process Checklist One')
         await userInputPage.saveChecklistNameButton.click()
+        await setTimeout(2000)
 
         /* Assert Rename Checklist */
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Process Checklist One' }).nth(1)).toBeVisible()
@@ -237,13 +237,16 @@ test.describe('AI Verify Process Checklist', () => {
 
         /* AI Verify Process Checklist */
         console.log('[INFO] AI Verify Process Checklist')
-        await page.getByRole('heading', { name: 'AI Verify Process Checklists' }).nth(3).click()
+        await page.locator('div').filter({ hasText: /^AI Verify Process Checklist One$/ }).nth(1).click();
 
         /* Delete Checklist */
         console.log('[INFO] Delete Checklist Dialog Box')
         await userInputPage.deleteChecklistButton.click()
         await userInputPage.confirmDeleteDialogBoxButton.click()
         await expect.soft(page.getByText('Group deleted successfully.')).toBeVisible()
+
+        /* Assert Delete Checklist */
+        await expect.soft(page.locator('div').filter({ hasText: /^AI Verify Process Checklists One$/ }).nth(1)).not.toBeVisible()
 
     })
 
@@ -425,12 +428,326 @@ test.describe('Veritas Process Checklist', () => {
 
     test('Veritas Process Checklist Add Checklist Button - Create New Checklist', async ({ userInputPage, page }) => {
 
-        /* AI Verify Add Checklist Dialog Box */
+        /* Veritas Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
         await userInputPage.addCheckListButton.click()
 
-        /* Assert AI Verify Add Checklist Button - Create New Checklist */
+        /* Assert Veritas Process Checklist Add Checklist Button - Create New Checklist */
         await expect.soft(page).toHaveURL(new RegExp(url + ':' + port_number + '/inputs/groups/aiverify.stock.veritas/'))
+
+    })
+
+    test('Add Checklist Button - Create New Checklist', async ({ userInputPage, page }) => {
+
+        /* Veritas Add Checklist Dialog Box */
+        console.log('[INFO] Add New Checklist')
+        await userInputPage.addCheckListButton.click()
+
+        /* Add CheckList Button */
+        const currentProcessURL = page.url()
+        await userInputPage.addCheckListButton.click()
+
+        /* Assert Add Checklist Button - Create New Checklist */
+        await expect.soft(page).not.toHaveURL(new RegExp(currentProcessURL))
+
+    })
+
+    test('Search Individual Veritas Process Checklist By Search Term', async ({ userInputPage, page }) => {
+
+        /* Veritas Add Checklist Dialog Box */
+        console.log('[INFO] Add New Checklist')
+        await userInputPage.addCheckListButton.click()
+
+        /* Search Veritas Process Checklist */
+        console.log('[INFO] Search Veritas Process Checklist')
+        await userInputPage.searchBar.fill('Ethics')
+
+        /* Assert Veritas Process Checklist By Search Term */
+        await expect.soft(page.getByText('Ethics and Accountability').nth(1)).toBeVisible()
+
+    })
+
+    test('Fill Up Veritas Process Checklist', async ({ userInputPage }) => {
+
+        /* Veritas Add Checklist Dialog Box */
+        console.log('[INFO] Add New Checklist')
+        await userInputPage.addCheckListButton.click()
+
+        /* Fill Veritas Process Checklist Completely */
+        console.log('[INFO] Veritas Process Checklist')
+        const processChecklistParameters = [
+            { name: "Generic Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 16 },
+            { name: "Fairness Process Checklist", yesNoNAOptions: "No", numberOfRows: 15 },
+            { name: "Ethics and Accountability Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 10 },
+            { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21 }
+        ]
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 33) //Number to be edited
+
+        /* Assert Fill Up AI Verify Process Checklist */
+        await userInputPage.validateProcessChecklistComplete()
+
+    })
+
+    test('Fill Up Veritas Process Checklist Incomplete', async ({ userInputPage }) => {
+
+        /* Veritas Add Checklist Dialog Box */
+        console.log('[INFO] Add New Checklist')
+        await userInputPage.addCheckListButton.click()
+
+        /* Fill Veritas Process Checklist Completely */
+        console.log('[INFO] Veritas Process Checklist')
+        const processChecklistParameters = [
+            { name: "Generic Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 16 },
+            { name: "Fairness Process Checklist", yesNoNAOptions: "No", numberOfRows: 15 }
+        ]
+
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 34) //Number to be edited
+
+        /* Assert Fill Up AI Verify Process Checklist */
+        await userInputPage.validateProcessChecklistIncomplete(2)
+
+    })
+
+    test('Rename Veritas Process Checklist', async ({ userInputPage, page }) => {
+
+        /* Veritas Process Checklist */
+        console.log('[INFO] Veritas Process Checklist')
+        await page.getByRole('heading', { name: 'Veritas Process Checklists' }).nth(2).click()
+
+        /* Rename Checklist */
+        await userInputPage.editChecklistNameVeritasButton.click()
+        await userInputPage.editChecklistTextBox.fill('Veritas Process Checklist One')
+        await userInputPage.saveChecklistNameButton.click()
+        await setTimeout(2000)
+
+        /* Assert Rename Checklist */
+        await expect.soft(page.getByRole('heading', { name: 'Veritas Process Checklist One' }).nth(1)).toBeVisible()
+
+    })
+
+    test('Rename Veritas Process Checklist Cancel Button', async ({ userInputPage, page }) => {
+
+        /* Veritas Process Checklist */
+        console.log('[INFO] Veritas Process Checklist')
+        await page.getByRole('heading', { name: 'Veritas Process Checklist' }).nth(2).click()
+
+        /* Rename Veritas Process Checklist */
+        await userInputPage.editChecklistNameButton.click()
+        await userInputPage.cancelChecklistNameButton.click()
+
+        /* Assert Rename Checklist Cancel Button */
+        await expect.soft(page.getByRole('heading', { name: 'Veritas Process Checklist' }).nth(2)).toBeVisible()
+
+    })
+
+    test('Delete Veritas Process Checklist', async ({ userInputPage, page }) => {
+
+        /* Veritas Process Checklist */
+        console.log('[INFO] Veritas Process Checklist')
+        await page.locator('div').filter({ hasText: /^Veritas Process Checklist One$/ }).nth(1).click();
+
+        /* Delete Checklist */
+        console.log('[INFO] Delete Checklist Dialog Box')
+        await userInputPage.deleteChecklistVeritasButton.click()
+        await userInputPage.confirmDeleteDialogBoxButton.click()
+        await expect.soft(page.getByText('Group deleted successfully.')).toBeVisible()
+
+        /* Assert Delete Veritas Process Checklist */
+        await expect.soft(page.locator('div').filter({ hasText: /^Veritas Process Checklist One$/ }).nth(1)).not.toBeVisible()
+
+    })
+
+})
+
+test.describe('Fairness Tree', () => {
+
+    test.beforeEach(async ({ homePage, managePage, userInputPage }) => {
+
+        /* AI Verify Homepage */
+        console.log('[INFO] Navigate to AI Verify Home Page')
+        await homePage.goto(url + ":" + port_number)
+        await expect.soft(homePage.aivlogo).toBeVisible({ timeout: 60000 })
+        await homePage.manageButton.click()
+
+        /* Manage Page */
+        console.log('[INFO] Manage Page')
+        await managePage.userInputButton.click()
+
+        /* User Input Page */
+        console.log('[INFO] User Input Page')
+        await userInputPage.FairnessTreeButton.click()
+
+    })
+
+    test('Search Fairness Tree By Search Term', async ({ userInputPage, page }) => {
+
+        /* Search Fairness Tree */
+        await userInputPage.userInputSearchBar.fill('test')
+
+        /* Assert Fairness Tree Not Appearing */
+        await expect.soft(page.locator('h3').filter({ hasText: /^Fairness Tree$/ })).not.toBeVisible()
+
+        /* Search Fairness Tree */
+        await userInputPage.userInputSearchBar.fill('Fairness Tree')
+
+        /* Assert Fairness Tree Appearing */
+        await expect.soft(page.locator('h3').filter({ hasText: /^Fairness Tree$/ })).toBeVisible()
+    })
+
+    test('Add Input Block Button - Add Fairness Tree', async ({ userInputPage, page }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+        await userInputPage.addInputBlock.click()
+
+        /* Assert Add Input Block Button - Add Fairness Tree */
+        await expect.soft(page).toHaveURL(url + ":" + port_number + "/inputs/aiverify.stock.fairness_metrics_toolbox_for_classification/fairness_tree")
+
+    })
+
+    test('Fairness Tree Name', async ({ userInputPage, page }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete Fairness Tree */
+        await userInputPage.completeFairnessTree('Fairness Tree 10')
+
+        /* Assert Fairness Tree Name */
+        await expect.soft(page.getByText('Tree updated successfully')).toBeVisible()
+        await userInputPage.closeSuccessFairnessTreeDialogBox.click()
+        await expect.soft(page.getByRole('heading', { name: 'Fairness Tree 10' })).toBeVisible()
+
+    })
+
+    test('Empty Fairness Tree Name', async ({ userInputPage, page }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete Fairness Tree */
+        await userInputPage.completeFairnessTree('')
+
+        /* Assert Fairness Tree Name */
+        await expect.soft(page.getByText('Please enter a name before')).toBeVisible()
+        await expect.soft(page.getByText('Tree updated successfully')).not.toBeVisible()
+
+    })
+
+    test('Required Field Not Completed', async ({ userInputPage }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete Some Fields */
+        await userInputPage.addInputBlock.click()
+        await userInputPage.sensitiveFeatureName.click()
+        await userInputPage.sensitiveFeatureName.fill('test')
+        await userInputPage.favourableAllocatedResource.click()
+        await userInputPage.favourableAllocatedResource.fill('test')
+
+        /* Assert Next Button Not Enabled */
+        await expect.soft(userInputPage.nextButton).not.toBeEnabled()
+
+    })
+
+    test('Required Field Completed', async ({ userInputPage }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete All Required Fields */
+        await userInputPage.addInputBlock.click()
+        await userInputPage.FairnessTreeName.click()
+        await userInputPage.FairnessTreeName.fill('Fairness Tree')
+        await userInputPage.sensitiveFeatureName.click()
+        await userInputPage.sensitiveFeatureName.fill('test')
+        await userInputPage.favourableAllocatedResource.click()
+        await userInputPage.favourableAllocatedResource.fill('test')
+        await userInputPage.qualifiedGroup.click()
+        await userInputPage.qualifiedGroup.fill('test')
+        await userInputPage.unqualifiedGroup.click()
+        await userInputPage.unqualifiedGroup.fill('test')
+
+        /* Assert Next Button Enabled */
+        await expect.soft(userInputPage.nextButton).toBeEnabled()
+
+    })
+
+    test('Previous Button', async ({ userInputPage }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete All Required Fields */
+        await userInputPage.addInputBlock.click()
+        await userInputPage.sensitiveFeatureName.click()
+        await userInputPage.sensitiveFeatureName.fill('test')
+        await userInputPage.favourableAllocatedResource.click()
+        await userInputPage.favourableAllocatedResource.fill('test')
+        await userInputPage.qualifiedGroup.click()
+        await userInputPage.qualifiedGroup.fill('test')
+        await userInputPage.unqualifiedGroup.click()
+        await userInputPage.unqualifiedGroup.fill('test')
+
+        /* Assert Previous Button Not Enabled */
+        await expect.soft(userInputPage.previousButton).not.toBeEnabled()
+        await userInputPage.nextButton.click()
+
+        /* Assert Previous Button Enabled */
+        await expect.soft(userInputPage.previousButton).toBeEnabled()
+        await userInputPage.previousButton.click()
+
+        /* Assert Previous Button Clicked */
+        await expect.soft(userInputPage.sensitiveFeatureName).toBeVisible()
+        await expect.soft(userInputPage.favourableAllocatedResource).toBeVisible()
+        await expect.soft(userInputPage.qualifiedGroup).toBeVisible()
+        await expect.soft(userInputPage.unqualifiedGroup).toBeVisible()
+
+    })
+
+    test('Submit Button - Fields Incomplete', async ({ userInputPage, page }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete No Fields Except Name */
+        await userInputPage.addInputBlock.click()
+        await userInputPage.FairnessTreeName.click()
+        await userInputPage.FairnessTreeName.fill('Fairness Tree')
+        await userInputPage.submitButton.click()
+
+        /* Assert Submit Button  */
+        await expect.soft(page.getByText('Please fill in all fields')).toBeVisible()
+
+    })
+
+    test('Submit Button - All Fields Completed', async ({ userInputPage, page }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete Fairness Tree */
+        await userInputPage.completeFairnessTree('Fairness Tree 11')
+
+        /* Assert Submit Button - All Fields Completed */
+        await expect.soft(page.getByText('Tree updated successfully')).toBeVisible()
+        await userInputPage.closeSuccessFairnessTreeDialogBox.click()
+        await expect.soft(page.getByRole('heading', { name: 'Fairness Tree 11' })).toBeVisible()
+
+    })
+
+    test('Cancel Button', async ({ userInputPage, page }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+        await userInputPage.addInputBlock.click()
+
+        /* Cancel Button */
+        await userInputPage.cancelButton.click()
+
+        /* Assert Cancel Button */
+        await expect.soft(page.getByRole('heading', { name: 'Manage and view Decision Trees' })).toBeVisible()
 
     })
 
