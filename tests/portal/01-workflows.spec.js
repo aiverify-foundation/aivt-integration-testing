@@ -96,7 +96,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('ALE Test', async ({ testResultPage }) => {
+    test('ALE Test', async ({ testResultPage, page }) => {
 
         /* Input ALE Test Parameters */
         console.log('[INFO] Input ALE Test Parameters')
@@ -121,7 +121,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('FMTC Test', async ({ testResultPage }) => {
+    test('FMTC Test', async ({ testResultPage, page }) => {
 
         /* Input FMTC Test Parameters */
         console.log('[INFO] Input FMTC Test Parameters')
@@ -149,7 +149,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('FMTR Test', async ({ testResultPage }) => {
+    test('FMTR Test', async ({ testResultPage, page }) => {
 
         /* Input FMTR Test Parameters */
         console.log('[INFO] Input FMTR Test Parameters')
@@ -319,7 +319,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('Partial Dependence Plot Test', async ({ testResultPage }) => {
+    test('Partial Dependence Plot Test', async ({ testResultPage, page }) => {
 
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
@@ -344,7 +344,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('Robustness ToolBox Tabular Test', async ({ testResultPage }) => {
+    test('Robustness ToolBox Tabular Test', async ({ testResultPage, page }) => {
 
         /* Input Robustness ToolBox Tabular Parameters */
         console.log('[INFO] Input Robustness ToolBox Tabular Test Parameters')
@@ -371,7 +371,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('Robustness ToolBox Image Test', async ({ testResultPage }) => {
+    test('Robustness ToolBox Image Test', async ({ testResultPage, page }) => {
 
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
@@ -399,7 +399,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('SHAP ToolBox Test', async ({ testResultPage }) => {
+    test('SHAP ToolBox Test', async ({ testResultPage, page }) => {
 
         /* Input SHAP ToolBox Test Parameters */
         console.log('[INFO] Input Shap ToolBox Test Parameters')
@@ -427,7 +427,7 @@ test.describe('Algorithm Workflows', () => {
 
     })
 
-    test('Veritas Tool Test', async ({ testResultPage }) => {
+    test('Veritas Tool Test', async ({ testResultPage, page }) => {
 
         /* Input Veritas Test Parameters */
         console.log('[INFO] Input Veritas Tool Test Parameters')
