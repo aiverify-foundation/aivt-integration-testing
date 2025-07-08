@@ -354,7 +354,7 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Confirm Upload Button Enabled', async ({ userInputPage, page }) => {
+    test('Confirm Upload Button Enabled', async ({ userInputPage }) => {
 
         /* AI Verify Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
