@@ -177,7 +177,8 @@ test.describe('AI Verify Process Checklist', () => {
         const download = await downloadPromise
 
         /* Assert Download Model File */
-        await download.saveAs(root_path + download.suggestedFilename())
+        await download.saveAs(root_path + '/checklist/' + download.suggestedFilename())
+        await setTimeout(1000)
         await expect.soft(page.getByText('Export as XLSX completed')).toBeVisible()
 
     })
