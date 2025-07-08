@@ -22,6 +22,8 @@ export class PluginPage {
     this.closeDialogBoxButton = page.getByRole('dialog', { name: 'upload status modal' }).getByRole('img');
     this.backButton = page.getByRole('banner', { name: 'Uploader header' }).getByRole('link');
     this.removePluginFileButton = page.locator('g#cross')
+    this.deleteButton = page.getByRole('button', { name: 'DELETE' });
+    this.closeDeleteDialogBoxButton = page.getByRole('dialog').getByRole('img');
 
   }
 
@@ -51,5 +53,17 @@ export class PluginPage {
       await this.page.locator('#fileInput').setInputFiles(filePath);
     }
     
+  }
+
+  /**
+   * @param { string }
+   */
+  async uninstallPlugin(pluginName) {
+    await this.page.getByRole('heading', { name: pluginName }).click();
+    await this.page.getByRole('group', { name: pluginName }).getByRole('button').click()
+    await this.deleteButton.click()
+    await expect(this.page.getByText('Plugin deleted successfully!')).toBeVisible()
+    await this.closeDeleteDialogBoxButton.click()
+
   }
 }
