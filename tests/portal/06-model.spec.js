@@ -179,8 +179,8 @@ test.describe('View Uploaded Models', () => {
         const download = await downloadPromise
 
         /* Assert Download Model File */
-        await download.saveAs(root_path + download.suggestedFilename())
-        await setTimeout(2000)
+        await download.saveAs(root_path + "/model/" + download.suggestedFilename())
+        await setTimeout(1000)
 
     })
 
