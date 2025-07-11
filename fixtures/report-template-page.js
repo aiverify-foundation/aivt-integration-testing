@@ -7,6 +7,9 @@ export class ReportTemplatePage {
     constructor(page) {
         this.page = page;
 
+        /* Select Report Template Pagge */
+        this.reportTemplateCard = page.locator('.card_card__xeFXn')
+
         /* Report Template Page */
         this.reportTemplateSearchBar = page.getByPlaceholder('Search templates...')
         this.uploadTemplateButton = page.getByRole('button', { name: 'UPLOAD TEMPLATE' })
