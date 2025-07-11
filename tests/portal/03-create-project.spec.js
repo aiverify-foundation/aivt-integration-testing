@@ -163,22 +163,22 @@ test.describe('Select Report Template', () => {
         /* Search Report Template */
         console.log('[INFO] Search Report Template')
 
-        await reportTemplatePage.searchReportTemplate('AI Verify Summary Report for Classification Model')
+        await reportTemplatePage.searchReportTemplate('AI Verify Report for Process Checklist')
 
         /* Assert Existing Report Template Is Displayed */
-        await expect(page.getByRole('heading', { name: 'AI Verify Summary Report for Classification Model' })).toBeVisible()
+        await expect(page.getByRole('heading', { name: 'AI Verify Report for Process Checklist' })).toBeVisible()
 
     })
 
-    test('Search Non-Existing Template', async ({ reportTemplatePage, page }) => {
+    test('Search Non-Existing Template', async ({ reportTemplatePage }) => {
 
         /* Search Report Template */
         console.log('[INFO] Search Report Template')
 
-        await reportTemplatePage.searchReportTemplate('test')
+        await reportTemplatePage.searchReportTemplate('model')
 
-        /* Assert Existing Report Template Is Displayed */
-        await expect(page.getByText('CCCS')).toBeHidden()
+        /* Assert Search Non-Existing Template */
+        await expect(reportTemplatePage.reportTemplateCard).not.toBeVisible()
 
     })
 
