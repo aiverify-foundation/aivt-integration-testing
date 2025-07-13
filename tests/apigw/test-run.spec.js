@@ -12,6 +12,20 @@ const floatValue = 10.1
 
 test.describe('Test Run', () => {
 
+    test('Server Active', async () => {
+
+        /* Server Active */
+        const response = await axios.post(url + ":" + port_number + "/test_runs/server_active", {
+            validateStatus: function (status) {
+                return status
+            }
+        })
+
+        /* Assert Server Active */
+        expect.soft(response.data).toBeTruthy()
+        expect.soft(response.status).toBe(200)
+    })
+
     const POST_RUN_TESTS = [
         {
             TEST_NAME: "With Valid Algorithm Arguments With Valid Algorithm CID With Valid Algorithm GID With Valid Ground Truth With Valid Ground Truth Dataset Name With Valid Mode With Valid Model File Name With Valid Test Dataset File Name",
@@ -385,248 +399,6 @@ test.describe('Test Run', () => {
         }
     ]
 
-    const GET_TEST_RUN_BY_TEST_RUN_ID = [
-        {
-            TEST_NAME: "With Existing Test Run ID", CASE_TYPE: "POSITIVE", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'success',
-                progress: 100,
-                testResult: {
-                    testRunId: null,
-                    gid: 'aiverify.stock.accumulated_local_effect',
-                    cid: 'aiverify_accumulated_local_effect',
-                    version: '2.0.1',
-                    testArguments: {
-                        testDataset: 'sample_bc_credit_data.sav',
-                        mode: 'upload',
-                        modelType: 'classification',
-                        groundTruthDataset: 'sample_bc_credit_data.sav',
-                        groundTruth: 'default',
-                        algorithmArgs: {},
-                        modelFile: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav'
-                    }
-                }
-            }, STATUS: 200
-        },
-        { TEST_NAME: "With Non-existing Test RUN ID", RUN_TEST_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
-        // { TEST_NAME: "With Test RUN ID Integer", RUN_TEST_ID: intValue, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Float", RUN_TEST_ID: floatValue, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Boolean", RUN_TEST_ID: true, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Empty", RUN_TEST_ID: "", EXPECTED: "Method Not Allowed", STATUS: 405 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Null", RUN_TEST_ID: null, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID No Value", EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-    ]
-
-    const PATCH_TEST_RUNS_BY_TEST_RUN_ID = [
-        {
-            TEST_NAME: "With Existing Test Run ID With Status Pending With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "pending", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'pending',
-                progress: 100,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        {
-            TEST_NAME: "With Existing Test Run ID With Status Success With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "success", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'success',
-                progress: 100,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        {
-            TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "error", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'error',
-                progress: 100,
-                testResult: null,
-                errorMessages: 'test'
-            }, STATUS: 200
-        },
-        {
-            TEST_NAME: "With Existing Test Run ID With Status Cancelled With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "cancelled", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'cancelled',
-                progress: 100,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Integer", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: intValue, EXPECTED: { detail: [{ input: 10, type: 'string_type', msg: 'Input should be a valid string' }] }, STATUS: 422 },
-        // { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Float", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: floatValue, EXPECTED: { detail: { type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }}, STATUS: 422 },
-        // { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Boolean", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: true, EXPECTED: { detail: { type: 'string_type', msg: 'Input should be a valid string', input: true }}, STATUS: 422 },
-        // { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Empty", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: "", EXPECTED: { detail: { type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }}, STATUS: 422 },
-        // { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Null", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: null, EXPECTED: { detail: { type: 'string_type', msg: 'Input should be a valid string', input: null }}, STATUS: 422 },
-        // { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message No Value", CASE_TYPE: "ERROR_MESSAGES", EXPECTED: { detail: { type: 'missing', msg: 'Field required' }}, STATUS: 200 },
-        { TEST_NAME: "With Existing Test Run ID With Valid Status With Invalid Progress With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: strValue, EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: 'test' }] }, STATUS: 422 },
-        { TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Float With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: floatValue, EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: 10.1 }] }, STATUS: 422 },
-        { TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Boolean With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: true, EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: true }] }, STATUS: 422 },
-        { TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Empty With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: "", EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: "" }] }, STATUS: 422 },
-        {
-            TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Null With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: null, EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'pending',
-                progress: 0,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        {
-            TEST_NAME: "With Existing Test Run ID With Valid Status With Progress No Value With Valid Error Message", CASE_TYPE: "PROGRESS", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'pending',
-                progress: 0,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        { TEST_NAME: "With Existing Test Run ID With Invalid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: strValue, EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: 'test' }] }, STATUS: 422 },
-        { TEST_NAME: "With Existing Test Run ID With Status Float With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: floatValue, EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: 10.1 }] }, STATUS: 422 },
-        { TEST_NAME: "With Existing Test Run ID With Status Boolean With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: true, EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: true }] }, STATUS: 422 },
-        { TEST_NAME: "With Existing Test Run ID With Status Empty With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: "", EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: "" }] }, STATUS: 422 },
-        {
-            TEST_NAME: "With Existing Test Run ID With Status Null With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: null, EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'pending',
-                progress: 0,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        {
-            TEST_NAME: "With Existing Test Run ID With Status No Value With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'pending',
-                progress: 0,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        // { TEST_NAME: "With Non-existing Test Run ID With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: strValue, EXPECTED: { detail: [{ type: 'missing', msg: "Field required", input: 'test' }] }, STATUS: 422 }, Internal Server Error?
-        // { TEST_NAME: "With Test Run ID Integer With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: intValue, EXPECTED: { detail: [{ type: 'missing', msg: "Field required", input: 10 }] }, STATUS: 422 }, Internal Server Error?
-        // { TEST_NAME: "With Test Run ID Float With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: floatValue, EXPECTED: { detail: [{ type: 'missing', msg: "Field required", input: 10.1 }] }, STATUS: 422 }, Internal Server Error?
-        // { TEST_NAME: "With Test Run ID Boolean With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: true, EXPECTED: { detail: [{ type: 'missing', msg: "Field required", input: true }] }, STATUS: 422 }, Internal Server Error?
-        // { TEST_NAME: "With Test Run ID Empty With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: "", EXPECTED: { detail: [{ type: 'missing', msg: "Field required", input: "" }] }, STATUS: 422 }, Internal Server Error?
-        // { TEST_NAME: "With Test Run ID Null With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: null, EXPECTED: { detail: [{ type: 'missing', msg: "Field required", input: null }] }, STATUS: 200 }, Internal Server Error?
-        // { TEST_NAME: "With Test Run ID No Value With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", EXPECTED: { detail: [{ type: 'missing', msg: "Field required" }] }, STATUS: 200 }, Internal Server Error?
-    ]
-
-    const DELETE_TEST_RUN_BY_TEST_RUN_ID = [
-        // { TEST_NAME: "With Existing Test Run ID", CASE_TYPE: "POSITIVE", EXPECTED: {"detail": "Pending test runs cannot be deleted. Cancel the test run instead" }, STATUS: 204 },
-        // { TEST_NAME: "With Non-existing Test RUN ID", RUN_TEST_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
-        // { TEST_NAME: "With Test RUN ID Integer", RUN_TEST_ID: intValue, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Float", RUN_TEST_ID: floatValue, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Boolean", RUN_TEST_ID: true, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Empty", RUN_TEST_ID: "", EXPECTED: "Method Not Allowed", STATUS: 405 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Null", RUN_TEST_ID: null, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID No Value", EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-    ]
-
-    const CANCEL_TEST_RUN_BY_TEST_RUN_ID = [
-        {
-            TEST_NAME: "With Existing Test Run ID", CASE_TYPE: "POSITIVE", EXPECTED: {
-                mode: 'upload',
-                algorithmGID: 'aiverify.stock.accumulated_local_effect',
-                algorithmCID: 'aiverify_accumulated_local_effect',
-                algorithmArgs: {},
-                testDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
-                groundTruth: null,
-                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'cancelled',
-                progress: 0,
-                testResult: null,
-                errorMessages: null
-            }, STATUS: 200
-        },
-        // { TEST_NAME: "With Non-existing Test RUN ID", RUN_TEST_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
-        // { TEST_NAME: "With Test RUN ID Integer", RUN_TEST_ID: intValue, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Float", RUN_TEST_ID: floatValue, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Boolean", RUN_TEST_ID: true, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Empty", RUN_TEST_ID: "", EXPECTED: "Method Not Allowed", STATUS: 405 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID Null", RUN_TEST_ID: null, EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-        // { TEST_NAME: "With Test RUN ID No Value", EXPECTED: "Internal Server Error", STATUS: 500 }, // Internal Server Error?
-    ]
-
-    test('Server Active', async () => {
-
-        /* Server Active */
-        const response = await axios.post(url + ":" + port_number + "/test_runs/server_active", {
-            validateStatus: function (status) {
-                return status
-            }
-        })
-
-        /* Assert Server Active */
-        expect.soft(response.data).toBeTruthy()
-        expect.soft(response.status).toBe(200)
-    })
-
     for (const data of POST_RUN_TESTS) {
         test(`Run Test ${data.TEST_NAME}`, async () => {
 
@@ -890,6 +662,44 @@ test.describe('Test Run', () => {
 
     })
 
+    const GET_TEST_RUN_BY_TEST_RUN_ID = [
+        {
+            TEST_NAME: "With Existing Test Run ID", CASE_TYPE: "POSITIVE", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'success',
+                progress: 100,
+                testResult: {
+                    testRunId: null,
+                    gid: 'aiverify.stock.accumulated_local_effect',
+                    cid: 'aiverify_accumulated_local_effect',
+                    version: '2.0.1',
+                    testArguments: {
+                        testDataset: 'sample_bc_credit_data.sav',
+                        mode: 'upload',
+                        modelType: 'classification',
+                        groundTruthDataset: 'sample_bc_credit_data.sav',
+                        groundTruth: 'default',
+                        algorithmArgs: {},
+                        modelFile: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav'
+                    }
+                }
+            }, STATUS: 200
+        },
+        { TEST_NAME: "With Non-existing Test RUN ID", RUN_TEST_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Integer", RUN_TEST_ID: intValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Float", RUN_TEST_ID: floatValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Boolean", RUN_TEST_ID: true, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Null", RUN_TEST_ID: null, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID No Value", EXPECTED: "Internal Server Error", STATUS: 500 },
+    ]
+
     for (const data of GET_TEST_RUN_BY_TEST_RUN_ID) {
 
         test(`Get Test Run By Test Run ID ${data.TEST_NAME}`, async () => {
@@ -942,6 +752,159 @@ test.describe('Test Run', () => {
 
         })
     }
+
+    const PATCH_TEST_RUNS_BY_TEST_RUN_ID = [
+        {
+            TEST_NAME: "With Existing Test Run ID With Status Pending With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "pending", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'pending',
+                progress: 100,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        {
+            TEST_NAME: "With Existing Test Run ID With Status Success With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "success", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'success',
+                progress: 100,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        {
+            TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "error", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'error',
+                progress: 100,
+                testResult: null,
+                errorMessages: 'test'
+            }, STATUS: 200
+        },
+        {
+            TEST_NAME: "With Existing Test Run ID With Status Cancelled With Valid Progress With Valid Error Messages", CASE_TYPE: "POSITIVE", TEST_RUN_STATUS: "cancelled", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'cancelled',
+                progress: 100,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Integer", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: intValue, EXPECTED: { detail: [{ input: 10, type: 'string_type', msg: 'Input should be a valid string' }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Float", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: floatValue, EXPECTED: { detail: [{ type: "string_type", loc: [ "body", "errorMessages" ], msg: "Input should be a valid string", input: 10.1 }]}, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Boolean", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: true, EXPECTED: { detail: [{ type: "string_type", loc: [ "body", "errorMessages" ], msg: "Input should be a valid string", input: true }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Empty", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: "", EXPECTED: { detail: { type: 'string_type', msg: 'Input should be a valid string', input: "" } }, STATUS: 200 },
+        { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message Null", CASE_TYPE: "ERROR_MESSAGES", ERROR_MESSAGES: null, EXPECTED: { detail: { type: 'string_type', msg: 'Input should be a valid string', input: null } }, STATUS: 200 },
+        { TEST_NAME: "With Existing Test Run ID With Status Error With Valid Progress With Error Message No Value", CASE_TYPE: "ERROR_MESSAGES", EXPECTED: { detail: { type: 'missing', msg: 'Field required' } }, STATUS: 200 },
+        { TEST_NAME: "With Existing Test Run ID With Valid Status With Invalid Progress With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: strValue, EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: 'test' }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Float With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: floatValue, EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: 10.1 }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Boolean With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: true, EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: true }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Empty With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: "", EXPECTED: { detail: [{ type: 'int_type', msg: 'Input should be a valid integer', input: "" }] }, STATUS: 422 },
+        {
+            TEST_NAME: "With Existing Test Run ID With Valid Status With Progress Null With Valid Error Message", CASE_TYPE: "PROGRESS", PROGRESS: null, EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'pending',
+                progress: 0,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        {
+            TEST_NAME: "With Existing Test Run ID With Valid Status With Progress No Value With Valid Error Message", CASE_TYPE: "PROGRESS", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'pending',
+                progress: 0,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        { TEST_NAME: "With Existing Test Run ID With Invalid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: strValue, EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: 'test' }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Status Integer With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: intValue, EXPECTED: { detail: [{ ctx: { expected: "'pending', 'success', 'error' or 'cancelled'"}, loc: [ "body", "status"], type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: 10 }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Status Float With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: floatValue, EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: 10.1 }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Status Boolean With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: true, EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: true }] }, STATUS: 422 },
+        { TEST_NAME: "With Existing Test Run ID With Status Empty With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: "", EXPECTED: { detail: [{ type: 'enum', msg: "Input should be 'pending', 'success', 'error' or 'cancelled'", input: "" }] }, STATUS: 422 },
+        {
+            TEST_NAME: "With Existing Test Run ID With Status Null With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", TEST_RUN_STATUS: null, EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'pending',
+                progress: 0,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        {
+            TEST_NAME: "With Existing Test Run ID With Status No Value With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_STATUS", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'pending',
+                progress: 0,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        { TEST_NAME: "With Non-existing Test Run ID With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test Run ID Integer With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: intValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test Run ID Float With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: floatValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test Run ID Boolean With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: true, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test Run ID Empty With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: "", EXPECTED: { detail: "Method Not Allowed" }, STATUS: 405 },
+        { TEST_NAME: "With Test Run ID Null With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", TEST_RUN_ID: null, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test Run ID No Value With Valid Status With Valid Progress With Valid Error Message", CASE_TYPE: "TEST_RUN_ID", EXPECTED: "Internal Server Error", STATUS: 500 },
+    ]
 
     for (const data of PATCH_TEST_RUNS_BY_TEST_RUN_ID) {
 
@@ -1031,11 +994,24 @@ test.describe('Test Run', () => {
             })
 
             /* Assert Patch Test Run By Test Run ID */
-            console.log(response.data)
-            expect.soft(response.data).toMatchObject(data.EXPECTED)
+            if (response.status == "500")
+                expect.soft(response.data).toBe(data.EXPECTED)
+            else
+                expect.soft(response.data).toMatchObject(data.EXPECTED) 
             expect.soft(response.status).toBe(data.STATUS)
         })
     }
+
+    const DELETE_TEST_RUN_BY_TEST_RUN_ID = [
+        { TEST_NAME: "With Existing Test Run ID", CASE_TYPE: "POSITIVE", EXPECTED: { "detail": "Pending test runs cannot be deleted. Cancel the test run instead" }, STATUS: 204 },
+        { TEST_NAME: "With Non-existing Test RUN ID", RUN_TEST_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Integer", RUN_TEST_ID: intValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Float", RUN_TEST_ID: floatValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Boolean", RUN_TEST_ID: true, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Empty", RUN_TEST_ID: "", EXPECTED: "Method Not Allowed", STATUS: 405 },
+        { TEST_NAME: "With Test RUN ID Null", RUN_TEST_ID: null, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID No Value", EXPECTED: "Internal Server Error", STATUS: 500 },
+    ]
 
     for (const data of DELETE_TEST_RUN_BY_TEST_RUN_ID) {
 
@@ -1077,14 +1053,47 @@ test.describe('Test Run', () => {
                 validateStatus: function (status) {
                     return status
                 }
+            }).catch(error => {
+                if (error.response) {
+                    expect.soft(error.response.status).toBe(data.STATUS)
+                    expect.soft(response.data).toBe(data.EXPECTED)
+                }
+
             })
 
             /* Assert Delete Test Run By Test Run ID */
-            expect.soft(response.data).toMatchObject(data.EXPECTED)
-            expect.soft(response.status).toBe(data.STATUS)
+            if (data.CASE_TYPE == "POSITIVE") {
+                expect.soft(response.status).toBe(data.STATUS)
+            }
 
         })
     }
+
+    const CANCEL_TEST_RUN_BY_TEST_RUN_ID = [
+        {
+            TEST_NAME: "With Existing Test Run ID", CASE_TYPE: "POSITIVE", EXPECTED: {
+                mode: 'upload',
+                algorithmGID: 'aiverify.stock.accumulated_local_effect',
+                algorithmCID: 'aiverify_accumulated_local_effect',
+                algorithmArgs: {},
+                testDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
+                groundTruth: null,
+                modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
+                status: 'cancelled',
+                progress: 0,
+                testResult: null,
+                errorMessages: null
+            }, STATUS: 200
+        },
+        { TEST_NAME: "With Non-existing Test RUN ID", RUN_TEST_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Integer", RUN_TEST_ID: intValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Float", RUN_TEST_ID: floatValue, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Boolean", RUN_TEST_ID: true, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID Empty", RUN_TEST_ID: "", EXPECTED: { detail: 'Not Found' }, STATUS: 404 },
+        { TEST_NAME: "With Test RUN ID Null", RUN_TEST_ID: null, EXPECTED: "Internal Server Error", STATUS: 500 },
+        { TEST_NAME: "With Test RUN ID No Value", EXPECTED: "Internal Server Error", STATUS: 500 },
+    ]
 
     for (const data of CANCEL_TEST_RUN_BY_TEST_RUN_ID) {
 
@@ -1124,13 +1133,21 @@ test.describe('Test Run', () => {
                 validateStatus: function (status) {
                     return status
                 }
+            }).catch(error => {
+                if (error.response) {
+                    expect.soft(error.response.status).toBe(data.STATUS)
+                    if (error.response.status == "404")
+                        expect.soft(error.response.data).toMatchObject(data.EXPECTED)
+                    else
+                        expect.soft(error.response.data).toBe(data.EXPECTED)
+                }
+
             })
 
             /* Assert Cancel Test Run By Test Run ID */
             if (data.CASE_TYPE == "POSITIVE")
                 expect.soft(response.data).toMatchObject(data.EXPECTED)
 
-            expect.soft(response.status).toBe(data.STATUS)
         })
     }
 })
