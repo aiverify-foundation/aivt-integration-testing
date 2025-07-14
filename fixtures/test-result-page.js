@@ -9,7 +9,7 @@ export class TestResultPage {
 
     /* Test Result Page */
     this.aivlogo = page.getByRole('link', { name: 'AI Verify' });
-    this.runNewTestButton = page.getByRole('button', { name: 'RUN NEW TESTS' });
+    this.runNewTestButton = page.getByRole('button', { name: 'RUN NEW TEST' });
     this.uploadTestResultsButton = page.getByRole('button', { name: 'UPLOAD TEST RESULTS' });
     this.searchBar = page.getByPlaceholder('Search Test Results');
     this.testResultRow = page.locator('h3.mb-2');
@@ -36,6 +36,7 @@ export class TestResultPage {
     this.backToResultsButton = page.getByRole('button', { name: 'Back to Results' });
 
     /* View Running Test Page */
+    this.viewTestResultsButton = page.getByRole('button', { name: 'VIEW TEST RESULTS' });
     this.deleteTestRunButton = page.getByRole('button', { name: 'Delete test run' });
     this.confirmDeleteTestRunButton = page.getByRole('button', { name: 'Delete', exact: true });
     this.confirmDeleteTestRunOkayButton = page.getByRole('button', { name: 'OK' });
@@ -49,6 +50,9 @@ export class TestResultPage {
     this.successFilterButton = page.getByRole('button', { name: 'SUCCESS' });
     this.errorFilterButton = page.getByRole('button', { name: 'ERROR' });
     this.cancelledFilterButton = page.getByRole('button', { name: 'CANCELLED' });
+    this.nextButton = page.getByRole('button', { name: 'Next' });
+    this.previousButton = page.getByRole('button', { name: 'Previous' });
+
 
     /* Blur Corruptions Specific Parameters */
     this.blurSigmaAddButton = page.locator('div:nth-child(6) > .mb-4 > .array-field-container > .mb-2');
