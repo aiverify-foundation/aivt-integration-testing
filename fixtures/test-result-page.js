@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs'
 import { expect } from './base-test'
 
 export class TestResultPage {
@@ -35,6 +36,13 @@ export class TestResultPage {
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
     this.backToResultsButton = page.getByRole('button', { name: 'Back to Results' });
 
+    /* Upload Test Result Page */
+    this.resultsEditorButton = page.getByRole('button', { name: 'Results Editor' });
+    this.uploadButton = page.getByRole('button', { name: 'Upload', exact: true });
+    this.uploadMoreButton = page.getByRole('button', { name: 'Upload More' });
+    this.viewErrorsButton = page.getByRole('button', { name: 'View Errors' });
+    this.removeUploadFileButton = page.getByRole('listitem').getByRole('img');
+
     /* View Running Test Page */
     this.viewTestResultsButton = page.getByRole('button', { name: 'VIEW TEST RESULTS' });
     this.deleteTestRunButton = page.getByRole('button', { name: 'Delete test run' });
@@ -52,7 +60,6 @@ export class TestResultPage {
     this.cancelledFilterButton = page.getByRole('button', { name: 'CANCELLED' });
     this.nextButton = page.getByRole('button', { name: 'Next' });
     this.previousButton = page.getByRole('button', { name: 'Previous' });
-
 
     /* Blur Corruptions Specific Parameters */
     this.blurSigmaAddButton = page.locator('div:nth-child(6) > .mb-4 > .array-field-container > .mb-2');
@@ -207,6 +214,33 @@ export class TestResultPage {
     console.log('[INFO] Run Test')
     await this.runTestButton.click()
 
+  }
+
+  /**
+  * @param { string array }
+  */
+  async dragAndDropFile(filePathStringArray) {
+    for (const filePath of filePathStringArray) {
+      const bufferData = readFileSync(filePath).toString('base64');
+      const dataTransfer = await this.page.evaluateHandle(async (data) => {
+        const transferData = new DataTransfer();
+        const blobData = await fetch(data).then(res => res.blob());
+        const file = new File([blobData], 'output-image-standalone.zip', { type: 'application/zip' });
+        transferData.items.add(file);
+        return transferData;
+      }, 'data:application/octet-stream;base64,' + bufferData);
+      await this.page.dispatchEvent('.fileSelect_dropZone__HzXXK', 'drop', { dataTransfer });
+    }
+  }
+
+  /**
+   * @param { string array }
+   * 
+   */
+  async uploadFile(filePathStringArray) {
+    for (const filePath of filePathStringArray) {
+      await this.page.locator('.fileSelect_hiddenInput__cFGzI').setInputFiles(filePath);
+    }
   }
 
 }
