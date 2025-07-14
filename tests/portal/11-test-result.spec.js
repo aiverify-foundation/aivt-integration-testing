@@ -799,7 +799,7 @@ test.describe('Upload Test Results', () => {
 
     test('Results Editor Button', async ({ testResultPage, page }) => {
 
-        console.log('[INFO] Resultes Editor Page')
+        console.log('[INFO] Results Editor Page')
         await testResultPage.resultsEditorButton.click()
 
         /* Assert Results Editor Button */
