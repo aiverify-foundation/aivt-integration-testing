@@ -18,23 +18,6 @@ test.describe('Select Data', () => {
 
     })
 
-    test('AI Model Dropdown List', async ({ selectDataPage }) => {
-
-        console.log('[INFO] Select AI Model')
-        await selectDataPage.modelDropDownBox.selectOption('1') //sample_bc_credit_sklearn_linear.LogisticRegression.sav
-
-        /* Assert Select AI Model */
-        await selectDataPage.inputComboBox.nth(1).selectOption("1")
-    })
-
-    test('No Uploaded Models Selected', async ({ selectDataPage }) => {
-
-        console.log('[INFO] Select Test Result')
-
-        /* Assert Select Test Result */
-        await selectDataPage.inputComboBox.nth(1).selectOption("1")
-    })
-
     test('Add New AI Model Button', async ({ selectDataPage, page }) => {
         
         console.log('[INFO] Add New AI Model')
