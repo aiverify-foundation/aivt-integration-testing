@@ -600,4 +600,53 @@ test.describe('View Running Tests', () => {
 
     })
 
+    test('Next Button', async ({ testResultPage, page }) => {
+
+        console.log('[INFO] View Running Test Page')
+        await testResultPage.viewRunningTestButton.click()
+        await expect.soft(testResultPage.previousButton).not.toBeEnabled()
+        await testResultPage.nextButton.click()
+
+        /* Assert Next Button */
+        await expect.soft(testResultPage.previousButton).toBeEnabled()
+        await expect.soft(page.getByText('Page 2')).toBeVisible()
+
+    })
+
+    test('Previous Button', async ({ testResultPage, page }) => {
+
+        console.log('[INFO] View Running Test Page')
+        await testResultPage.viewRunningTestButton.click()
+        await testResultPage.nextButton.click()
+        await expect.soft(testResultPage.previousButton).toBeEnabled()
+        await testResultPage.previousButton.click()
+
+        /* Assert Previous Button */
+        await expect.soft(testResultPage.previousButton).not.toBeEnabled()
+        await expect.soft(page.getByText('Page 1')).toBeVisible()
+
+    })
+
+    test('Run New Test Button', async ({ testResultPage, page }) => {
+
+        console.log('[INFO] View Running Test Page')
+        await testResultPage.viewRunningTestButton.click()
+        await testResultPage.runNewTestButton.click()
+
+        /* Assert Run New Test Button */
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/run"))
+
+    })
+
+    test('View Test Results Button', async ({ testResultPage, page }) => {
+
+        console.log('[INFO] View Running Test Page')
+        await testResultPage.viewRunningTestButton.click()
+        await testResultPage.viewTestResultsButton.click()
+
+        /* Assert Run New Test Button */
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/results"))
+
+    })
+
 })
