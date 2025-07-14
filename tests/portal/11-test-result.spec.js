@@ -650,3 +650,161 @@ test.describe('View Running Tests', () => {
     })
 
 })
+
+test.describe('Upload Test Results', () => {
+
+    test.beforeEach(async ({ homePage, managePage, testResultPage }) => {
+
+        /* AI Verify Homepage */
+        console.log('[INFO] Navigate to AI Verify Home Page')
+        await homePage.goto(url + ":" + port_number)
+        await expect.soft(homePage.aivlogo).toBeVisible({ timeout: 60000 })
+        await homePage.manageButton.click()
+
+        /* Manage Page */
+        console.log('[INFO] Manage Page')
+        await managePage.testResultButton.click()
+
+        /* Upload Test Result Page */
+        console.log('[INFO] Upload Test Result Page')
+        await testResultPage.uploadTestResultsButton.click()
+
+    })
+
+    test('Upload Test Results Zip File - Drag And Drop', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/output-image-standalone.zip" ]
+
+        console.log('[INFO] Upload Test Results Zip File')
+        await testResultPage.dragAndDropFile(filePathStringArray)
+
+        /* Assert Upload Test Results Zip File - Drag And Drop */
+        await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
+        await testResultPage.uploadButton.click()
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 2000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 2000 })
+        
+    })
+
+    test('Upload Test Results Zip File - Click To Browse', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/output-image-standalone.zip" ]
+
+        console.log('[INFO] Upload Test Results Zip File')
+        await testResultPage.uploadFile(filePathStringArray)
+
+        /* Assert Upload Test Results Zip File - Click To Browse */
+        await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
+        await testResultPage.uploadButton.click()
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 2000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 2000 })
+        
+    })
+
+    test('Upload Invalid Test Results Zip File', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/output.zip"]
+
+        console.log('[INFO] Upload Invalid Test Results Zip File')
+        await testResultPage.uploadFile(filePathStringArray)
+
+        /* Assert Upload Invalid Test Results Zip File */
+        await testResultPage.uploadButton.click()
+        await expect.soft(page.getByText('Error', { exact: true })).toBeVisible({ timeout: 2000 })
+        await expect.soft(testResultPage.viewErrorsButton).toBeVisible({ timeout: 2000 })
+
+    })
+
+    test('Upload Non Zip File', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/Result for aiverify_digital_corruptions_algorithmArgs.json" ]
+
+        console.log('[INFO] Upload Non Zip File')
+        await testResultPage.uploadFile(filePathStringArray)
+
+        /* Assert Upload Non Zip File */
+        await testResultPage.uploadButton.click()
+        await expect.soft(page.getByText('Error', { exact: true })).toBeVisible({ timeout: 2000 })
+        await expect.soft(page.getByText('Only zip files are allowed')).toBeVisible({ timeout: 2000 })
+        await expect.soft(testResultPage.viewErrorsButton).toBeVisible({ timeout: 2000 })
+
+    })
+
+    test('Upload More Than One Test Results Zip File', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ 
+            root_path + "/test_results/output-image-standalone.zip",
+            root_path + "/test_results/output-robustness.zip"
+        ]
+
+        console.log('[INFO] Upload Test Results Zip File')
+        await testResultPage.uploadFile(filePathStringArray)
+
+        /* Assert Upload More Than One Test Results Zip File' */
+        await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
+        await expect.soft(page.getByText('output-robustness.zip')).toBeVisible()
+        await testResultPage.uploadButton.click()
+        await expect.soft(page.getByText('Uploaded').first()).toBeVisible({ timeout: 2000 })
+        await expect.soft(page.getByText('Uploaded').nth(1)).toBeVisible({ timeout: 2000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 2000 })
+
+    })
+
+    test('View Errors Button', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/output.zip"]
+
+        console.log('[INFO] Upload Invalid Test Results Zip File')
+        await testResultPage.uploadFile(filePathStringArray)
+        await testResultPage.uploadButton.click()
+
+        /* Assert View Errors Button */
+        await testResultPage.viewErrorsButton.click()
+        await expect.soft(page.getByText('Internal Server Error')).toBeVisible()
+
+    })
+
+    test('Upload More Button', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/output-image-standalone.zip" ]
+
+        console.log('[INFO] Upload Test Results Zip File')
+        await testResultPage.uploadFile(filePathStringArray)
+        await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
+        await testResultPage.uploadButton.click()
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 2000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 2000 })
+        await testResultPage.uploadMoreButton.click()
+
+        /* Assert Upload More Button */
+        await expect.soft(page.getByText('output-image-standalone.zip')).not.toBeVisible()
+        await testResultPage.uploadFile(filePathStringArray)
+        await testResultPage.uploadButton.click()
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 2000 })
+
+    })
+
+    test('Remove File To Be Uploaded', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/output-image-standalone.zip" ]
+
+        console.log('[INFO] Upload Test Results Zip File')
+        await testResultPage.uploadFile(filePathStringArray)
+        await testResultPage.removeUploadFileButton.click()
+
+        /* Assert Remove File To Be Uploaded */
+        await expect.soft(page.getByText('output-image-standalone.zip')).not.toBeVisible()
+        
+    })
+
+    test('Results Editor Button', async ({ testResultPage, page }) => {
+
+        console.log('[INFO] Resultes Editor Page')
+        await testResultPage.resultsEditorButton.click()
+
+        /* Assert Results Editor Button */
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/upload/manual"))
+
+    })
+
+})
