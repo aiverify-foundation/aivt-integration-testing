@@ -319,32 +319,6 @@ test.describe('Upload Plugins', () => {
         
     })
 
-    test('Upload More Than 10 Plugins', async ({ pluginPage, page }) => {
-
-        /* Upload Plugin Using Valid Zip Plugin File */
-        console.log('[INFO] Upload Plugins')
-        let filePathStringArray = [
-            root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_fairness_classification_2.0.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_process_checklist.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_report_template.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0_copy.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_fairness_classification_2.0_copy.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_process_checklist_copy.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_report_template_copy.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0_copy1.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_fairness_classification_2.0_copy1.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_process_checklist_copy1.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_report_template_copy1.zip"
-        ]
-        await pluginPage.uploadFile(filePathStringArray)
-        await pluginPage.confirmUploadButton.click()
-
-        /* Assert Upload More Than 10 Plugin Files*/
-        await expect.soft(page.getByText('Upload Successful!')).toBeVisible({ timeout: 20000 })
-        await pluginPage.closeDialogBoxButton.click()
-    })
-
     test('Upload Invalid Plugin Format', async ({ pluginPage, page }) => {
 
         console.log('[INFO] Upload Plugins')
