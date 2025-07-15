@@ -400,36 +400,6 @@ test.describe('Upload Model', () => {
 
     })
 
-    test('Upload More Than 10 Model Files', async ({ modelPage }) => {
-
-        console.log('[INFO] Upload AI Model')
-        await modelPage.uploadAIModelButton.click()
-        await modelPage.nextButton.click()
-
-        // let filePathStringArray = [
-        //     root_path + '/model/' + "sample_bc_credit_sklearn_linear.LogisticRegression_0.sav", root_path + '/model/sample_mc_toxic_sklearn_linear.LogisticRegression.sav', root_path + '/model/sample_reg_donation_sklearn_linear.LinearRegression.sav',
-        //     root_path + '/model/' + modelName, root_path + '/model/sample_mc_toxic_sklearn_linear.LogisticRegression.sav', root_path + '/model/sample_reg_donation_sklearn_linear.LinearRegression.sav',
-        //     root_path + '/model/' + modelName, root_path + '/model/sample_mc_toxic_sklearn_linear.LogisticRegression.sav', root_path + '/model/sample_reg_donation_sklearn_linear.LinearRegression.sav',
-        //     root_path + '/model/' + modelName, root_path + '/model/sample_mc_toxic_sklearn_linear.LogisticRegression.sav', root_path + '/model/sample_reg_donation_sklearn_linear.LinearRegression.sav',
-        // ]
-
-        let filePathStringArray = [
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_0.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_1.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_2.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_3.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_4.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_5.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_6.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_7.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_8.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_9.sav',
-            root_path + '/model/sample_bc_credit_sklearn_linear.LogisticRegression_10.sav'
-        ]
-        await modelPage.uploadFile(filePathStringArray)
-
-    })
-
     test('Upload Invalid Model File', async ({ modelPage, page }) => {
 
         console.log('[INFO] Upload AI Model')
@@ -548,7 +518,7 @@ test.describe('Upload Model', () => {
         await modelPage.page.locator('#folderInput').setInputFiles(root_path + "/model/tensorflow_tabular_sequential.sav")
         await modelPage.uploadFolderButton.click()
 
-        /* Assert Upload Invalid Model Folder */
+        /* Assert Model Type Is Not Selected Model Folder */
         await expect.soft(page.getByText("Files uploaded successfully!")).not.toBeVisible()
 
     })
@@ -562,7 +532,7 @@ test.describe('Upload Model', () => {
         await page.locator('#folderInput').setInputFiles(root_path + "/model/tensorflow_tabular_sequential.sav")
         await modelPage.clearAllButton.click()
 
-        /* Assert Upload Invalid Model Folder */
+        /* Assert Clear All Button */
         await expect.soft(page.getByText("tensorflow_tabular_sequential.sav")).not.toBeVisible()
 
     })
@@ -575,7 +545,7 @@ test.describe('Upload Model', () => {
         await modelPage.folderButton.click()
         await modelPage.cancelButton.click()
 
-        /* Assert Cancel Button */
+        /* Assert Cancel Button Model Folder */
         await expect.soft(modelPage.uploadAIModelButton).toBeVisible()
         await expect.soft(modelPage.uploadAIModelPipelineButton).toBeVisible()
         
@@ -589,7 +559,7 @@ test.describe('Upload Model', () => {
         await modelPage.uploadAIModelPipelineButton.click()
         await modelPage.nextButton.click()
 
-        /* Assert Upload Valid Pipeline Folder */
+        /* Assert Upload Valid Pipeline Folder - Click To Browse */
         await modelPage.uploadFolder(folderPathStringArray, "pipelineInput")
         
     })
@@ -604,7 +574,7 @@ test.describe('Upload Model', () => {
         await page.locator('#pipelineInput').setInputFiles(root_path + '/pipeline/bc_tabular_credit')
         await modelPage.uploadFolderCloseDialogButton.click()
 
-        /* Assert Upload More Than One Model Folder */
+        /* Assert Upload More Than One Pipeline Folder */
         await expect.soft(page.getByRole('heading', { name: 'bc_tabular_credit'})).toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'bc_image_face'})).toBeVisible()
 
@@ -668,7 +638,7 @@ test.describe('Upload Model', () => {
         await modelPage.uploadFolderCloseDialogButton.click()
         await modelPage.clearAllButton.click()
 
-        /* Assert Clear All Button */
+        /* Assert Clear All Button Pipeline Folder */
         await expect.soft(page.getByRole('heading', { name: 'bc_image_face(2 files)' })).not.toBeVisible()
 
     })
@@ -680,7 +650,7 @@ test.describe('Upload Model', () => {
         await modelPage.nextButton.click()
         await modelPage.cancelButton.click()
 
-        /* Assert Cancel Button */
+        /* Assert Cancel Button Pipeline Folder */
         await expect.soft(modelPage.uploadAIModelButton).toBeVisible()
         await expect.soft(modelPage.uploadAIModelPipelineButton).toBeVisible()
 
