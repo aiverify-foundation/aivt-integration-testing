@@ -1,4 +1,5 @@
 import { test, expect } from '../../fixtures/base-test'
+import fs from 'fs'
 import { setTimeout } from 'timers/promises'
 
 const url = process.env.URL
@@ -21,14 +22,14 @@ test.describe('View All Test Results', () => {
 
     })
 
-    test('Search Test Results Bar', async ({ testResultPage }) => {
+    test('Search Test Results By Search Term', async ({ testResultPage }) => {
 
         let isTrue = false
 
         console.log('[INFO] Test Results Page')
         await testResultPage.searchBar.fill('veritas')
 
-        /* Assert Search Test Results Bar */
+        /* Assert Search Test Results By Search Term */
         const resultsTitle = await testResultPage.testResultRow.nth(0).textContent()
 
         if (resultsTitle.includes('veritas'))
@@ -504,7 +505,7 @@ test.describe('View Running Tests', () => {
 
     })
 
-    test('Filter By Cancel Status', async ({ testResultPage, page }) => {
+    test('Filter By Cancelled Status', async ({ testResultPage, page }) => {
 
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
@@ -807,4 +808,195 @@ test.describe('Upload Test Results', () => {
 
     })
 
+})
+
+test.describe('Upload Test Results Editor', () => {
+
+    test.beforeEach(async ({ homePage, managePage, testResultPage }) => {
+
+        /* AI Verify Homepage */
+        console.log('[INFO] Navigate to AI Verify Home Page')
+        await homePage.goto(url + ":" + port_number)
+        await expect.soft(homePage.aivlogo).toBeVisible({ timeout: 60000 })
+        await homePage.manageButton.click()
+
+        /* Manage Page */
+        console.log('[INFO] Manage Page')
+        await managePage.testResultButton.click()
+
+        /* Upload Test Result Page */
+        console.log('[INFO] Upload Test Result Page')
+        await testResultPage.uploadTestResultsButton.click()
+
+        /* Upload Test Results Editor */
+        console.log('[INFO] Upload Test Results Editor')
+        await testResultPage.resultsEditorButton.click()
+
+    })
+
+    test('Add Test Results With Valid JSON Schema Into Editor No Artifacts', async ({ testResultPage, page }) => {
+
+        let jsonFile = fs.readFileSync(root_path + "/test_results/output/results.json")
+        let parseJSONData = JSON.parse(jsonFile)
+
+        await testResultPage.resultEditor.fill(JSON.stringify(parseJSONData))
+        await testResultPage.uploadButton.click()
+
+        /* Assert Add Test Results With Valid JSON Schema Into Editor No Artifacts */
+        await expect.soft(page.getByText('Your test result has been uploaded successfully.')).toBeVisible()
+
+    })
+
+    test('Add Test Results With Valid JSON Schema Into Editor With Valid Artifacts - Drag And Drop', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [
+            root_path + "/test_results/output/images/veritas_classDistributionPieChart.png",
+        ]
+
+        let jsonFile = fs.readFileSync(root_path + "/test_results/output/results.json")
+        let parseJSONData = JSON.parse(jsonFile)
+
+        await testResultPage.resultEditor.fill(JSON.stringify(parseJSONData))
+        await testResultPage.dragAndDropFileTestArtifacts(filePathStringArray)
+
+        await testResultPage.uploadButton.click()
+
+        /* Assert Add Test Results With Valid JSON Schema Into Editor Valid Artifacts - Click To Browse */
+        await expect.soft(page.getByText('Your test result has been uploaded successfully.')).toBeVisible()
+
+    })
+
+    test('Add Test Results With Valid JSON Schema Into Editor With Valid Artifacts - Click To Browse', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [
+            root_path + "/test_results/output/images/veritas_classDistributionPieChart.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isfemale.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isforeign.png",
+            root_path + "/test_results/output/images/veritas_weightedConfusionHeatMapChart.png"
+        ]
+
+        let jsonFile = fs.readFileSync(root_path + "/test_results/output/results.json")
+        let parseJSONData = JSON.parse(jsonFile)
+
+        await testResultPage.resultEditor.fill(JSON.stringify(parseJSONData))
+        await testResultPage.uploadFile(filePathStringArray)
+
+        await testResultPage.uploadButton.click()
+
+        /* Assert Add Test Results With Valid JSON Schema Into Editor Valid Artifacts - Click To Browse */
+        await expect.soft(page.getByText('Your test result has been uploaded successfully.')).toBeVisible()
+
+    })
+
+    test('Add Test Results With Invalid JSON Schema Into Editor With Valid Artifacts', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [
+            root_path + "/test_results/output/images/veritas_classDistributionPieChart.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isfemale.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isforeign.png",
+            root_path + "/test_results/output/images/veritas_weightedConfusionHeatMapChart.png"
+        ]
+
+        await testResultPage.resultEditor.fill('{[]}')
+        await testResultPage.uploadFile(filePathStringArray)
+
+        /* Add Test Results With Invalid JSON Schema Into Editor With Valid Artifacts */
+        await expect.soft(testResultPage.errorLineButton).toBeVisible()
+        await testResultPage.errorLineButton.click()
+        await expect.soft(page.getByText('Parse error on line 1')).toBeVisible()
+        await expect.soft(testResultPage.uploadButton).not.toBeEnabled()
+
+    })
+
+    test.skip('Add Test Results With Invalid JSON Schema Into Editor With Invalid Artifacts', async ({ testResultPage }) => {
+
+        let filePathStringArray = [
+            root_path + "/test_results/output/images/veritas_classDistributionPieChart.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isfemale.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isforeign.png",
+            root_path + "/test_results/output/images/veritas_weightedConfusionHeatMapChart.png"
+        ]
+
+        let jsonFile = fs.readFileSync(root_path + "/test_results/output/results.json")
+        let parseJSONData = JSON.parse(jsonFile)
+
+        await testResultPage.resultEditor.fill(JSON.stringify(parseJSONData))
+        await testResultPage.uploadFile(filePathStringArray)
+
+        await testResultPage.uploadButton.click()
+
+        /* Add Test Results With Invalid JSON Schema Into Editor With Valid Artifacts */
+        await expect.soft(testResultPage.uploadButton).not.toBeEnabled()
+
+    })
+
+    test('Add Test Results With Valid JSON Schema Into Editor With More Than One Artifact', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [
+            root_path + "/test_results/output/images/veritas_classDistributionPieChart.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isfemale.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isforeign.png",
+            root_path + "/test_results/output/images/veritas_weightedConfusionHeatMapChart.png"
+        ]
+
+        let jsonFile = fs.readFileSync(root_path + "/test_results/output/results.json")
+        let parseJSONData = JSON.parse(jsonFile)
+
+        await testResultPage.resultEditor.fill(JSON.stringify(parseJSONData))
+        await testResultPage.uploadFile(filePathStringArray)
+
+        await testResultPage.uploadButton.click()
+
+        /* Assert Add Test Results With Valid JSON Schema Into Editor With More Than One Artifact */
+        await expect.soft(page.getByText('Your test result has been uploaded successfully.')).toBeVisible()
+
+    })
+
+    test('Remove Test Artifact To Be Uploaded', async ({ testResultPage, page }) => {
+
+        let filePathStringArray = [ root_path + "/test_results/output/images/veritas_classDistributionPieChart.png" ]
+
+        await testResultPage.uploadFile(filePathStringArray)
+        await testResultPage.removeUploadFileButton.click()
+
+        /* Assert Remove Test Artifact To Be Uploaded */
+        await expect.soft(page.getByText('veritas_classDistributionPieChart.png')).not.toBeVisible()
+
+    })
+
+    test('Upload Button Enabled', async ({ testResultPage }) => {
+
+        let filePathStringArray = [
+            root_path + "/test_results/output/images/veritas_classDistributionPieChart.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isfemale.png",
+            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isforeign.png",
+            root_path + "/test_results/output/images/veritas_weightedConfusionHeatMapChart.png"
+        ]
+
+        let jsonFile = fs.readFileSync(root_path + "/test_results/output/results.json")
+        let parseJSONData = JSON.parse(jsonFile)
+
+        await testResultPage.resultEditor.fill(JSON.stringify(parseJSONData))
+        await testResultPage.uploadFile(filePathStringArray)
+
+        /* Assert Upload Button Enabled */
+        await expect.soft(testResultPage.uploadButton).toBeEnabled()
+
+    })
+
+    test('Upload Button Disabled', async ({ testResultPage }) => {
+
+        /* Assert Upload Button Disabled */
+        await expect.soft(testResultPage.uploadButton).not.toBeEnabled()
+
+    })
+
+    test('Upload Zip File Button', async ({ testResultPage, page }) => {
+
+        console.log('[INFO] Upload Zip File')
+        await testResultPage.uploadZipFileButton.click()
+
+        /* Assert Upload Zip File Button */
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/upload/zipfile"))
+    })
 })
