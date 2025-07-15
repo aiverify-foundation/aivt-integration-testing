@@ -17,6 +17,7 @@ export class ReportTemplatePage {
         this.editReportTemplateButton = page.locator('.transition-colors')
         this.viewReportTemplateButton = page.locator('.transition-colors').first()
         this.copyReportTemplateButton = page.locator('.undefined > button:nth-child(2)').first()
+        this.reportTemplateName = page.locator('div.card_cardContent__bLyjq h3')
 
         /* Edit Mode */
         this.editModeButton = page.getByRole('button', { name: 'Switch to Edit Mode' })
@@ -24,6 +25,7 @@ export class ReportTemplatePage {
 
         /* Upload Report Template */
         this.removeReportTemplateFileButton = page.getByRole('button').nth(1)
+        this.confirmUpload = page.getByRole('button', { name: 'CONFIRM UPLOAD' })
 
     }
 
@@ -56,11 +58,22 @@ export class ReportTemplatePage {
             const dataTransfer = await this.page.evaluateHandle(async (data) => {
                 const transferData = new DataTransfer();
                 const blobData = await fetch(data).then(res => res.blob());
-                const file = new File([blobData], 'Project-1-12.data.json', { type: 'application/json' });
+                const file = new File([blobData], 'templates.zip', { type: 'application/zip' });
                 transferData.items.add(file);
                 return transferData;
             }, 'data:application/octet-stream;base64,' + bufferData);
             await this.page.dispatchEvent('#fileInput', 'drop', { dataTransfer });
+        }
+        await this.confirmUpload.click();
+    }
+
+    /**
+     * 
+     * @param {*} filePathStringArray 
+     */
+    async uploadFile(filePathStringArray) {
+        for (const filePath of filePathStringArray) {
+            await this.page.locator('#fileInput').setInputFiles(filePath);
         }
     }
 }
