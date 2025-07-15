@@ -14,6 +14,9 @@ export class DatasetPage {
     this.searchDatasetBar = page.getByPlaceholder('Search by Name');
     this.checkBox = page.getByRole('checkbox');
     this.algorithmNameCell = page.locator('td:nth-child(3)');
+    this.rowsCell = page.locator('td:nth-child(4)');
+    this.colsCell = page.locator('td:nth-child(5)');
+    this.dateCell = page.locator('td:nth-child(6)');
     this.deleteDatasetButton = page.locator('.p-6 > section > div > div > .icon_icon_wrapper__T4ODW > svg');
     this.deleteDialogBoxButton = page.getByRole('button', { name: "DELETE" });
 
