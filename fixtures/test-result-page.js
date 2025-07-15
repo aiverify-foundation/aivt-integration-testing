@@ -145,11 +145,6 @@ export class TestResultPage {
     await this.page.getByLabel('Algorithm:').selectOption('aiverify.stock.image_corruption_toolbox');
     await expect.soft(this.page.getByText('image corruption toolboxSUCCESS').nth(0)).toBeVisible({ timeout: 400000 })
 
-    /* Delete Test Results */
-    console.log('[INFO] Delete Test Results')
-    await this.deleteTestRunButton.click()
-    await this.confirmDeleteTestRunButton.click()
-    await this.confirmDeleteTestRunOkayButton.click()
   }
 
   /**
