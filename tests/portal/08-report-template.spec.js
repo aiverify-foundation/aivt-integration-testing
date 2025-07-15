@@ -25,7 +25,22 @@ test.describe('View Uploaded Template', () => {
         console.log('[INFO] Report Template Page')
         
         console.log('[INFO] Search Template With Search Term')
-        await reportTemplatePage.searchReportTemplate('')
+        await reportTemplatePage.searchReportTemplate('veritas')
+
+        let i = 0
+        let isVeritas = true
+
+        /* Assert Search Template Bar */
+        while(await reportTemplatePage.reportTemplateName.nth(i).isVisible()) {
+            let templateName = await reportTemplatePage.reportTemplateName.nth(i).textContent()
+            if(!templateName.includes('Veritas')) {
+                isVeritas = false
+                break
+            }
+            i++
+        }
+
+        await expect.soft(isVeritas).toBeTruthy()
 
     })
 
@@ -39,13 +54,16 @@ test.describe('View Uploaded Template', () => {
 
     })
 
-    test('Clear Search Button', async ({ reportTemplatePage }) => {
+    test('Clear Search Button', async ({ reportTemplatePage, page }) => {
 
         console.log('[INFO] Report Template Page')
 
         console.log('[INFO] Search Template With Search Term')
-        await reportTemplatePage.searchReportTemplate('')
+        await reportTemplatePage.searchReportTemplate('xxxyyy')
         await reportTemplatePage.clearSearchButton.click()
+
+        /* Assert Clear Search Button */
+        await expect.soft(page.getByText('xxxyyy')).not.toBeVisible()
 
     })
 
@@ -75,7 +93,7 @@ test.describe('View Uploaded Template', () => {
 
     })
 
-    test('Edit Mode Button', async ({ reportTemplatePage, canvasPage}) => {
+    test('Edit Report Template Mode Button', async ({ reportTemplatePage, canvasPage}) => {
 
         console.log('[INFO] Report Template Page')
 
@@ -91,7 +109,7 @@ test.describe('View Uploaded Template', () => {
 
     })
 
-    test('View Mode Button', async ({ reportTemplatePage, canvasPage }) => {
+    test('View Report Template Mode Button', async ({ reportTemplatePage, canvasPage }) => {
 
         console.log('[INFO] Report Template Page')
 
@@ -132,27 +150,74 @@ test.describe('Upload Report Template', () => {
 
     })
 
-    test('Upload Report Template - Drag and Drop', async ({ reportTemplatePage }) => {
+    test('Upload Report Template - Drag and Drop', async ({ reportTemplatePage, page }) => {
 
-        /* Upload Report Template*/
-        let filePathStringArray = [root_path + "/template/templates/Project-1-12.data.json"]
+        /* Upload Report Template */
+        let filePathStringArray = [root_path + "/template/templates.zip"]
         
         console.log('[INFO] Upload Report Template')
         await reportTemplatePage.dragAndDropFile(filePathStringArray)
+
+        /* Assert Upload Report Template - Drag and Drop */
+        await expect.soft(page.getByText('Upload Successful!')).toBeVisible()
 
     })
 
-    test('Remove Report Template File To Be Uploaded', async ({ reportTemplatePage }) => {
+    test('Upload Report Template - Click To Browse', async ({ reportTemplatePage, page }) => {
 
-        /* Upload Report Template*/
-        let filePathStringArray = [root_path + "/template/templates/Project-1-12.data.json"]
+        /* Upload Report Template */
+        let filePathStringArray = [root_path + "/template/templates.zip"]
         
         console.log('[INFO] Upload Report Template')
-        await reportTemplatePage.dragAndDropFile(filePathStringArray)
+        await reportTemplatePage.uploadFile(filePathStringArray)
+        await reportTemplatePage.confirmUpload.click()
+
+        /* Assert Upload Report Template - Click To Browse */
+        await expect.soft(page.getByText('Upload Successful!')).toBeVisible()
+
+    })
+
+    test('Upload More Than One Report Template', async ({ reportTemplatePage, page }) => {
+
+        /* Upload Multiple Report Template */
+        let filePathStringArray = [
+            root_path + "/template/templates.zip",
+            root_path + "/template/templates2.zip"
+        ]
+        
+        console.log('[INFO] Upload Report Template')
+        await reportTemplatePage.uploadFile(filePathStringArray)
+        await reportTemplatePage.confirmUpload.click()
+
+        /* Assert Upload Report Template - Drag and Drop */
+        await expect.soft(page.getByText('Upload Successful!')).toBeVisible()
+
+    })
+
+    test('Upload Invalid Report Template File', async ({ reportTemplatePage, page }) => {
+
+        /* Upload Invalid Report Template File */
+        let filePathStringArray = [root_path + "/test_results/output-robustness.zip"]
+        
+        console.log('[INFO] Upload Report Template')
+        await reportTemplatePage.uploadFile(filePathStringArray)
+
+        /* Assert Upload Invalid Report Template File */
+        await expect.soft(page.getByText('No valid ZIP files were processed. Please check file contents and try again.')).toBeVisible()
+
+    })
+
+    test('Remove Report Template File To Be Uploaded', async ({ reportTemplatePage, page }) => {
+
+        /* Upload Report Template*/
+        let filePathStringArray = [root_path + "/template/templates.zip"]
+        
+        console.log('[INFO] Upload Report Template')
+        await reportTemplatePage.uploadFile(filePathStringArray)
         await reportTemplatePage.removeReportTemplateFileButton.click()
 
         /* Assert Remove Report Template File To Be Uploaded */
-        await expect.soft(page.getByText('Project-1-12.data.json')).not.toBeVisible()
+        await expect.soft(page.getByText('templates.zip')).not.toBeVisible()
 
     })
 })
