@@ -23,10 +23,10 @@ test.describe('View Uploaded Models', () => {
 
     })
 
-    test('Search Model Bar', async ({ modelPage, page }) => {
+    test('Search Model With Search Term', async ({ modelPage, page }) => {
 
         /* Search Model */
-        modelPage.searchModel('pytorch')
+        await modelPage.searchModel('pytorch')
 
         /* Assert Search Model */
         await expect.soft(page.getByText('sample_fashion_mnist_pytorch')).toBeVisible()
@@ -37,7 +37,7 @@ test.describe('View Uploaded Models', () => {
 
         /* Upload Model Button */
         console.log('[INFO] Upload Model')
-        modelPage.uploadModelButton.click()
+        await modelPage.uploadModelButton.click()
 
         /* Assert Upload Model Button */
         await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/models/upload"))
@@ -48,7 +48,7 @@ test.describe('View Uploaded Models', () => {
 
         /* Model Filter */
         console.log('[INFO] Model Filter')
-        modelPage.modelFilter.click()
+        await modelPage.modelFilter.click()
         await setTimeout(1000)
 
         let isModelType = false
@@ -71,7 +71,7 @@ test.describe('View Uploaded Models', () => {
 
         /* Pipeline Filter */
         console.log('[INFO] Pipeline Filter')
-        modelPage.pipelineFilter.click()
+        await modelPage.pipelineFilter.click()
         await setTimeout(1000)
 
         let isModelType = false
@@ -237,7 +237,7 @@ test.describe('View Uploaded Models', () => {
 
     })
 
-    test('CheckBox', async ({ modelPage, page }) => {
+    test('Select Models', async ({ modelPage, page }) => {
 
         console.log('[INFO] CheckBox On Models')
         await modelPage.checkBox.nth(0).click()
@@ -389,7 +389,7 @@ test.describe('Upload Model', () => {
 
     })
 
-    test('Upload Valid Model Than One Model File', async ({ modelPage }) => {
+    test('Upload Model Than One Model File', async ({ modelPage }) => {
 
         console.log('[INFO] Upload AI Model')
         await modelPage.uploadAIModelButton.click()
@@ -418,7 +418,7 @@ test.describe('Upload Model', () => {
 
     })
 
-    test('Model Type Is Not Selected', async ({ modelPage, page }) => {
+    test('Model Type Not Selected', async ({ modelPage, page }) => {
 
         console.log('[INFO] Upload AI Model')
         await modelPage.uploadAIModelButton.click()
@@ -447,7 +447,7 @@ test.describe('Upload Model', () => {
 
     })
 
-    test('Upload Valid Model Folder - Click To Browse', async ({ modelPage, page }) => {
+    test('Upload Valid Model Folder - Click To Browse', async ({ modelPage }) => {
 
         console.log('[INFO] Upload AI Model')
         await modelPage.uploadAIModelButton.click()
@@ -509,7 +509,7 @@ test.describe('Upload Model', () => {
 
     })
 
-    test('Model Type Is Not Selected Model Folder', async ({ modelPage, page }) => {
+    test('Model Type Not Selected Model Folder', async ({ modelPage, page }) => {
 
         console.log('[INFO] Upload AI Model')
         await modelPage.uploadAIModelButton.click()
