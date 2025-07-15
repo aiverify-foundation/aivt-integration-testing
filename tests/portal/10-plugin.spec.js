@@ -108,14 +108,14 @@ test.describe('View All Plugins', () => {
 
     })
 
-    test('Regression Tag', async ({ pluginPage, page }) => {
+    test('Regression Tag Filter', async ({ pluginPage, page }) => {
 
         /* Plugin Page */
         console.log('[INFO] Plugin Page')
         await pluginPage.tagsDropDownList.click()
         await page.getByLabel('Options for Select').getByText('regression').click()
 
-        /* Assert Regression Tag */
+        /* Assert Regression Tag Filter */
         await expect.soft(page.getByRole('heading', { name: 'Fairness for Regression' })).toBeVisible()
         await page.getByRole('heading', { name: 'Fairness for Regression' }).click()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Veritas' })).not.toBeVisible()
@@ -131,14 +131,14 @@ test.describe('View All Plugins', () => {
 
     })
 
-    test('Fairness Tag', async ({ pluginPage, page }) => {
+    test('Fairness Tag Filter', async ({ pluginPage, page }) => {
 
         /* Plugin Page */
         console.log('[INFO] Plugin Page')
         await pluginPage.tagsDropDownList.click()
         await page.getByText('fairness', { exact: true }).click()
 
-        /* Assert Fairness Tag */
+        /* Assert Fairness Tag Filter */
         await expect.soft(page.getByRole('heading', { name: 'Fairness for Regression' })).toBeVisible()
         await page.getByRole('heading', { name: 'Fairness for Regression' }).click()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Veritas' })).not.toBeVisible()
@@ -154,13 +154,13 @@ test.describe('View All Plugins', () => {
 
     })
 
-    test('Multiclassification Tag', async ({ pluginPage, page }) => {
+    test('Multiclassification Tag Filte', async ({ pluginPage, page }) => {
 
         console.log('[INFO] Plugin Page')
         await pluginPage.tagsDropDownList.click()
         await page.getByText('multiclass classification').click()
 
-        /* Assert Multiclassification Tag */
+        /* Assert Multiclassification Tag Filter */
         await expect.soft(page.getByRole('heading', { name: 'Fairness for Classification' })).toBeVisible()
         await page.getByRole('heading', { name: 'Fairness for Classification' }).click()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Veritas' })).not.toBeVisible()
@@ -176,13 +176,13 @@ test.describe('View All Plugins', () => {
 
     })
 
-    test('Binary Classification Tag', async ({ pluginPage, page }) => {
+    test('Binary Classification Tag Filter', async ({ pluginPage, page }) => {
 
         console.log('[INFO] Plugin Page')
         await pluginPage.tagsDropDownList.click()
         await page.getByText('binary classification').click();
 
-        /* Assert Binary Classification Tag */
+        /* Assert Binary Classification Tag Filter */
         await expect.soft(page.getByRole('heading', { name: 'Fairness for Classification' })).toBeVisible()
         await page.getByRole('heading', { name: 'Fairness for Classification' }).click()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Veritas' })).not.toBeVisible()
@@ -219,16 +219,6 @@ test.describe('View All Plugins', () => {
 
     })
 
-    test('Upload Plugin Button', async ({ pluginPage, page }) => {
-
-        console.log('[INFO] Plugin Page')
-        await pluginPage.uploadPluginButton.click()
-
-        /* Assert Plugin Details */
-        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/plugins/upload"))
-        
-    })
-
     test('Uninstall Plugin', async ({ pluginPage, page }) => {
 
         console.log('[INFO] Plugin Page')
@@ -237,6 +227,16 @@ test.describe('View All Plugins', () => {
         /* Assert Uninstalled Plugin */
         await expect(page.getByText('CCCS Process Checklist')).not.toBeVisible()
 
+    })
+
+    test('Upload Plugin Button', async ({ pluginPage, page }) => {
+
+        console.log('[INFO] Plugin Page')
+        await pluginPage.uploadPluginButton.click()
+
+        /* Assert Plugin Details */
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/plugins/upload"))
+        
     })
 
 })
