@@ -36,12 +36,17 @@ export class TestResultPage {
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
     this.backToResultsButton = page.getByRole('button', { name: 'Back to Results' });
 
-    /* Upload Test Result Page */
+    /* Upload Test Result Page Zip File */
     this.resultsEditorButton = page.getByRole('button', { name: 'Results Editor' });
     this.uploadButton = page.getByRole('button', { name: 'Upload', exact: true });
     this.uploadMoreButton = page.getByRole('button', { name: 'Upload More' });
     this.viewErrorsButton = page.getByRole('button', { name: 'View Errors' });
     this.removeUploadFileButton = page.getByRole('listitem').getByRole('img');
+
+    /* Upload Test Result Page Result Editor */
+    this.resultEditor = page.locator('.ace_text-input');
+    this.errorLineButton =  page.getByTitle('parse error on line');
+    this.uploadZipFileButton = page.getByRole('button', { name: 'Upload Zip File' });
 
     /* View Running Test Page */
     this.viewTestResultsButton = page.getByRole('button', { name: 'VIEW TEST RESULTS' });
@@ -226,6 +231,23 @@ export class TestResultPage {
         const transferData = new DataTransfer();
         const blobData = await fetch(data).then(res => res.blob());
         const file = new File([blobData], 'output-image-standalone.zip', { type: 'application/zip' });
+        transferData.items.add(file);
+        return transferData;
+      }, 'data:application/octet-stream;base64,' + bufferData);
+      await this.page.dispatchEvent('.fileSelect_dropZone__HzXXK', 'drop', { dataTransfer });
+    }
+  }
+
+  /**
+  * @param { string array }
+  */
+  async dragAndDropFileTestArtifacts(filePathStringArray) {
+    for (const filePath of filePathStringArray) {
+      const bufferData = readFileSync(filePath).toString('base64');
+      const dataTransfer = await this.page.evaluateHandle(async (data) => {
+        const transferData = new DataTransfer();
+        const blobData = await fetch(data).then(res => res.blob());
+        const file = new File([blobData], 'veritas_classDistributionPieChart.png');
         transferData.items.add(file);
         return transferData;
       }, 'data:application/octet-stream;base64,' + bufferData);
