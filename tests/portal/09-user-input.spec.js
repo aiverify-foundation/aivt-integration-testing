@@ -102,7 +102,7 @@ test.describe('AI Verify Process Checklist', () => {
         await expect.soft(page.getByText('Accountability Process').nth(1)).toBeVisible()
     })
 
-    test('Fill Up AI Verify Process Checklist', async ({ userInputPage, page }) => {
+    test('Fill Up AI Verify Process Checklist Complete', async ({ userInputPage, page }) => {
 
         /* AI Verify Process Checklist Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -160,6 +160,29 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
+    test('Export Checklist JSON', async ({ userInputPage, page }) => {
+
+        /* AI Verify Process Checklist */
+        console.log('[INFO] AI Verify Process Checklist')
+        await page.getByRole('heading', { name: 'AI Verify Process Checklists' }).nth(2).click()
+
+        /* Export Checklist */
+        console.log('[INFO] Export Checklist Dialog Box')
+        await userInputPage.exportCheckListButton.click()
+        await userInputPage.jsonRadioButton.check()
+
+        /* Assert Export Checklist JSON */
+        const downloadPromise = page.waitForEvent('download')
+        await userInputPage.exportCheckListExportDialogButton.click()
+        const download = await downloadPromise
+
+        /* Assert Download Model File */
+        await download.saveAs(root_path + '/checklist/' + download.suggestedFilename())
+        await setTimeout(1000)
+        await expect.soft(page.getByText('Export as JSON completed')).toBeVisible()
+
+    })
+
     test('Export Checklist Excel', async ({ userInputPage, page }) => {
 
         /* AI Verify Process Checklist */
@@ -180,25 +203,6 @@ test.describe('AI Verify Process Checklist', () => {
         await download.saveAs(root_path + '/checklist/' + download.suggestedFilename())
         await setTimeout(1000)
         await expect.soft(page.getByText('Export as XLSX completed')).toBeVisible()
-
-    })
-
-    test('Export Checklist JSON', async ({ userInputPage, page }) => {
-
-        /* AI Verify Process Checklist */
-        console.log('[INFO] AI Verify Process Checklist')
-        await page.getByRole('heading', { name: 'AI Verify Process Checklists' }).nth(2).click()
-
-        /* Export Checklist */
-        console.log('[INFO] Export Checklist Dialog Box')
-        await userInputPage.exportCheckListButton.click()
-        await userInputPage.jsonRadioButton.check()
-
-        /* Assert Export Checklist JSON */
-        const downloadPromise = page.waitForEvent('download')
-        await userInputPage.exportCheckListExportDialogButton.click()
-        const download = await downloadPromise
-        await expect.soft(page.getByText('Export as JSON completed')).toBeVisible()
 
     })
 
@@ -251,7 +255,7 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Import Valid AI Verify Process Checklist Excel - Drag and Drop', async ({ userInputPage, page }) => {
+    test('Import Valid AI Verify Process Checklist Excel Sheet Format And Valid Name - Drag and Drop', async ({ userInputPage, page }) => {
 
         /* AI Verify Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -272,7 +276,7 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Import Valid AI Verify Process Checklist Excel - Click To Browse', async ({ userInputPage }) => {
+    test('Import Valid AI Verify Process Checklist Excel Sheet Format And Valid Name - Click To Browse', async ({ userInputPage }) => {
 
         /* AI Verify Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -293,27 +297,6 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Import Valid AI Verify Process Checklist Invalid Name', async ({ userInputPage, page }) => {
-
-        /* AI Verify Add Checklist Dialog Box */
-        console.log('[INFO] Add New Checklist')
-        await userInputPage.addCheckListButton.click()
-
-        /* AI Verify Process Checklist */
-        console.log('[INFO] AI Verify Process Checklist')
-        await userInputPage.uploadExcelSheetButton.click()
-
-        /* Upload AI Verify Process Checklist Excel Sheet Invalid Name */
-        console.log('[INFO] Upload AI Verify Process Checklist')
-        let filePathStringArray = [root_path + '/checklist/AI Verify Process Checklists Exported Excel_checklists_copy.xlsx']
-        await userInputPage.uploadFile(filePathStringArray)
-        await userInputPage.confirmUploadDialogBoxButton.click()
-
-        /* Upload AI Verify Process Checklist Excel Sheet Invalid Name */
-        await expect.soft(page.getByText('Upload failed: Cannot read')).toBeVisible()
-
-    })
-
     test('Import Invalid Excel Sheet', async ({ userInputPage, page }) => {
 
         /* AI Verify Add Checklist Dialog Box */
@@ -331,6 +314,27 @@ test.describe('AI Verify Process Checklist', () => {
         await userInputPage.confirmUploadDialogBoxButton.click()
 
         /* Upload AI Verify Process Checklist Excel Invalid Name */
+        await expect.soft(page.getByText('Upload failed: Cannot read')).toBeVisible()
+
+    })
+
+    test('Import Valid AI Verify Process Checklist Excel Sheet Format And Invalid Name', async ({ userInputPage, page }) => {
+
+        /* AI Verify Add Checklist Dialog Box */
+        console.log('[INFO] Add New Checklist')
+        await userInputPage.addCheckListButton.click()
+
+        /* AI Verify Process Checklist */
+        console.log('[INFO] AI Verify Process Checklist')
+        await userInputPage.uploadExcelSheetButton.click()
+
+        /* Upload AI Verify Process Checklist Excel Sheet Invalid Name */
+        console.log('[INFO] Upload AI Verify Process Checklist')
+        let filePathStringArray = [root_path + '/checklist/AI Verify Process Checklists Exported Excel_checklists_copy.xlsx']
+        await userInputPage.uploadFile(filePathStringArray)
+        await userInputPage.confirmUploadDialogBoxButton.click()
+
+        /* Upload AI Verify Process Checklist Excel Sheet Invalid Name */
         await expect.soft(page.getByText('Upload failed: Cannot read')).toBeVisible()
 
     })
@@ -411,7 +415,7 @@ test.describe('Veritas Process Checklist', () => {
 
     })
 
-    test('Search Veritas Process Checklist Bar', async ({ userInputPage, page }) => {
+    test('Search Veritas Process Checklist By Search Term', async ({ userInputPage, page }) => {
 
         /* Search Veritas Process Checklist */
         await userInputPage.userInputSearchBar.fill('test')
@@ -427,7 +431,7 @@ test.describe('Veritas Process Checklist', () => {
 
     })
 
-    test('Veritas Process Checklist Add Checklist Button - Create New Checklist', async ({ userInputPage, page }) => {
+    test('Veritas Process Checklist - Add Checklist Button - Create New Checklist', async ({ userInputPage, page }) => {
 
         /* Veritas Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -468,7 +472,7 @@ test.describe('Veritas Process Checklist', () => {
 
     })
 
-    test('Fill Up Veritas Process Checklist', async ({ userInputPage }) => {
+    test('Fill Up Veritas Process Checklist Complete', async ({ userInputPage }) => {
 
         /* Veritas Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -707,6 +711,21 @@ test.describe('Fairness Tree', () => {
 
     })
 
+    test('Submit Button - All Fields Completed', async ({ userInputPage, page }) => {
+
+        /* Add Fairness Tree */
+        console.log('[INFO] Fairness Tree')
+
+        /* Complete Fairness Tree */
+        await userInputPage.completeFairnessTree('Fairness Tree 11')
+
+        /* Assert Submit Button - All Fields Completed */
+        await expect.soft(page.getByText('Tree updated successfully')).toBeVisible()
+        await userInputPage.closeSuccessFairnessTreeDialogBox.click()
+        await expect.soft(page.getByRole('heading', { name: 'Fairness Tree 11' })).toBeVisible()
+
+    })
+
     test('Submit Button - Fields Incomplete', async ({ userInputPage, page }) => {
 
         /* Add Fairness Tree */
@@ -723,22 +742,7 @@ test.describe('Fairness Tree', () => {
 
     })
 
-    test('Submit Button - All Fields Completed', async ({ userInputPage, page }) => {
-
-        /* Add Fairness Tree */
-        console.log('[INFO] Fairness Tree')
-
-        /* Complete Fairness Tree */
-        await userInputPage.completeFairnessTree('Fairness Tree 11')
-
-        /* Assert Submit Button - All Fields Completed */
-        await expect.soft(page.getByText('Tree updated successfully')).toBeVisible()
-        await userInputPage.closeSuccessFairnessTreeDialogBox.click()
-        await expect.soft(page.getByRole('heading', { name: 'Fairness Tree 11' })).toBeVisible()
-
-    })
-
-    test('Cancel Button', async ({ userInputPage, page }) => {
+    test('Fairness Tree Cancel Button', async ({ userInputPage, page }) => {
 
         /* Add Fairness Tree */
         console.log('[INFO] Fairness Tree')
