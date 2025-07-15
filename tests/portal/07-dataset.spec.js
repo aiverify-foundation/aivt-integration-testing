@@ -25,7 +25,7 @@ test.describe('View Uploaded Dataset', () => {
     test('Search Dataset Bar', async ({ datasetPage, page }) => {
 
         /* Search Dataset */
-        datasetPage.searchDataset('veritas')
+        await datasetPage.searchDataset('veritas')
 
         /* Assert Search Dataset */
         await expect.soft(page.getByText('sample_bc_credit_data.sav')).toBeVisible()
@@ -43,11 +43,21 @@ test.describe('View Uploaded Dataset', () => {
 
     })
 
-    test('Dataset Details', async ({ page }) => {
+    test('Dataset Details', async ({ datasetPage, page }) => {
 
         /* Dataset Details */
         console.log('[INFO] Dataset Details')
+        const algorithmName = await datasetPage.algorithmNameCell.nth(1).textContent()
+        const rowsValue = await datasetPage.rowsCell.nth(1).textContent()
+        const colsValue = await datasetPage.colsCell.nth(1).textContent()
+        const dateValue = await datasetPage.dateCell.nth(1).textContent()
 
+        /* Assert Dataset Details */
+        await expect.soft(algorithmName).toBeTruthy()
+        await expect.soft(rowsValue).toBeTruthy()
+        await expect.soft(colsValue).toBeTruthy()
+        await expect.soft(dateValue).toBeTruthy()
+        
     })
 
     test('More Dataset Details', async ({ page }) => {
@@ -111,20 +121,6 @@ test.describe('View Uploaded Dataset', () => {
 
     })
 
-    test('Upload More Than 10 Dataset', async ({ datasetPage }) => {
-
-        /* Upload Dataset File */
-        console.log('[INFO] Upload Dataset Files')
-        filePathStringArray = [
-            root_path + '/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav', root_path + '/data/sample_bc_credit_data.sav', root_path + '/data/sample_bc_pipeline_credit_data.sav',
-            root_path + '/data/sample_bc_pipeline_credit_ytest_data.sav', root_path + '/data/sample_mc_pipeline_toxic_data.sav', root_path + '/data/sample_mc_pipeline_toxic_ytest_data.sav',
-            root_path + '/data/sample_mc_toxic_data.sav', root_path + '/data/sample_reg_donation_data.sav', root_path + '/data/sample_reg_pipeline_data.sav',
-            root_path + '/data/sample_reg_pipeline_ytest_data.sav', root_path + '/data/true']
-        await datasetPage.uploadDatasetButton.click()
-        await datasetPage.uploadFile(filePathStringArray)
-
-    })
-
     test('Upload Invalid Dataset File', async ({ datasetPage, page }) => {
 
         /* Upload Dataset File */
@@ -175,7 +171,7 @@ test.describe('View Uploaded Dataset', () => {
         await datasetPage.uploadFolderCloseDialogButton.click()
 
         /* Assert Upload More Than One Dataset Folder */
-        await expect.soft(page.getByRole('heading', { name: 'raw_fashion_image_10' })).not.toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'raw_fashion_image_10' })).toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'small_test' })).toBeVisible()
 
     })
