@@ -128,7 +128,7 @@ test.describe('AI Verify Process Checklist', () => {
             { name: "Organisational Considerations Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 7 }
         ]
 
-        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 3)
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 7)
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistComplete()
@@ -153,7 +153,7 @@ test.describe('AI Verify Process Checklist', () => {
             { name: "Security Process Checklist", yesNoNAOptions: "No", numberOfRows: 14 }
         ]
 
-        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 4)
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 8)
 
         /* Assert Fill Up AI Verify Process Checklist Incomplete */
         await userInputPage.validateProcessChecklistIncomplete(5)
@@ -378,7 +378,7 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Confirm Upload Button Disabled', async ({ userInputPage, page }) => {
+    test('Confirm Upload Button Disabled', async ({ userInputPage }) => {
 
         /* AI Verify Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -486,7 +486,7 @@ test.describe('Veritas Process Checklist', () => {
             { name: "Ethics and Accountability Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 10 },
             { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21 }
         ]
-        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 33) //Number to be edited
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 13) //Number to be edited
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistComplete()
@@ -506,7 +506,7 @@ test.describe('Veritas Process Checklist', () => {
             { name: "Fairness Process Checklist", yesNoNAOptions: "No", numberOfRows: 15 }
         ]
 
-        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 34) //Number to be edited
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 14) //Number to be edited
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistIncomplete(2)

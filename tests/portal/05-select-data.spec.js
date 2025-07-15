@@ -41,6 +41,8 @@ test.describe('Select Data', () => {
     test('Upload Test Results Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Upload Test Results')
+
+        await selectDataPage.selectDataComboBox(arrayofIDs)
         await selectDataPage.uploadTestResultsButton.click()
 
         /* Assert Add New AI Model Button */
@@ -51,7 +53,9 @@ test.describe('Select Data', () => {
     test('Add Input Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Add Input')
-        await selectDataPage.addInputButton.click()
+
+        const arrayofIDs = ['1', '2'] 
+        await selectDataPage.addInputButton.click(arrayofIDs)
 
         /* Assert Add Input Button */
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/inputs/groups"))
@@ -60,6 +64,7 @@ test.describe('Select Data', () => {
     test('Next Button', async ({ selectDataPage }) => {
 
         console.log('[INFO] Generate Report')
+
         await selectDataPage.nextButton.click()
 
         /* Assert Next Button */

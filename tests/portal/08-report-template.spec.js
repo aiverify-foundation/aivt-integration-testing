@@ -85,11 +85,13 @@ test.describe('View Uploaded Template', () => {
 
         console.log('[INFO] Copy Report Template')
         await reportTemplatePage.copyReportTemplateButton.click()
+        await expect.soft(page.getByRole('heading', { name: 'Template Cloned Successfully' })).toBeVisible()
+        await page.getByRole('button', { name: 'OK' }).click();
 
         /* Assert Copy Report Template Button */
         while (!(await page.getByRole('heading', { name: 'Copy of AI Verify Summary' }).nth(0).isVisible())) {
             await page.mouse.wheel(0, 600)
-          }
+        }
 
     })
 

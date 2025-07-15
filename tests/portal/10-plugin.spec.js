@@ -121,7 +121,7 @@ test.describe('View All Plugins', () => {
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Veritas' })).not.toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Reports' })).not.toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'Partial Dependence Plot' })).not.toBeVisible()
-        await expect.soft(page.getByRole('heading', { name: 'Fairness for Classification' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'Fairness for Classification' })).not.toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'SHAP Toolbox' })).not.toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Stock Decorators' })).not.toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'Image Corruption Toolbox' })).not.toBeVisible()
@@ -154,7 +154,7 @@ test.describe('View All Plugins', () => {
 
     })
 
-    test('Multiclassification Tag Filte', async ({ pluginPage, page }) => {
+    test('Multiclassification Tag Filter', async ({ pluginPage, page }) => {
 
         console.log('[INFO] Plugin Page')
         await pluginPage.tagsDropDownList.click()
@@ -337,7 +337,7 @@ test.describe('Upload Plugins', () => {
 
         console.log('[INFO] Upload Plugins')
         let filePathStringArray = [
-            root_path + "/third-party-plugins/cccs_plugins/invalidZip.zip",
+            root_path + "/template/templates.zip",
         ]
         await pluginPage.uploadFile(filePathStringArray)
         await pluginPage.confirmUploadButton.click()
@@ -351,7 +351,7 @@ test.describe('Upload Plugins', () => {
 
         console.log('[INFO] Upload Plugins')
         let filePathStringArray = [
-            root_path + "/third-party-plugins/cccs_plugins/invalidPluginMetaJson.zip",
+            root_path + "/third-party-plugins/cccs_plugins/corrupted.zip",
         ]
         await pluginPage.uploadFile(filePathStringArray)
         await pluginPage.confirmUploadButton.click()

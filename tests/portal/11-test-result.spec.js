@@ -726,8 +726,9 @@ test.describe('Upload Test Results', () => {
         /* Assert Upload Non Zip File */
         await testResultPage.uploadButton.click()
         await expect.soft(page.getByText('Error', { exact: true })).toBeVisible({ timeout: 2000 })
-        await expect.soft(page.getByText('Only zip files are allowed')).toBeVisible({ timeout: 2000 })
         await expect.soft(testResultPage.viewErrorsButton).toBeVisible({ timeout: 2000 })
+        await testResultPage.viewErrorsButton.click()
+        await expect.soft(page.getByText('Only zip files are allowed')).toBeVisible({ timeout: 2000 })
 
     })
 

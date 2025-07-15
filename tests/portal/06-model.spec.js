@@ -505,7 +505,7 @@ test.describe('Upload Model', () => {
         await modelPage.uploadFolderButton.click()
 
         /* Assert Upload Invalid Model Folder */
-        expect.soft(await page.getByText('Error uploading folder:')).toBeVisible()
+        expect.soft(await page.getByText('Error uploading folder "')).toBeVisible()
 
     })
 

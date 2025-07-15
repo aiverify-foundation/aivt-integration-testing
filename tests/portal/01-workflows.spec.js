@@ -141,12 +141,6 @@ test.describe('Algorithm Workflows', () => {
         await page.getByLabel('Algorithm:').selectOption(fmtcParameters.algorithmDropDownListOption)
         await expect.soft(page.getByText(fmtcParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
 
-        /* Delete Test Results */
-        console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunOkayButton.click()
-
     })
 
     test('FMTR Test', async ({ testResultPage, page }) => {
@@ -166,12 +160,6 @@ test.describe('Algorithm Workflows', () => {
         await testResultPage.runAlgorithms(fmtrParameters)
         await page.getByLabel('Algorithm:').selectOption(fmtrParameters.algorithmDropDownListOption)
         await expect.soft(page.getByText(fmtrParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
-
-        /* Delete Test Results */
-        console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunOkayButton.click()
 
     })
 
@@ -336,12 +324,6 @@ test.describe('Algorithm Workflows', () => {
         await page.getByLabel('Algorithm:').selectOption(pdpParameters.algorithmDropDownListOption)
         await expect.soft(page.getByText(pdpParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
 
-        /* Delete Test Results */
-        console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunOkayButton.click()
-
     })
 
     test('Robustness ToolBox Tabular Test', async ({ testResultPage, page }) => {
@@ -363,12 +345,6 @@ test.describe('Algorithm Workflows', () => {
         await page.getByLabel('Algorithm:').selectOption(robustnessTabularParameters.algorithmDropDownListOption)
         await expect.soft(page.getByText(robustnessTabularParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
 
-        /* Delete Test Results */
-        console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunOkayButton.click()
-
     })
 
     test('Robustness ToolBox Image Test', async ({ testResultPage, page }) => {
@@ -389,14 +365,7 @@ test.describe('Algorithm Workflows', () => {
         await testResultPage.runAlgorithms(robustnessImageParameters)
         await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
         await expect.soft(page.getByText(robustnessImageParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
-
-        /* Delete Test Results */
-        console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunOkayButton.click()
         
-
     })
 
     test('SHAP ToolBox Test', async ({ testResultPage, page }) => {
@@ -418,12 +387,6 @@ test.describe('Algorithm Workflows', () => {
         await testResultPage.runAlgorithms(shapParameters)
         await page.getByLabel('Algorithm:').selectOption(shapParameters.algorithmDropDownListOption)
         await expect.soft(page.getByText(shapParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
-
-        /* Delete Test Results */
-        console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunOkayButton.click()
 
     })
 
@@ -452,12 +415,6 @@ test.describe('Algorithm Workflows', () => {
         await testResultPage.runAlgorithms(veritasParameters)
         await page.getByLabel('Algorithm:').selectOption(veritasParameters.algorithmDropDownListOption)
         await expect.soft(page.getByText(veritasParameters.testrunValidationSuccessText).nth(0)).toBeVisible({ timeout: 600000 })
-
-        /* Delete Test Results */
-        console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunButton.click()
-        await testResultPage.confirmDeleteTestRunOkayButton.click()
 
     })
 
