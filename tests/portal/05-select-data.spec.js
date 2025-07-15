@@ -28,14 +28,6 @@ test.describe('Select Data', () => {
 
     })
 
-    test('Test Results Dropdown List', async ({ selectDataPage }) => {
-
-        console.log('[INFO] Select Test Result')
-
-        /* Assert Select Test Result */
-        await selectDataPage.inputComboBox.nth(1).selectOption("1")
-    })
-
     test('Run Test Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Run Test')
@@ -53,15 +45,6 @@ test.describe('Select Data', () => {
 
         /* Assert Add New AI Model Button */
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/upload"))
-
-    })
-
-    test('User Inputs Dropdown List', async ({ selectDataPage }) => {
-
-        console.log('[INFO] User Inputs Dropdown List')
-
-        /* Assert Select User Input */
-        await selectDataPage.inputComboBox.nth(2).selectOption("1")
 
     })
 

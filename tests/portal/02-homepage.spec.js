@@ -14,14 +14,14 @@ test.describe('HomePage', () => {
 
     })
 
-    test('Project Card', async ({ homePage }) => {
+    test('Project Details', async ({ homePage }) => {
 
-        /* Project Card */
-        console.log('[INFO] Project Card Details')
+        /* Project Details */
+        console.log('[INFO] Project Details')
         const projectName = await homePage.projectNameDetailCard.nth(0).textContent()
         const projectDescription = await homePage.projectDescriptionDetailCard.nth(0).textContent()
 
-        /* Assert Project Card */
+        /* Assert Project Details */
         await expect.soft(projectName).toBeTruthy()
         await expect.soft(projectDescription).toBeTruthy()
 
@@ -67,7 +67,7 @@ test.describe('HomePage', () => {
 
     })
 
-    test('View Generated Button', async ({ homePage, page }) => {
+    test('View Generated Report', async ({ homePage, page }) => {
 
         /* View Report */
         console.log('[INFO] View Report')
