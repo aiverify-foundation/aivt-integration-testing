@@ -14,7 +14,7 @@ export class HomePage {
     this.searchBar = page.getByPlaceholder('Search projects...');
     this.clearButton = page.getByRole('button', { name: 'Clear' });
     this.viewReportButton = page.locator('.undefined > a');
-    this.editProjectButton = page.locator('div:nth-child(11) > .card_cardFlexbox__uYoDY > .undefined > a:nth-child(2)');
+    this.editProjectButton = page.locator('.undefined > a:nth-child(2)');
     this.deleteProjectButton = page.locator('.undefined > .cursor-pointer');
     this.deleteProjectDialogBoxButton = page.getByRole('button', { name: 'Delete'});
     this.cancelDeleteProjectDialogBoxButton = page.getByRole('button', { name: 'Cancel' });

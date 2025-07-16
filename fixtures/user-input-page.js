@@ -112,7 +112,7 @@ export class UserInputPage {
         /* Assert Fill Up AI Verify Process Checklist */
         let i = 0
         while (await this.page.locator('circle').nth(i).isVisible()) {
-            await expect.soft(this.page.locator('circle').nth(i)).toHaveCSS('fill', 'rgb(57, 177, 64)')
+            await expect.soft(this.page.locator('circle').nth(i)).toHaveCSS('fill', 'rgb(59, 177, 64)')
             i++
         }
     }
