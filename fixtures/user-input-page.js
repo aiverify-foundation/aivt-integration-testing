@@ -72,6 +72,7 @@ export class UserInputPage {
             if (processChecklistType == "aiverify")
                 await this.summaryJustificationTextBox.fill('Summary Justification')
             await this.page.evaluate(() => window.scrollTo(0, 0));
+            await expect(this.page.getByRole('link', { name: processChecklistID })).toBeVisible()
             await this.page.getByRole('link', { name: processChecklistID }).click();
         }
 
