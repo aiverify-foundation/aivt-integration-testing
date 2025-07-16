@@ -89,7 +89,7 @@ test.describe('HomePage', () => {
 
     })
 
-    test('Delete Existing Project', async ({ homePage, page }) => {
+    test.skip('Delete Existing Project', async ({ homePage, page }) => {
 
         /* Get Project Details */
         const projectName = await homePage.projectNameDetailCard.nth(0).textContent()

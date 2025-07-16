@@ -102,7 +102,7 @@ test.describe('AI Verify Process Checklist', () => {
         await expect.soft(page.getByText('Accountability Process').nth(1)).toBeVisible()
     })
 
-    test('Fill Up AI Verify Process Checklist Complete', async ({ userInputPage, page }) => {
+    test('Fill Up AI Verify Process Checklist Complete', async ({ userInputPage }) => {
 
         /* AI Verify Process Checklist Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -128,7 +128,7 @@ test.describe('AI Verify Process Checklist', () => {
             { name: "Organisational Considerations Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 7 }
         ]
 
-        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 7)
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 6)
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistComplete()
@@ -153,7 +153,7 @@ test.describe('AI Verify Process Checklist', () => {
             { name: "Security Process Checklist", yesNoNAOptions: "No", numberOfRows: 14 }
         ]
 
-        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 8)
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 7)
 
         /* Assert Fill Up AI Verify Process Checklist Incomplete */
         await userInputPage.validateProcessChecklistIncomplete(5)
@@ -293,7 +293,7 @@ test.describe('AI Verify Process Checklist', () => {
 
         /* Assert Upload AI Verify Process Checklist Excel Sheet - Click To Browse */
         console.log('[INFO] Upload AI Verify Process Checklist')
-        await userInputPage.validateProcessChecklist()
+        await userInputPage.validateProcessChecklistComplete()
 
     })
 
@@ -314,7 +314,7 @@ test.describe('AI Verify Process Checklist', () => {
         await userInputPage.confirmUploadDialogBoxButton.click()
 
         /* Upload AI Verify Process Checklist Excel Invalid Name */
-        await expect.soft(page.getByText('Upload failed: Cannot read')).toBeVisible()
+        await expect.soft(page.getByText('An error occurred while')).toBeVisible()
 
     })
 
@@ -332,10 +332,9 @@ test.describe('AI Verify Process Checklist', () => {
         console.log('[INFO] Upload AI Verify Process Checklist')
         let filePathStringArray = [root_path + '/checklist/AI Verify Process Checklists Exported Excel_checklists_copy.xlsx']
         await userInputPage.uploadFile(filePathStringArray)
-        await userInputPage.confirmUploadDialogBoxButton.click()
 
         /* Upload AI Verify Process Checklist Excel Sheet Invalid Name */
-        await expect.soft(page.getByText('Upload failed: Cannot read')).toBeVisible()
+        await expect.soft(page.getByText('Invalid file name:')).toBeVisible()
 
     })
 
@@ -486,7 +485,7 @@ test.describe('Veritas Process Checklist', () => {
             { name: "Ethics and Accountability Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 10 },
             { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21 }
         ]
-        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 13) //Number to be edited
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 12) //Number to be edited
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistComplete()
@@ -506,7 +505,7 @@ test.describe('Veritas Process Checklist', () => {
             { name: "Fairness Process Checklist", yesNoNAOptions: "No", numberOfRows: 15 }
         ]
 
-        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 14) //Number to be edited
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 13) //Number to be edited
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistIncomplete(2)

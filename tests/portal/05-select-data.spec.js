@@ -14,7 +14,7 @@ test.describe('Select Data', () => {
 
         /* Edit Project */
         console.log('[INFO] Edit Project')
-        await homePage.editProjectButton.click()
+        await homePage.editProjectButton.nth(1).click()
 
     })
 
@@ -31,7 +31,7 @@ test.describe('Select Data', () => {
     test('Run Test Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Run Test')
-        await selectDataPage.runTestButton.click()
+        await selectDataPage.runTestButton.first().click()
 
         /* Assert Add New AI Model Button */
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/run"))
@@ -41,11 +41,9 @@ test.describe('Select Data', () => {
     test('Upload Test Results Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Upload Test Results')
-
-        await selectDataPage.selectDataComboBox(arrayofIDs)
         await selectDataPage.uploadTestResultsButton.click()
 
-        /* Assert Add New AI Model Button */
+        /* Assert Upload Test Results Button' */
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/results/upload"))
 
     })
@@ -53,15 +51,13 @@ test.describe('Select Data', () => {
     test('Add Input Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Add Input')
-
-        const arrayofIDs = ['1', '2'] 
-        await selectDataPage.addInputButton.click(arrayofIDs)
+        await selectDataPage.addInputButton.click()
 
         /* Assert Add Input Button */
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/inputs/groups"))
     })
 
-    test('Next Button', async ({ selectDataPage }) => {
+    test('Next Button', async ({ selectDataPage, page}) => {
 
         console.log('[INFO] Generate Report')
 

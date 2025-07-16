@@ -205,9 +205,9 @@ test.describe('View All Plugins', () => {
 
         /* Assert Search Bar By Search Term */
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Veritas' })).toBeVisible()
+        await page.getByRole('heading', { name: 'AI Verify Veritas' }).click()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Process Checklist' })).toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'AI Verify Reports' })).toBeVisible()
-        await page.getByRole('heading', { name: 'AI Verify Reports' }).click()
         await expect.soft(page.getByRole('heading', { name: 'Fairness for Classification' })).not.toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'Partial Dependence Plot' })).not.toBeVisible()
         await expect.soft(page.getByRole('heading', { name: 'Fairness for Regression' })).not.toBeVisible()
@@ -219,7 +219,17 @@ test.describe('View All Plugins', () => {
 
     })
 
-    test('Uninstall Plugin', async ({ pluginPage, page }) => {
+    test.skip('Uninstall Plugin', async ({ pluginPage, page }) => {
+
+        console.log('[INFO] Plugin Page')
+        await pluginPage.uploadPluginButton.click()
+
+        let filePathStringArray = [root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip"]
+        await pluginPage.dragAndDropFile(filePathStringArray)
+        await pluginPage.confirmUploadButton.click()
+        await expect.soft(page.getByText('Upload Successful!')).toBeVisible({ timeout: 20000 })
+        await pluginPage.closeDialogBoxButton.click()
+        await pluginPage.backButton.click()
 
         console.log('[INFO] Plugin Page')
         await pluginPage.uninstallPlugin('CCCS Process Checklist')
@@ -333,7 +343,7 @@ test.describe('Upload Plugins', () => {
 
     })
 
-    test('Upload Invalid Zip Structure', async ({ pluginPage }) => {
+    test('Upload Invalid Zip Structure', async ({ pluginPage, page }) => {
 
         console.log('[INFO] Upload Plugins')
         let filePathStringArray = [

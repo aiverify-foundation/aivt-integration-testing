@@ -1,4 +1,5 @@
 import { test, expect } from '../../fixtures/base-test'
+import { setTimeout } from "timers/promises"
 
 const url = process.env.URL
 const port_number = process.env.PORT_NUMBER
@@ -68,7 +69,7 @@ test.describe('Canvas', () => {
 
         /* Edit Canvas */
         console.log('[INFO] Edit Project Report Canvas')
-        await homePage.editProjectButton.click()
+        await homePage.editProjectButton.nth(16).click()
         await selectDataPage.backButton.click()
 
     })
@@ -275,6 +276,7 @@ test.describe('Canvas', () => {
 
         console.log('[INFO] Add A New Page')
         await canvasPage.addPageButton.click()
+        await setTimeout(1500)
 
         /* Assert New Page Is Added */
         await expect(canvasPage.page2).toBeVisible()
@@ -344,15 +346,6 @@ test.describe('Canvas', () => {
 
     })
 
-    test('Delete Widget From Canvas', async ({ canvasPage, page }) => {
-
-        console.log('[INFO] Delete Widget From Canvas')
-        await canvasPage.deleteWidget.click()
-        
-        /* Assert Widget Is Deleted */
-        await expect(page.getByText('Summary Justification')).not.toBeVisible()
-    })
-
     test('Delete Page From Canvas', async ({ canvasPage }) => {
 
         console.log('[INFO] Delete Page 2 From Canvas')
@@ -361,6 +354,16 @@ test.describe('Canvas', () => {
         /* Assert Page 2 Is Deleted */
         await expect(canvasPage.page2).not.toBeVisible()
 
+    })
+
+    test('Delete Widget From Canvas', async ({ canvasPage, page }) => {
+
+        console.log('[INFO] Delete Widget From Canvas')
+        await canvasPage.page1.click()
+        await canvasPage.deleteWidget.click()
+        
+        /* Assert Widget Is Deleted */
+        await expect(page.getByText('Summary Justification')).not.toBeVisible()
     })
 
 

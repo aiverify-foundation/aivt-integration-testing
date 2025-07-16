@@ -516,7 +516,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Summary Report for Classification Model',
             companyName: 'AI Verify Summary Report for Classification Model'
         }
-        const arrayofIDs = ['15', '13', '2', '1', '17'] //shap, robustness, fmtc, aivpc, fairness tree
+        const arrayofIDs = ['14', '13', '2', '1', '17'] //shap, robustness, fmtc, aivpc, fairness tree
 
         await createProjectPage.createProject(projectInfo)
 
@@ -549,7 +549,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Technical Tests Report for Classification Model',
             companyName: 'AI Verify Technical Tests Report for Classification Model'
         }
-        const arrayofIDs = ['2', '13', '15', '17'] //fmtc, robustness, shap, fairness tree
+        const arrayofIDs = ['2', '13', '14', '17'] //fmtc, robustness, shap, fairness tree
 
         await createProjectPage.createProject(projectInfo)
 
@@ -582,7 +582,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Technical Tests Report for Regression Model',
             companyName: 'AI Verify Technical Tests Report for Regression Model'
         }
-        const arrayofIDs = ['3', '13', '15'] //fmtr, robustness, shap
+        const arrayofIDs = ['3', '13', '14'] //fmtr, robustness, shap
 
         await createProjectPage.createProject(projectInfo)
 
@@ -648,7 +648,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Summary Report for Regression Model',
             companyName: 'AI Verify Summary Report for Regression Model'
         }
-        const arrayofIDs = ['15', '13', '3', '1'] //shap, robustness, fmtr, aivpc
+        const arrayofIDs = ['14', '13', '3', '1'] //shap, robustness, fmtr, aivpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -681,7 +681,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Predictive Underwriting Report',
             companyName: 'Veritas Predictive Underwriting Report'
         }
-        const arrayofIDs = ['16','2'] //veritas, vpc
+        const arrayofIDs = ['15','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -714,7 +714,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Base Regression Report',
             companyName: 'Veritas Base Regression Report'
         }
-        const arrayofIDs = ['16','2'] //veritas, vpc
+        const arrayofIDs = ['15','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -747,7 +747,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Credit Scoring Report',
             companyName: 'Veritas Credit Scoring Report'
         }
-        const arrayofIDs = ['16','2'] //veritas, vpc
+        const arrayofIDs = ['15','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -780,7 +780,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Customer Marketing Report',
             companyName: 'Veritas Customer Marketing Report'
         }
-        const arrayofIDs = ['16','2'] //veritas, vpc
+        const arrayofIDs = ['15','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 
@@ -813,7 +813,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'Veritas Base Classification Report',
             companyName: 'Veritas Base Classification Report'
         }
-        const arrayofIDs = ['16','2'] //veritas, vpc
+        const arrayofIDs = ['15','2'] //veritas, vpc
 
         await createProjectPage.createProject(projectInfo)
 

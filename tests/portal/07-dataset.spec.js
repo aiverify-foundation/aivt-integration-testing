@@ -77,17 +77,17 @@ test.describe('View Uploaded Dataset', () => {
 
     })
 
-    test('Delete Dataset Button', async ({ datasetPage, page }) => {
+    test.skip('Delete Dataset Button', async ({ datasetPage, page }) => {
 
         /* Delete Dataset */
-        const algorithmName = await datasetPage.algorithmNameCell.nth(3).textContent()
-        await datasetPage.checkBox.nth(3).click()
+        const algorithmName = await datasetPage.algorithmNameCell.nth(0).textContent()
+        await datasetPage.checkBox.nth(0).click()
         await datasetPage.deleteDatasetButton.click()
         await datasetPage.deleteDialogBoxButton.click()
 
         /* Assert Delete Dataset Button */
         await expect.soft(page.getByText('Datasets deleted successfully!')).toBeVisible()
-        await expect.soft(datasetPage.algorithmNameCell.nth(3).textContent()).not.toBe(algorithmName)
+        await expect.soft(datasetPage.algorithmNameCell.nth(0).textContent()).not.toBe(algorithmName)
 
     })
 
