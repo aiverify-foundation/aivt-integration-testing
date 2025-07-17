@@ -26,6 +26,7 @@ export class SelectDataPage {
         /* Select Data */
         console.log('[INFO] Select Data');
         for(let counter = 0; counter < arrayofIDs.length; counter++) {
+            await expect(this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter])).tobeVisible()
             await this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
         }
         await this.nextButton.click()
