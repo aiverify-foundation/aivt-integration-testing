@@ -1,3 +1,5 @@
+import { expect } from './base-test'
+
 export class SelectDataPage {
     /**
      * @param {import('@playwright/test').Page} page
