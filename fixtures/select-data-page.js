@@ -28,9 +28,11 @@ export class SelectDataPage {
         /* Select Data */
         console.log('[INFO] Select Data');
         for(let counter = 0; counter < arrayofIDs.length; counter++) {
-            // await expect(this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter])).tobeVisible()
+            await expect(this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter])).toBeVisible()
             await this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
         }
+
+        await expect(this.nextButton).toBeVisible()
         await this.nextButton.click()
     }
 
@@ -43,9 +45,10 @@ export class SelectDataPage {
         /* Select Data */
         console.log('[INFO] Select Data');
         for(let counter = 0; counter < arrayofIDs.length; counter++) {
-            // await expect(this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter])).tobeVisible()
+            await expect(this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter])).toBeVisible()
             await this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
         }
+        await expect(this.nextButton).toBeVisible()
         await this.nextButton.click()
 
     }
