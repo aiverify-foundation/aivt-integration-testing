@@ -45,7 +45,7 @@ const config = {
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     launchOptions: {
-      slowMo: 500
+      slowMo: 600
     },
   },
 
