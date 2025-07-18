@@ -460,7 +460,7 @@ test.describe('User Input Workflows', () => {
         ]
         await userInputPage.addNewChecklist.click()
         await userInputPage.createNewChecklist.click()
-        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 1)
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", "AI Verify Process Checklists")
 
     })
 
@@ -479,7 +479,7 @@ test.describe('User Input Workflows', () => {
             { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21 }
         ]
         await userInputPage.addNewChecklist.click()
-        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 2)
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', "Veritas Process Checklists")
 
     })
 
@@ -648,7 +648,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Summary Report for Regression Model',
             companyName: 'AI Verify Summary Report for Regression Model'
         }
-        const arrayofIDs = ['13', '14', '3', '1'] //shap, robustness, fmtr, aivpc (might have change to robustness, shap, fmtr, aivpc )
+        const arrayofIDs = ['14', '13', '3', '1'] //shap, robustness, fmtr, aivpc
 
         await createProjectPage.createProject(projectInfo)
 
