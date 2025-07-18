@@ -648,7 +648,7 @@ test.describe('Report Template Workflows', () => {
             reportTitle: 'AI Verify Summary Report for Regression Model',
             companyName: 'AI Verify Summary Report for Regression Model'
         }
-        const arrayofIDs = ['14', '13', '3', '1'] //shap, robustness, fmtr, aivpc
+        const arrayofIDs = ['13', '14', '3', '1'] //shap, robustness, fmtr, aivpc (might have change to robustness, shap, fmtr, aivpc )
 
         await createProjectPage.createProject(projectInfo)
 
