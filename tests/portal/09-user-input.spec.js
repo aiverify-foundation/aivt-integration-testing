@@ -128,7 +128,7 @@ test.describe('AI Verify Process Checklist', () => {
             { name: "Organisational Considerations Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 7 }
         ]
 
-        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 6)
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", "AI Verify Process Checklists")
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistComplete()
@@ -153,7 +153,7 @@ test.describe('AI Verify Process Checklist', () => {
             { name: "Security Process Checklist", yesNoNAOptions: "No", numberOfRows: 14 }
         ]
 
-        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", 7)
+        await userInputPage.completeProcessChecklist(processCheckListParameters, "aiverify", "AI Verify Process Checklists")
 
         /* Assert Fill Up AI Verify Process Checklist Incomplete */
         await userInputPage.validateProcessChecklistIncomplete(5)
@@ -485,7 +485,7 @@ test.describe('Veritas Process Checklist', () => {
             { name: "Ethics and Accountability Process Checklist", yesNoNAOptions: "Not Applicable", numberOfRows: 10 },
             { name: "Transparency Process Checklist", yesNoNAOptions: "Yes", numberOfRows: 21 }
         ]
-        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 12) //Number to be edited
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', "Veritas Process Checklists")
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistComplete()
@@ -505,7 +505,7 @@ test.describe('Veritas Process Checklist', () => {
             { name: "Fairness Process Checklist", yesNoNAOptions: "No", numberOfRows: 15 }
         ]
 
-        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', 13) //Number to be edited
+        await userInputPage.completeProcessChecklist(processChecklistParameters, 'veritas', "Veritas Process Checklists")
 
         /* Assert Fill Up AI Verify Process Checklist */
         await userInputPage.validateProcessChecklistIncomplete(2)
