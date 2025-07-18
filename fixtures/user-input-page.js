@@ -61,7 +61,7 @@ export class UserInputPage {
     /**
      * @param { object }
      */
-    async completeProcessChecklist(processCheckListParameters, processChecklistType, processChecklistID) {
+    async completeProcessChecklist(processCheckListParameters, processChecklistType, processChecklistName) {
         for (const checklistParameters of processCheckListParameters) {
             console.log('[INFO] Completing ' + checklistParameters.name + ' Category');
             await this.page.getByText(checklistParameters.name).nth(1).click();
@@ -72,8 +72,8 @@ export class UserInputPage {
             if (processChecklistType == "aiverify")
                 await this.summaryJustificationTextBox.fill('Summary Justification')
             await this.page.evaluate(() => window.scrollTo(0, 0));
-            await expect(this.page.getByRole('link', { name: processChecklistID })).toBeVisible()
-            await this.page.getByRole('link', { name: processChecklistID }).click();
+            await expect(this.page.getByRole('link', { name: processChecklistName }).nth(1)).toBeVisible()
+            await this.page.getByRole('link', { name: processChecklistName }).nth(1).click();
         }
 
         console.log('[INFO] Process Checklist Completed')
