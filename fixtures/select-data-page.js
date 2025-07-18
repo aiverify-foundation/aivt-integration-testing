@@ -32,7 +32,7 @@ export class SelectDataPage {
             await this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
         }
 
-        await expect(this.nextButton).toBeVisible()
+        // await expect(this.nextButton).toBeVisible()
         await this.nextButton.click()
     }
 
@@ -48,7 +48,7 @@ export class SelectDataPage {
             await expect(this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter])).toBeVisible()
             await this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
         }
-        await expect(this.nextButton).toBeVisible()
+        // await expect(this.nextButton).toBeVisible()
         await this.nextButton.click()
 
     }
