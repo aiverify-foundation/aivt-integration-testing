@@ -19,7 +19,7 @@ test.describe('Select Data', () => {
     })
 
     test('Add New AI Model Button', async ({ selectDataPage, page }) => {
-        
+
         console.log('[INFO] Add New AI Model')
         await selectDataPage.addNewAIModelButton.click()
 
@@ -57,7 +57,7 @@ test.describe('Select Data', () => {
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "project/select_data"))
     })
 
-    test('Next Button', async ({ selectDataPage, page}) => {
+    test('Next Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Generate Report')
 
@@ -67,19 +67,20 @@ test.describe('Select Data', () => {
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/canvas"))
     })
 
-    test('User Inputs Not Completed', async ({ selectDataPage }) => {
+    test('User Inputs Not Completed', async ({ homePage, selectDataPage }) => {
 
-        console.log('[INFO] Select Test Result')
+        /* AI Verify Homepage */
+        console.log('[INFO] Navigate to AI Verify Home Page')
+        await homePage.goto(url + ":" + port_number)
+        await expect.soft(homePage.aivlogo).toBeVisible({ timeout: 60000 })
 
-        const arrayofIDs = ['1', '2'] 
-
-        await selectDataPage.selectDataComboBox(arrayofIDs)
-
-        console.log('[INFO] Select User Input')
+        /* Edit Project */
+        console.log('[INFO] Edit Project')
+        await homePage.editProjectButton.nth(2).click()
 
         /* Assert Next Button Is Not Visible */
         await expect(selectDataPage.nextButton).not.toBeVisible()
-        
+
     })
 
     test('User Inputs Completed', async ({ selectDataPage }) => {
