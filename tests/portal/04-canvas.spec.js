@@ -360,6 +360,7 @@ test.describe('Canvas', () => {
 
         console.log('[INFO] Delete Widget From Canvas')
         await canvasPage.page1.click()
+        await page.getByText('The company did not provide').click()
         await canvasPage.deleteWidget.click()
         
         /* Assert Widget Is Deleted */
