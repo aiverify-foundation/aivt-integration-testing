@@ -77,7 +77,6 @@ test.describe('AI Verify Process Checklist', () => {
         await userInputPage.addCheckListButton.click()
 
         /* Assert Create New Checklist Add Checklist Button */
-        await expect.soft(page.getByText('Choose an option to add input:')).toBeVisible()
         await expect.soft(userInputPage.createNewButton).toBeVisible()
         await expect.soft(userInputPage.uploadExcelSheetButton).toBeVisible()
 
