@@ -7,7 +7,7 @@ import subprocess, requests, pytest, json
 
 pwd = ""
 
-root_path = pwd + ""
+root_path = pwd + "/stock-plugins/user_defined_files"
 
 def run_test(run_plugin_command, PATH, isZip):
 
