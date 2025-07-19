@@ -5,7 +5,7 @@ import subprocess, requests, pytest, json
 ## python3.11 -m pip install jupyter ##
 ## jupyter execute <notebook name>.ipynb ##
 
-pwd = ""
+pwd = "/home/ubuntu/actions-runner/_work/aiverify/aiverify" ## To remove hardcode once script is debug completely
 
 root_path = pwd + "/stock-plugins/user_defined_files"
 
