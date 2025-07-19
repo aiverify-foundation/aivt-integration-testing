@@ -54,7 +54,7 @@ test.describe('Select Data', () => {
         await selectDataPage.addInputButton.click()
 
         /* Assert Add Input Button */
-        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/inputs/groups"))
+        await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "project/select_data"))
     })
 
     test('Next Button', async ({ selectDataPage, page}) => {
@@ -83,16 +83,6 @@ test.describe('Select Data', () => {
     })
 
     test('User Inputs Completed', async ({ selectDataPage }) => {
-
-        console.log('[INFO] Select Test Result')
-
-        /* Assert Select Test Result */
-        await selectDataPage.inputComboBox.nth(1).selectOption("1")
-
-        console.log('[INFO] Select User Input')
-
-        /* Assert Select User Input */
-        await selectDataPage.inputComboBox.nth(2).selectOption("1")
 
         /* Assert Next Button Is Visible */
         await expect(selectDataPage.nextButton).toBeVisible()

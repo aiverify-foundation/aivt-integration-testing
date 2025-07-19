@@ -445,7 +445,7 @@ test.describe('View Running Tests', () => {
 
         /* Delete Test Results */
         console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.deleteTestRunButton.first().click()
         await testResultPage.confirmDeleteTestRunButton.click()
         await testResultPage.confirmDeleteTestRunOkayButton.click()
 
@@ -523,7 +523,7 @@ test.describe('View Running Tests', () => {
         }
         await testResultPage.runAlgorithms(robustnessImageParameters)
         await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
-        await testResultPage.cancelTestRunButton.click()
+        await testResultPage.cancelTestRunButton.first().click()
         await testResultPage.cancelTestDialogBoxButton.click()
         await testResultPage.okTestDialogButton.click()
         await testResultPage.cancelledFilterButton.click()
@@ -555,7 +555,7 @@ test.describe('View Running Tests', () => {
         }
         await testResultPage.runAlgorithms(robustnessImageParameters)
         await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
-        await testResultPage.cancelTestRunButton.click()
+        await testResultPage.cancelTestRunButton.first().click()
         await testResultPage.cancelTestDialogBoxButton.click()
         await testResultPage.okTestDialogButton.click()
         await testResultPage.cancelledFilterButton.click()
@@ -587,7 +587,7 @@ test.describe('View Running Tests', () => {
         }
         await testResultPage.runAlgorithms(robustnessImageParameters)
         await page.getByLabel('Algorithm:').selectOption(robustnessImageParameters.algorithmDropDownListOption)
-        await testResultPage.cancelTestRunButton.click()
+        await testResultPage.cancelTestRunButton.first().click()
         await testResultPage.cancelTestDialogBoxButton.click()
         await testResultPage.okTestDialogButton.click()
         await testResultPage.cancelledFilterButton.click()
@@ -595,7 +595,7 @@ test.describe('View Running Tests', () => {
 
         /* Delete Test Results */
         console.log('[INFO] Delete Test Results')
-        await testResultPage.deleteTestRunButton.click()
+        await testResultPage.deleteTestRunButton.first().click()
         await testResultPage.confirmDeleteTestRunButton.click()
         await testResultPage.confirmDeleteTestRunOkayButton.click()
 
