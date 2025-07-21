@@ -25,7 +25,6 @@ test.describe('Input Block', () => {
         /* Assert Get Input Block ID */
         // Add Assertion for Get Input Block Data
         expect.soft(response.status).toBe(200)
-        console.log(response.data)
     })
 
     const CREATE_INPUT_BLOCK = [
@@ -326,6 +325,5 @@ test.describe('Input Block', () => {
         /* Assert Get Input Block ID */
         // Add Assertion for Get Input Block Data
         expect.soft(response.status).toBe(200)
-        console.log(response.data)
     })
 })
