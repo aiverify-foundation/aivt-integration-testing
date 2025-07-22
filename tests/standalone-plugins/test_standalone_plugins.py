@@ -22,7 +22,9 @@ def run_test(run_plugin_command, PATH, isZip):
     cwd=PATH,
     )
 
-    run_plugin.communicate()
+    output, errors = run_plugin.communicate()
+    assert output == ""
+    assert errors == ""
 
     if(isZip == True):
 
@@ -217,9 +219,9 @@ def run_test_docker_veritas(build_plugin_docker_image_command, run_plugin_docker
 
         payload = json.dumps(data)
 
-        # result = requests.request("POST", url, data={ "test_result" : payload })
+        result = requests.request("POST", url, data={ "test_result" : payload })
 
-        # assert result.status_code == 200
+        assert result.status_code == 200
 
     ## Delete Test Results ##
     subprocess.Popen("rm -rf * -y",
