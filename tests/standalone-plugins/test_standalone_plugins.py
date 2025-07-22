@@ -347,16 +347,17 @@ def run_test_veritas(run_plugin_command, PATH, isZip):
 
 def test_accumulated_local_effects_classification():
 
-    run_plugin_command = "source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python -m aiverify_accumulated_local_effect \
-        --data_path " + root_path + "/data/sample_bc_credit_data.sav \
-        --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
-        --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
-        --ground_truth default \
-        --model_type CLASSIFICATION"
+    run_plugin_command = "pip install " + pwd + "/aiverify-test-engine && pip install . && pip freeze > requirements.txt && pip uninstall -r requirements.txt"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/"
 
+    # python -m aiverify_accumulated_local_effect \
+    #     --data_path " + root_path + "/data/sample_bc_credit_data.sav \
+    #     --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
+    #     --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
+    #     --ground_truth default \
+    #     --model_type CLASSIFICATION"
+    
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
