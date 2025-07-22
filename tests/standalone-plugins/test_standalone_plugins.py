@@ -347,7 +347,7 @@ def run_test_veritas(run_plugin_command, PATH, isZip):
 
 def test_accumulated_local_effects_classification():
 
-    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+    run_plugin_command = "python -m venv .venv && ls -laR && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
         python -m aiverify_accumulated_local_effect \
             --data_path " + root_path + "/data/sample_bc_credit_data.sav \
             --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
