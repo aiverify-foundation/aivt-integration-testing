@@ -347,7 +347,7 @@ def run_test_veritas(run_plugin_command, PATH, isZip):
 
 def test_accumulated_local_effects_classification():
 
-    run_plugin_command = "pip install " + pwd + "/aiverify-test-engine && pip install . && pip freeze > requirements.txt && pip uninstall -r requirements.txt"
+    run_plugin_command = "pip install " + pwd + "/aiverify-test-engine && pip install . && pip freeze > requirements.txt && pip uninstall -r requirements.txt -y && pip list"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/"
 
