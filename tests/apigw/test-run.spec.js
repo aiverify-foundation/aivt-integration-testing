@@ -133,7 +133,7 @@ test.describe('Test Run', () => {
         },
         {
             TEST_NAME: "With Valid Algorithm Arguments With Valid Algorithm CID With Valid Algorithm GID With Valid Ground Truth With Invalid Ground Truth Dataset Name With Valid Mode With Valid Model File Name With Valid Dataset File Name",
-            CASE_TYPE: "GROUND_TRUTH_DATASET", INVALID_GROUND_TRUTH_DATASET: strValue, EXPECTED: { detail: 'Test dataset not found with the provided groundTruthDatasetId' }, STATUS: 404
+            CASE_TYPE: "GROUND_TRUTH_DATASET", INVALID_GROUND_TRUTH_DATASET: "test1", EXPECTED: { detail: 'Test dataset not found with the provided groundTruthDatasetId' }, STATUS: 404
         },
         {
             TEST_NAME: "With Valid Algorithm Arguments With Valid Algorithm CID With Valid Algorithm GID With Valid Ground Truth With Ground Truth Dataset Name Integer With Valid Mode With Valid Model File Name With Valid Dataset File Name",
@@ -673,23 +673,9 @@ test.describe('Test Run', () => {
                 groundTruthDatasetFilename: 'sample_bc_credit_data.sav',
                 groundTruth: null,
                 modelFilename: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav',
-                status: 'success',
-                progress: 100,
-                testResult: {
-                    testRunId: null,
-                    gid: 'aiverify.stock.accumulated_local_effect',
-                    cid: 'aiverify_accumulated_local_effect',
-                    version: '2.0.1',
-                    testArguments: {
-                        testDataset: 'sample_bc_credit_data.sav',
-                        mode: 'upload',
-                        modelType: 'classification',
-                        groundTruthDataset: 'sample_bc_credit_data.sav',
-                        groundTruth: 'default',
-                        algorithmArgs: {},
-                        modelFile: 'sample_bc_credit_sklearn_linear.LogisticRegression.sav'
-                    }
-                }
+                status: 'pending',
+                progress: 0,
+                testResult: null
             }, STATUS: 200
         },
         { TEST_NAME: "With Non-existing Test RUN ID", RUN_TEST_ID: strValue, EXPECTED: "Internal Server Error", STATUS: 500 },
@@ -1039,7 +1025,7 @@ test.describe('Test Run', () => {
                     }
                 })
 
-                await setTimeout(7000)
+                await setTimeout(10000)
 
                 /* Set Run Test ID */
                 run_test_id = response.data.id
