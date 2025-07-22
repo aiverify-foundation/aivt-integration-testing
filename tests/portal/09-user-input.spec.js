@@ -271,11 +271,11 @@ test.describe('AI Verify Process Checklist', () => {
         await userInputPage.confirmUploadDialogBoxButton.click()
 
         /* Assert Upload AI Verify Process Checklist Excel Sheet - Drag And Drop */
-        await expect.soft(page.getByText('Upload Successful!')).toBeVisible()
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/inputs/groups/aiverify.stock.process_checklist"))
 
     })
 
-    test('Import Valid AI Verify Process Checklist Excel Sheet Format And Valid Name - Click To Browse', async ({ userInputPage }) => {
+    test('Import Valid AI Verify Process Checklist Excel Sheet Format And Valid Name - Click To Browse', async ({ userInputPage, page }) => {
 
         /* AI Verify Add Checklist Dialog Box */
         console.log('[INFO] Add New Checklist')
@@ -288,7 +288,7 @@ test.describe('AI Verify Process Checklist', () => {
         /* Upload AI Verify Process Checklist Excel Sheet - Drag And Drop */
         let filePathStringArray = [root_path + '/checklist/AI Verify Process Checklists Exported Excel_checklists.xlsx']
         await userInputPage.uploadFile(filePathStringArray)
-        await userInputPage.confirmUploadDialogBoxButton.click()
+        await expect.soft(page).toHaveURL(new RegExp(url + ":" + port_number + "/inputs/groups/aiverify.stock.process_checklist"))
 
         /* Assert Upload AI Verify Process Checklist Excel Sheet - Click To Browse */
         console.log('[INFO] Upload AI Verify Process Checklist')
@@ -371,7 +371,7 @@ test.describe('AI Verify Process Checklist', () => {
         let filePathStringArray = [root_path + '/checklist/AI Verify Process Checklists Exported Excel_checklists.xlsx']
         await userInputPage.uploadFile(filePathStringArray)
 
-        /* Assert onfirm Upload Button Enabled */
+        /* Assert Confirm Upload Button Enabled */
         await expect.soft(userInputPage.confirmUploadDialogBoxButton).toBeEnabled()
 
     })

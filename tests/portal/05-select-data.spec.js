@@ -14,7 +14,7 @@ test.describe('Select Data', () => {
 
         /* Edit Project */
         console.log('[INFO] Edit Project')
-        await homePage.editProjectButton.nth(1).click()
+        await homePage.editProjectButton.first().click()
 
     })
 
