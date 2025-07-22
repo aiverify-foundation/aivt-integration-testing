@@ -4,7 +4,7 @@ const url = process.env.URL
 const port_number = process.env.PORT_NUMBER
 const root_path = process.env.ROOT_PATH
 
-const datasetName = "sample_bc_credit_data.sav"
+const datasetName = "sample_reg_pipeline_data.sav"
 
 test.describe('View Uploaded Dataset', () => {
 
@@ -69,10 +69,10 @@ test.describe('View Uploaded Dataset', () => {
         /* Assert Dataset Details */
         await expect.soft(page.getByText('File Type:file')).toBeVisible()
         await expect.soft(page.getByText('File Name:' + datasetName)).toBeVisible()
-        await expect.soft(page.getByText('Size:181224 bytes')).toBeVisible()
+        await expect.soft(page.getByText('Size:17143 bytes')).toBeVisible()
         await expect.soft(page.getByText('Data Format:pandas')).toBeVisible()
-        await expect.soft(page.getByText('Rows:2500')).toBeVisible()
-        await expect.soft(page.getByText('Columns:9')).toBeVisible()
+        await expect.soft(page.getByText('Rows:250')).toBeVisible()
+        await expect.soft(page.getByText('Columns:8')).toBeVisible()
         await expect.soft(page.getByText('Status:valid')).toBeVisible()
 
     })

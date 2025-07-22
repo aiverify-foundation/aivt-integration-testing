@@ -311,17 +311,9 @@ test.describe('Upload Plugins', () => {
 
     test('Uninstall Plugin', async ({ pluginPage, page }) => {
 
-        console.log('[INFO] Plugin Page')
-        await pluginPage.uploadPluginButton.click()
-
-        let filePathStringArray = [root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip"]
-        await pluginPage.dragAndDropFile(filePathStringArray)
-        await pluginPage.confirmUploadButton.click()
-        await expect.soft(page.getByText('Upload Successful!')).toBeVisible({ timeout: 20000 })
-        await pluginPage.closeDialogBoxButton.click()
         await pluginPage.backButton.click()
 
-        console.log('[INFO] Plugin Page')
+        console.log('[INFO] Uninstall Plugin')
         await pluginPage.uninstallPlugin('CCCS Process Checklist')
 
         /* Assert Uninstalled Plugin */

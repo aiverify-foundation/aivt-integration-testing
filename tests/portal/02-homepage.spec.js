@@ -92,19 +92,19 @@ test.describe('HomePage', () => {
     test('Delete Existing Project', async ({ homePage, page }) => {
 
         /* Get Project Details */
-        const projectName = await homePage.projectNameDetailCard.nth(0).textContent()
-        const projectDescription = await homePage.projectDescriptionDetailCard.nth(0).textContent()
+        const projectName = await homePage.projectNameDetailCard.nth(1).textContent()
+        const projectDescription = await homePage.projectDescriptionDetailCard.nth(1).textContent()
 
         /* Delete Existing Project */
         console.log('[INFO] Delete Existing Project')
-        await homePage.deleteProjectButton.first().click()
+        await homePage.deleteProjectButton.nth(1).click()
         await homePage.deleteProjectDialogBoxButton.click()
 
         /* Assert Delete Existing Project */
         await expect.soft(page.locator('header').filter({ hasText: 'Success' })).toBeVisible()
         await page.getByRole('button', { name: 'OK' }).click()
-        await expect(await homePage.projectNameDetailCard.nth(0).textContent()).not.toBe(projectName)
-        await expect(await homePage.projectDescriptionDetailCard.nth(0).textContent()).not.toBe(projectDescription)
+        await expect(await homePage.projectNameDetailCard.nth(1).textContent()).not.toBe(projectName)
+        await expect(await homePage.projectDescriptionDetailCard.nth(1).textContent()).not.toBe(projectDescription)
 
     })
 
