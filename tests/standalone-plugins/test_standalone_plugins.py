@@ -2,7 +2,7 @@ import subprocess, requests, pytest, json
 
 ## Need To Run & Install Docker Images Before Running Docker Tests ##
 ## Need To Install Jupyter Notebook ##
-## python3 -m pip install jupyter ##
+## python -m pip install jupyter ##
 ## jupyter execute <notebook name>.ipynb ##
 
 pwd = "/home/ubuntu/actions-runner/_work/aiverify/aiverify" ## To remove hardcode once script is debug completely
@@ -347,8 +347,8 @@ def run_test_veritas(run_plugin_command, PATH, isZip):
 
 def test_accumulated_local_effects_classification():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_accumulated_local_effect \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_accumulated_local_effect \
         --data_path " + root_path + "/data/sample_bc_credit_data.sav \
         --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
@@ -362,8 +362,8 @@ def test_accumulated_local_effects_classification():
 
 def test_accumulated_local_effects_regression():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_accumulated_local_effect \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_accumulated_local_effect \
         --data_path " + root_path + "/data/sample_mc_toxic_data.sav \
         --model_path " + root_path + "/model/sample_mc_toxic_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path " + root_path + "/data/sample_mc_toxic_data.sav \
@@ -377,8 +377,8 @@ def test_accumulated_local_effects_regression():
 
 def test_accumulated_local_effects_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_accumulated_local_effect \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_accumulated_local_effect \
         --data_path " + root_path + "/data/sample_bc_credit_data.sav \
         --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
@@ -431,8 +431,8 @@ def test_accumulated_local_effects_docker_zip():
 
 def test_fairness_metrics_toolbox_for_classification():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install . && \
-        python3 -m aiverify_fairness_metrics_toolbox_for_classification \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install . && \
+        python -m aiverify_fairness_metrics_toolbox_for_classification \
         --data_path " + root_path + "/data/sample_mc_pipeline_toxic_data.sav \
         --model_path " + root_path + "/pipeline/mc_tabular_toxic \
         --ground_truth_path " + root_path + "/data/sample_mc_pipeline_toxic_ytest_data.sav \
@@ -448,8 +448,8 @@ def test_fairness_metrics_toolbox_for_classification():
 
 def test_fairness_metrics_toolbox_for_classification_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_fairness_metrics_toolbox_for_classification \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_fairness_metrics_toolbox_for_classification \
         --data_path " + root_path + "/data/sample_mc_pipeline_toxic_data.sav \
         --model_path " + root_path + "/pipeline/mc_tabular_toxic \
         --ground_truth_path " + root_path + "/data/sample_mc_pipeline_toxic_ytest_data.sav \
@@ -508,8 +508,8 @@ def test_fairness_metrics_toolbox_for_classification_docker_zip():
 
 def test_fairness_metric_toolbox_for_regression():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_fairness_metrics_toolbox_for_regression \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_fairness_metrics_toolbox_for_regression \
         --data_path " + root_path + "/data/sample_reg_pipeline_data.sav \
         --model_path " + root_path + "/pipeline/regression_tabular_donation \
         --ground_truth_path " + root_path + "/data/sample_reg_pipeline_ytest_data.sav \
@@ -525,8 +525,8 @@ def test_fairness_metric_toolbox_for_regression():
 
 def test_fairness_metric_toolbox_for_regression_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_fairness_metrics_toolbox_for_regression \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_fairness_metrics_toolbox_for_regression \
         --data_path " + root_path + "/data/sample_reg_pipeline_data.sav \
         --model_path " + root_path + "/pipeline/regression_tabular_donation \
         --ground_truth_path " + root_path + "/data/sample_reg_pipeline_ytest_data.sav \
@@ -585,8 +585,8 @@ def test_fairness_metric_toolbox_for_regression_docker_zip():
 
 def test_blur_corruptions_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_blur_corruptions \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_blur_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
         --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
@@ -626,8 +626,8 @@ def test_blur_corruptions_docker_zip():
 
 def test_digital_corruptions_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_digital_corruptions \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_digital_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
         --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
@@ -673,8 +673,8 @@ def test_environment_corruptions_zip():
     ## export MAGICK_HOME=/opt/homebrew/opt/imagemagick
     ## export PATH=$MAGICK_HOME/bin:$PATH
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_environment_corruptions \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_environment_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
         --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
@@ -715,8 +715,8 @@ def test_environment_corruptions_docker_zip():
 
 def test_general_corruptions_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_general_corruptions \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_general_corruptions \
         --data_path " + root_path + "/data/raw_fashion_image_10 \
         --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
         --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
@@ -758,8 +758,8 @@ def test_general_corruptions_docker_zip():
 
 def test_partial_dependence_plot():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_partial_dependence_plot \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_partial_dependence_plot \
         --data_path " + root_path + "/data/sample_bc_credit_data.sav \
         --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
@@ -774,8 +774,8 @@ def test_partial_dependence_plot():
 
 def test_partial_dependence_plot_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_partial_dependence_plot \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_partial_dependence_plot \
         --data_path " + root_path + "/data/sample_bc_credit_data.sav \
         --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
@@ -831,8 +831,8 @@ def test_partial_dependence_plot_docker_zip():
 
 def test_robustness_toolbox_pipeline():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_robustness_toolbox \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_robustness_toolbox \
         --data_path " + root_path + "/data/sample_bc_pipeline_credit_data.sav \
         --model_path " + root_path + "/pipeline/bc_tabular_credit \
         --ground_truth_path " + root_path + "/data/sample_bc_pipeline_credit_ytest_data.sav \
@@ -849,8 +849,8 @@ def test_robustness_toolbox_pipeline():
 
 def test_robustness_toolbox_classification():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_robustness_toolbox \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_robustness_toolbox \
         --data_path " + root_path + "/data/sample_bc_credit_data.sav \
         --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
@@ -865,8 +865,8 @@ def test_robustness_toolbox_classification():
 
 def test_robustness_toolbox_regression():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_robustness_toolbox \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_robustness_toolbox \
         --data_path " + root_path + "/data/sample_mc_toxic_data.sav \
         --model_path " + root_path + "/model/sample_mc_toxic_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path " + root_path + "/data/sample_mc_toxic_data.sav \
@@ -881,8 +881,8 @@ def test_robustness_toolbox_regression():
 
 def test_robustness_toolbox_zip():
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_robustness_toolbox \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_robustness_toolbox \
         --data_path " + root_path + "/data/sample_bc_pipeline_credit_data.sav \
         --model_path " + root_path + "/pipeline/bc_tabular_credit \
         --ground_truth_path " + root_path + "/data/sample_bc_pipeline_credit_ytest_data.sav \
@@ -949,8 +949,8 @@ def test_shap_toolbox_classification():
     # - libgomp.so for Linux and other UNIX-like OSes
     # Mac OSX users: Run `brew install libomp` to install OpenMP runtime.
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_shap_toolbox \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_shap_toolbox \
             --data_path " + root_path + "/data/sample_bc_credit_data.sav \
             --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
             --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
@@ -975,8 +975,8 @@ def test_shap_toolbox_regression():
     # - libgomp.so for Linux and other UNIX-like OSes
     # Mac OSX users: Run `brew install libomp` to install OpenMP runtime.
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_shap_toolbox \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_shap_toolbox \
             --data_path " + root_path + "/data/sample_mc_toxic_data.sav \
             --model_path " + root_path + "/model/sample_mc_toxic_sklearn_linear.LogisticRegression.sav \
             --ground_truth_path " + root_path + "/data/sample_mc_toxic_data.sav \
@@ -1001,8 +1001,8 @@ def test_shap_toolbox_zip():
     # - libgomp.so for Linux and other UNIX-like OSes
     # Mac OSX users: Run `brew install libomp` to install OpenMP runtime.
 
-    run_plugin_command = "python3 -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
-        python3 -m aiverify_shap_toolbox \
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_shap_toolbox \
             --data_path " + root_path + "/data/sample_bc_credit_data.sav \
             --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
             --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
