@@ -73,6 +73,22 @@ def run_test(run_plugin_command, PATH, isZip):
     cwd=PATH + 'output'
     )
 
+def run_test_error(run_plugin_command, PATH, errorMessage):
+
+    ## Run Plugin ##
+    run_plugin = subprocess.Popen(
+    run_plugin_command,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
+
+    output = run_plugin.communicate()
+    assert errorMessage in output[1] # Output is Tuple consisting of outputs and errors. Use 1 to get error logs
+
 def run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, isZip):
 
     if (build_plugin_docker_image_command != ""):
@@ -151,6 +167,37 @@ def run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command
     text=True,
     cwd=PATH + 'output'
     )
+
+def run_test_docker_error(build_plugin_docker_image_command, run_plugin_docker_command, errorMessage):
+
+    if (build_plugin_docker_image_command != ""):
+
+        ## Build Docker Image ##
+        build_plugin_docker_image = subprocess.Popen(
+        build_plugin_docker_image_command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        shell=True,
+        text=True,
+        cwd=pwd,
+        )
+
+        build_plugin_docker_image.communicate()
+    
+    ## Run Plugin ##
+    run_plugin_docker = subprocess.Popen(
+    run_plugin_docker_command,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=pwd,
+    )
+
+    output = run_plugin_docker.communicate()
+    assert errorMessage in output[1] # Output is Tuple consisting of outputs and errors. Use 1 to get error logs
 
 def run_test_docker_veritas(build_plugin_docker_image_command, run_plugin_docker_command, PATH, isZip):
 
@@ -231,6 +278,37 @@ def run_test_docker_veritas(build_plugin_docker_image_command, run_plugin_docker
     cwd=PATH + 'output'
     )
 
+def run_test_docker_veritas_error(build_plugin_docker_image_command, run_plugin_docker_command, errorMessage):
+
+    if (build_plugin_docker_image_command != ""):
+
+        ## Build Docker Image ##
+        build_plugin_docker_image = subprocess.Popen(
+        build_plugin_docker_image_command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        shell=True,
+        text=True,
+        cwd=pwd,
+        )
+
+        build_plugin_docker_image.communicate()
+    
+    ## Run Plugin ##
+    run_plugin_docker = subprocess.Popen(
+    run_plugin_docker_command,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=pwd,
+    )
+
+    output = run_plugin_docker.communicate()
+    assert errorMessage in output[1] # Output is Tuple consisting of outputs and errors. Use 1 to get error logs
+
 def run_test_image_corruption(run_plugin_command, PATH):
 
     ## Run Plugin ##
@@ -278,6 +356,22 @@ def run_test_image_corruption(run_plugin_command, PATH):
     text=True,
     cwd=PATH + 'output'
     )
+
+def run_test_image_corruption_error(run_plugin_command, PATH, errorMessage):
+
+    ## Run Plugin ##
+    run_plugin = subprocess.Popen(
+    run_plugin_command,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
+
+    output = run_plugin.communicate()
+    assert errorMessage in output[1] # Output is Tuple consisting of outputs and errors. Use 1 to get error logs
 
 def run_test_veritas(run_plugin_command, PATH, isZip):
 
@@ -343,6 +437,22 @@ def run_test_veritas(run_plugin_command, PATH, isZip):
     cwd=PATH + 'output'
     )
 
+def run_test_veritas_error(run_plugin_command, PATH, errorMessage):
+
+    ## Run Plugin ##
+    run_plugin = subprocess.Popen(
+    run_plugin_command,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    stdin=subprocess.PIPE,
+    shell=True,
+    text=True,
+    cwd=PATH,
+    )
+    
+    output = run_plugin.communicate()
+    assert errorMessage in output[1] # Output is Tuple consisting of outputs and errors. Use 1 to get error logs
+
 def test_accumulated_local_effects_classification():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -357,6 +467,22 @@ def test_accumulated_local_effects_classification():
 
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
+
+def test_accumulated_local_effects_classification_error():
+
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_accumulated_local_effect \
+            --data_path " + root_path + "/data/sample_bc_credit_data.sav \
+            --model_path " + root_path + "/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
+            --ground_truth_path " + root_path + "/data/sample_bc_credit_data.sav \
+            --ground_truth \
+            --model_type CLASSIFICATION"
+
+    PATH = pwd + "/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/"
+    errorMessage = "--ground_truth: expected one argument"
+
+    ## Run Test ##
+    run_test_error(run_plugin_command, PATH, errorMessage)
 
 def test_accumulated_local_effects_regression():
 
@@ -407,6 +533,27 @@ def test_accumulated_local_effects_docker():
 
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
+
+def test_accumulated_local_effects_docker_error():
+
+    build_plugin_docker_image_command = "docker build -t aiverify-accumulated-local-effect \
+        -f stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/Dockerfile ."
+
+    run_plugin_docker_command = "docker run --rm \
+        -v $(pwd)/stock-plugins/user_defined_files:/input \
+        -v $(pwd)/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/output:/app/aiverify/output \
+        aiverify-accumulated-local-effect \
+        --data_path /input/data/sample_bc_credit_data.sav \
+        --model_path /input/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
+        --ground_truth_path /input/data/sample_bc_credit_data.sav \
+        --ground_truth default \
+        --model_type "
+    
+    PATH = pwd + "/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/"
+    errorMessage = "--model_type: expected one argument"
+
+    ## Run Test Docker ##
+    run_test_docker_error(build_plugin_docker_image_command, run_plugin_docker_command, errorMessage)
 
 def test_accumulated_local_effects_docker_zip():
 
@@ -598,6 +745,27 @@ def test_blur_corruptions_zip():
 
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
+
+
+def test_blur_corruptions_zip_error():
+
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_blur_corruptions \
+        --data_path " + root_path + "/data/raw_fashion_image_10 \
+        --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
+        --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
+        --ground_truth label \
+        --model_type CLASSIFICATION \
+        --set_seed \
+        --file_name_label file_name \
+        --corruptions gaussian_blur defocus_blur"
+
+    PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/blur_corruptions/"
+
+    errorMessage = "--set_seed: expected one argument"
+
+    ## Run Test ##
+    run_test_image_corruption_error(run_plugin_command, PATH, errorMessage)
 
 def test_blur_corruptions_docker_zip():
 
@@ -1265,6 +1433,92 @@ def test_veritas_puw_demo_zip():
 
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
+
+def test_veritas_cli():
+
+    PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
+
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        aiverify_veritastool \
+        --data_path " + root_path + "/veritas_data/cs_X_test.pkl \
+        --model_path " + root_path + "/veritas_data/cs_model.pkl \
+        --ground_truth_path " + root_path + "/veritas_data/cs_y_test.pkl \
+        --ground_truth y_test \
+        --training_data_path " + root_path + "/veritas_data/cs_X_train.pkl \
+        --training_ground_truth_path " + root_path + "/veritas_data/cs_y_train.pkl \
+        --training_ground_truth y_train \
+        --use_case 'base_regression' \
+        --privileged_groups '{\"SEX\": [1], \"MARRIAGE\": [1]}' \
+        --model_type CLASSIFICATION \
+        --fair_threshold 80 \
+        --fair_metric 'auto' \
+        --fair_concern 'eligible' \
+        --performance_metric 'accuracy' \
+        --transparency_rows 20 40 \
+        --transparency_max_samples 1000 \
+        --transparency_features LIMIT_BAL \
+        --run_pipeline"
+    
+    ## Run Test ##
+    run_test_veritas(run_plugin_command, PATH, False)
+
+def test_veritas_cli_zip():
+
+    PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
+
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        aiverify_veritastool \
+        --data_path " + root_path + "/veritas_data/cs_X_test.pkl \
+        --model_path " + root_path + "/veritas_data/cs_model.pkl \
+        --ground_truth_path " + root_path + "/veritas_data/cs_y_test.pkl \
+        --ground_truth y_test \
+        --training_data_path " + root_path + "/veritas_data/cs_X_train.pkl \
+        --training_ground_truth_path " + root_path + "/veritas_data/cs_y_train.pkl \
+        --training_ground_truth y_train \
+        --use_case 'base_regression' \
+        --privileged_groups '{\"SEX\": [1], \"MARRIAGE\": [1]}' \
+        --model_type CLASSIFICATION \
+        --fair_threshold 80 \
+        --fair_metric 'auto' \
+        --fair_concern 'eligible' \
+        --performance_metric 'accuracy' \
+        --transparency_rows 20 40 \
+        --transparency_max_samples 1000 \
+        --transparency_features LIMIT_BAL \
+        --run_pipeline"
+    
+    ## Run Test ##
+    run_test_veritas(run_plugin_command, PATH, True)
+
+def test_veritas_cli_error():
+
+    PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
+
+    run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        aiverify_veritastool \
+        --data_path " + root_path + "/veritas_data/cs_X_test.pkl \
+        --model_path " + root_path + "/veritas_data/cs_model.pkl \
+        --ground_truth_path " + root_path + "/veritas_data/cs_y_test.pkl \
+        --ground_truth y_test \
+        --training_data_path " + root_path + "/veritas_data/cs_X_train.pkl \
+        --training_ground_truth_path " + root_path + "/veritas_data/cs_y_train.pkl \
+        --training_ground_truth y_train \
+        --use_case 'base_regression' \
+        --privileged_groups '{\"SEX\": [1], \"MARRIAGE\": [1]}' \
+        --model_type \
+        --fair_threshold 80 \
+        --fair_metric 'auto' \
+        --fair_concern 'eligible' \
+        --performance_metric 'accuracy' \
+        --transparency_rows 20 40 \
+        --transparency_max_samples 1000 \
+        --transparency_features LIMIT_BAL \
+        --run_pipeline"
+    
+    errorMessage = "--model_type: expected one argument"
+    
+    ## Run Test ##
+    run_test_veritas_error(run_plugin_command, PATH, errorMessage)
 
 def test_veritas_docker():
 
