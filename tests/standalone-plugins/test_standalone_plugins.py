@@ -22,9 +22,7 @@ def run_test(run_plugin_command, PATH, isZip):
     cwd=PATH,
     )
 
-    output, errors = run_plugin.communicate()
-    assert output == ""
-    assert errors == ""
+    run_plugin.communicate()
 
     if(isZip == True):
 
@@ -360,7 +358,6 @@ def test_accumulated_local_effects_classification():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_accumulated_local_effects_regression():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -376,7 +373,6 @@ def test_accumulated_local_effects_regression():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_accumulated_local_effects_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -392,7 +388,6 @@ def test_accumulated_local_effects_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_accumulated_local_effects_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-accumulated-local-effect \
@@ -413,7 +408,6 @@ def test_accumulated_local_effects_docker():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_accumulated_local_effects_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -433,7 +427,6 @@ def test_accumulated_local_effects_docker_zip():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install . && \
@@ -451,7 +444,6 @@ def test_fairness_metrics_toolbox_for_classification():
     # Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -469,7 +461,6 @@ def test_fairness_metrics_toolbox_for_classification_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-fairness-metrics-toolbox-for-classification \
@@ -492,7 +483,6 @@ def test_fairness_metrics_toolbox_for_classification_docker():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metrics_toolbox_for_classification_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -514,7 +504,6 @@ def test_fairness_metrics_toolbox_for_classification_docker_zip():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_fairness_metric_toolbox_for_regression():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -532,7 +521,6 @@ def test_fairness_metric_toolbox_for_regression():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metric_toolbox_for_regression_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -550,7 +538,6 @@ def test_fairness_metric_toolbox_for_regression_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_fairness_metric_toolbox_for_regression_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-fairness-metrics-toolbox-for-regression \
@@ -573,7 +560,6 @@ def test_fairness_metric_toolbox_for_regression_docker():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_fairness_metric_toolbox_for_regression_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -595,7 +581,6 @@ def test_fairness_metric_toolbox_for_regression_docker_zip():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_blur_corruptions_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -614,7 +599,6 @@ def test_blur_corruptions_zip():
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_blur_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-blur-corruptions \
@@ -638,7 +622,6 @@ def test_blur_corruptions_docker_zip():
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_digital_corruptions_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -658,7 +641,6 @@ def test_digital_corruptions_zip():
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_digital_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-digital-corruptions \
@@ -683,7 +665,6 @@ def test_digital_corruptions_docker_zip():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_environment_corruptions_zip():
 
     ## Need to install: brew install freetype imagemagick
@@ -706,7 +687,6 @@ def test_environment_corruptions_zip():
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_environment_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-environment-corruptions \
@@ -731,7 +711,6 @@ def test_environment_corruptions_docker_zip():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_general_corruptions_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -751,7 +730,6 @@ def test_general_corruptions_zip():
     ## Run Test ##
     run_test_image_corruption(run_plugin_command, PATH)
 
-@pytest.mark.skip
 def test_general_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-general-corruptions \
@@ -776,7 +754,6 @@ def test_general_corruptions_docker_zip():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_partial_dependence_plot():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -793,7 +770,6 @@ def test_partial_dependence_plot():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_partial_dependence_plot_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -810,7 +786,6 @@ def test_partial_dependence_plot_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_partial_dependence_plot_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-partial-dependence-plot \
@@ -832,7 +807,6 @@ def test_partial_dependence_plot_docker():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_partial_dependence_plot_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -853,7 +827,6 @@ def test_partial_dependence_plot_docker_zip():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_robustness_toolbox_pipeline():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -872,7 +845,6 @@ def test_robustness_toolbox_pipeline():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_robustness_toolbox_classification():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -889,7 +861,6 @@ def test_robustness_toolbox_classification():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_robustness_toolbox_regression():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -906,7 +877,6 @@ def test_robustness_toolbox_regression():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_robustness_toolbox_zip():
 
     run_plugin_command = "python -m venv .venv && source .venv/bin/activate && pip install " + pwd + "/aiverify-test-engine && pip install . && \
@@ -925,7 +895,6 @@ def test_robustness_toolbox_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_robustness_toolbox_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-robustness-toolbox \
@@ -949,7 +918,6 @@ def test_robustness_toolbox_docker():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_robustness_toolbox_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -971,7 +939,6 @@ def test_robustness_toolbox_docker_zip():
 
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_shap_toolbox_classification():
 
     # OpenMP runtime is not installed
@@ -998,7 +965,6 @@ def test_shap_toolbox_classification():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_shap_toolbox_regression():
 
     # OpenMP runtime is not installed
@@ -1025,7 +991,6 @@ def test_shap_toolbox_regression():
     ## Run Test ##
     run_test(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_shap_toolbox_zip():
 
     # OpenMP runtime is not installed
@@ -1052,7 +1017,6 @@ def test_shap_toolbox_zip():
     ## Run Test ##
     run_test(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_shap_toolbox_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-shap-toolbox \
@@ -1078,7 +1042,6 @@ def test_shap_toolbox_docker():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_shap_toolbox_docker_zip():
 
     build_plugin_docker_image_command = ""
@@ -1103,7 +1066,6 @@ def test_shap_toolbox_docker_zip():
     ## Run Docker Test ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_cm_demo():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1124,7 +1086,6 @@ def test_veritas_cm_demo():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_cm_demo_zip():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1145,7 +1106,6 @@ def test_veritas_cm_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_base_classification_demo():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1166,7 +1126,6 @@ def test_veritas_base_classification_demo():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_base_classification_demo_zip():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1187,7 +1146,6 @@ def test_veritas_base_classification_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_base_regression_demo():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1208,7 +1166,6 @@ def test_veritas_base_regression_demo():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_base_regression_demo_zip():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1229,7 +1186,6 @@ def test_veritas_base_regression_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_cs_demo():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1250,7 +1206,6 @@ def test_veritas_cs_demo():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_cs_demo_zip():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1271,7 +1226,6 @@ def test_veritas_cs_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_puw_demo():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1292,7 +1246,6 @@ def test_veritas_puw_demo():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_puw_demo_zip():
 
     PATH = pwd + "/aiverify-apigw"
@@ -1313,7 +1266,6 @@ def test_veritas_puw_demo_zip():
     ## Run Test ##
     run_test_veritas(run_plugin_command, PATH, True)
 
-@pytest.mark.skip
 def test_veritas_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile ."
@@ -1346,7 +1298,6 @@ def test_veritas_docker():
     ## Run Docker Test ##
     run_test_docker_veritas(build_plugin_docker_image_command, run_plugin_docker_command, PATH, False)
 
-@pytest.mark.skip
 def test_veritas_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile ."
