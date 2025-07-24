@@ -909,28 +909,6 @@ test.describe('Upload Test Results Editor', () => {
 
     })
 
-    test.skip('Add Test Results With Invalid JSON Schema Into Editor With Invalid Artifacts', async ({ testResultPage }) => {
-
-        let filePathStringArray = [
-            root_path + "/test_results/output/images/veritas_classDistributionPieChart.png",
-            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isfemale.png",
-            root_path + "/test_results/output/images/veritas_featureDistributionPieChartMap_isforeign.png",
-            root_path + "/test_results/output/images/veritas_weightedConfusionHeatMapChart.png"
-        ]
-
-        let jsonFile = fs.readFileSync(root_path + "/test_results/output/results.json")
-        let parseJSONData = JSON.parse(jsonFile)
-
-        await testResultPage.resultEditor.fill(JSON.stringify(parseJSONData))
-        await testResultPage.uploadFile(filePathStringArray)
-
-        await testResultPage.uploadButton.click()
-
-        /* Add Test Results With Invalid JSON Schema Into Editor With Valid Artifacts */
-        await expect.soft(testResultPage.uploadButton).not.toBeEnabled()
-
-    })
-
     test('Add Test Results With Valid JSON Schema Into Editor With More Than One Artifact', async ({ testResultPage, page }) => {
 
         let filePathStringArray = [
