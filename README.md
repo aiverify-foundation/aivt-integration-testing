@@ -98,4 +98,4 @@ cd tests/standalone-plugins
 pytest .
 ```
 
-For a verbose output, add the `--vv` flag at the end of the command.
+For a verbose output, add the `-vv` flag at the end of the command.
