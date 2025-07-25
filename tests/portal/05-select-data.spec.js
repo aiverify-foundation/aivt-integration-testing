@@ -51,7 +51,7 @@ test.describe('Select Data', () => {
     test('Add Input Button', async ({ selectDataPage, page }) => {
 
         console.log('[INFO] Add Input')
-        await selectDataPage.addInputButton.click()
+        await selectDataPage.addInputButton.nth(0).click()
 
         /* Assert Add Input Button */
         await expect(page).toHaveURL(new RegExp(url + ":" + port_number + "/inputs/groups"))

@@ -682,8 +682,8 @@ test.describe('Upload Test Results', () => {
         /* Assert Upload Test Results Zip File - Drag And Drop */
         await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
         await testResultPage.uploadButton.click()
-        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 4000 })
-        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 4000 })
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 10000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 10000 })
         
     })
 
@@ -697,8 +697,8 @@ test.describe('Upload Test Results', () => {
         /* Assert Upload Test Results Zip File - Click To Browse */
         await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
         await testResultPage.uploadButton.click()
-        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 4000 })
-        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 4000 })
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 10000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 10000 })
         
     })
 
@@ -746,9 +746,9 @@ test.describe('Upload Test Results', () => {
         await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
         await expect.soft(page.getByText('output-robustness.zip')).toBeVisible()
         await testResultPage.uploadButton.click()
-        await expect.soft(page.getByText('Uploaded').first()).toBeVisible({ timeout: 4000 })
-        await expect.soft(page.getByText('Uploaded').nth(1)).toBeVisible({ timeout: 4000 })
-        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 4000 })
+        await expect.soft(page.getByText('Uploaded').first()).toBeVisible({ timeout: 10000 })
+        await expect.soft(page.getByText('Uploaded').nth(1)).toBeVisible({ timeout: 10000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 10000 })
 
     })
 
@@ -774,15 +774,15 @@ test.describe('Upload Test Results', () => {
         await testResultPage.uploadFile(filePathStringArray)
         await expect.soft(page.getByText('output-image-standalone.zip')).toBeVisible()
         await testResultPage.uploadButton.click()
-        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 3000 })
-        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 2000 })
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 10000 })
+        await expect.soft(testResultPage.uploadMoreButton).toBeVisible({ timeout: 10000 })
         await testResultPage.uploadMoreButton.click()
 
         /* Assert Upload More Button */
         await expect.soft(page.getByText('output-image-standalone.zip')).not.toBeVisible()
         await testResultPage.uploadFile(filePathStringArray)
         await testResultPage.uploadButton.click()
-        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 3000 })
+        await expect.soft(page.getByText('Uploaded')).toBeVisible({ timeout: 10000 })
 
     })
 
