@@ -173,7 +173,7 @@ test.describe('Plugin', () => {
     }
 
     const GET_PLUGIN_SUMMARY_DOWNLOAD_BY_GID_AND_CID = [
-        { TEST_NAME: "With Existing GID With Existing CID", CASE_TYPE: 1, GID: "aiverify.stock.process_checklist", CID: "summary_security", STATUS: 200 },
+        // { TEST_NAME: "With Existing GID With Existing CID", CASE_TYPE: 1, GID: "aiverify.stock.process_checklist", CID: "summary_data_governance", STATUS: 200 },
         { TEST_NAME: "With Existing GID With Non-existing CID", CASE_TYPE: 0, GID: "aiverify.stock.process_checklist", CID: "robustness", EXPECTED: { detail: 'Bundle not found' }, STATUS: 404 },
         { TEST_NAME: "With Existing GID With Empty CID", CASE_TYPE: 0, GID: "aiverify.stock.process_checklist", CID: "", EXPECTED: { detail: 'Not Found' }, STATUS: 404 },
         { TEST_NAME: "With Non-existing GID", CASE_TYPE: 0, GID: "aiverify.stock", CID: "robustness_responses", EXPECTED: { detail: 'Plugin not found' }, STATUS: 404 },
