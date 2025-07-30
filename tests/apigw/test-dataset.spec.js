@@ -186,6 +186,40 @@ test.describe('Test Datasets', () => {
 
     ]
 
+    for (const data of POST_TEST_DATASETS) {
+        test(`Upload Test Dataset ${data.TEST_NAME}`, async () => {
+            const form = new FormData()
+            for (const file of data.FILES) {
+                if (data.FILETYPE == "INVALID")
+                    form.append('files', fs.createReadStream(root_path + '/model/' + file.invalidFileName))
+                else if (data.FILETYPE == "FOLDER") {
+                    form.append('files', file.folderName)
+                }
+                else
+                    form.append("files", fs.createReadStream(root_path + '/data/' + file.datasetName))
+            }
+
+            /* Upload Test Dataset */
+            const response = await axios.post(url + ":" + port_number + "/test_datasets/upload",
+                form,
+                {
+                    headers: {
+                        ...form.getHeaders(),
+                        'accept': 'application/json',
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    validateStatus: function (status) {
+                        return status
+                    }
+                })
+
+            /* Assert Upload Dataset */
+            expect.soft(response.data).toMatchObject(data.EXPECTED)
+            expect.soft(response.status).toBe(data.STATUS)
+
+        })
+    }
+
     const ARRAY_OF_FOLDER_FILES = [
         [
             /* Test Case 0 */
@@ -339,110 +373,6 @@ test.describe('Test Datasets', () => {
         },
     ]
 
-    const GET_TEST_DATASETS_BY_DATASET_ID = [
-        {
-            TEST_NAME: "With Existing Test Dataset ID", CASE_TYPE: "POSITIVE", DATASET_NAME: "sample_bc_credit_data.sav", EXPECTED: {
-                fileType: 'file',
-                zip_hash: '0b2b85f467f9dce0d1e8b1e072998eb42501e589cf79c25564a17dec2606da08',
-                size: 181224,
-                serializer: 'pickle',
-                dataFormat: 'pandas',
-                numRows: 2500,
-                numCols: 9,
-                status: 'valid'
-            }, STATUS: 200
-        },
-        { TEST_NAME: "With Non-existing Test Dataset ID", TEST_DATASET_ID: 100000000000000, EXPECTED: { detail: "Dataset not found" }, STATUS: 404 },
-        { TEST_NAME: "With String Test Dataset ID", TEST_DATASET_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
-        { TEST_NAME: "With Float Test Dataset ID ", TEST_DATASET_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
-        { TEST_NAME: "With Boolean Test Dataset ID", TEST_DATASET_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
-        { TEST_NAME: "With Null Test Dataset ID", TEST_DATASET_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
-    ]
-
-    const PATCH_TEST_DATASETS_BY_DATASET_ID = [
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "POSITIVE", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { name: "test", description: "test", dataColumns: [{ name: 'file_name', datatype: 'object', label: 'test' }, { name: 'label', datatype: 'uint8', label: 'label' }] }, STATUS: 200 }, //What is the purpose of updating label when user cannot update it from the frontend
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Integer", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Float", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Boolean", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Empty", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: "", EXPECTED: { dataColumns: [{ name: 'file_name', datatype: 'object', label: '' }, { name: 'label', datatype: 'uint8', label: 'label' }] }, STATUS: 200 }, //What is the purpose of updating label when user cannot update it from the frontend
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Null", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: null, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label No Value", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { detail: [{ type: 'missing', msg: 'Field required' }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Float With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Boolean With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Empty With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: "", EXPECTED: { detail: [{ ctx: { "min_length": 1 }, input: "", loc: ["body", "dataColumns", 0, "name"], "msg": "String should have at least 1 character", type: 'string_too_short' }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Null With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: null, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name No Value With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { detail: [{ type: 'missing', msg: 'Field required' }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description > 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: STRING_4096_CHARACTERS, EXPECTED: { detail: [{ type: 'string_too_long', msg: 'String should have at most 4096 characters', input: STRING_4096_CHARACTERS }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Integer With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Float With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Boolean With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Empty With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: "", EXPECTED: { description: null }, STATUS: 200 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Null With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: null, EXPECTED: { description: null }, STATUS: 200 },
-        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description No Value With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { description: null }, STATUS: 200 },
-        { TEST_NAME: "With Name Character Length Between > 256 Characters With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: STRING_4096_CHARACTERS, EXPECTED: { detail: [{ type: 'string_too_long', msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Integer With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Float With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Boolean With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Empty With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: "", EXPECTED: { detail: [{ ctx: { "min_length": 1 }, input: "", loc: ["body", "name"], "msg": "String should have at least 1 character", type: 'string_too_short' }] }, STATUS: 422 },
-        { TEST_NAME: "With Name Null With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: null, EXPECTED: {}, STATUS: 200 },
-        { TEST_NAME: "With Name No Value With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: {}, STATUS: 200 },
-    ]
-
-    const DELETE_TEST_DATASETS_BY_DATASET_ID = [
-        { TEST_NAME: "With Existing Test Dataset ID", CASE_TYPE: "POSITIVE", DATASET_NAME: "sample_bc_credit_data.sav", EXPECTED: { message: 'Dataset deleted successfully' }, STATUS: 200 },
-        { TEST_NAME: "With Non-existing Test Dataset ID", TEST_DATASET_ID: 100000000000000, EXPECTED: { detail: 'Dataset not found' }, STATUS: 404 },
-        { TEST_NAME: "With String Test Dataset ID", TEST_DATASET_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
-        { TEST_NAME: "With Float Test Dataset ID ", TEST_DATASET_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
-        { TEST_NAME: "With Boolean Test Datset ID", TEST_DATASET_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
-        { TEST_NAME: "With Null Test Dataset ID", TEST_DATASET_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
-        { TEST_NAME: "With No Value Test Dataset ID", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 },
-    ]
-
-    const DOWNLOAD_TEST_DATASETS_BY_DATASET_ID = [
-        { TEST_NAME: "With Existing Model ID", CASE_TYPE: "POSITIVE", DATASET_NAME: "sample_bc_credit_data.sav", STATUS: 200 },
-        { TEST_NAME: "With Non-existing Model ID", TEST_DATASET_ID: 100000000000000, EXPECTED: { detail: 'Test dataset not found' }, STATUS: 404 },
-        { TEST_NAME: "With String Model ID", TEST_DATASET_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
-        { TEST_NAME: "With Float Model ID ", TEST_DATASET_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
-        { TEST_NAME: "With Boolean Model ID", TEST_DATASET_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
-        { TEST_NAME: "With Null Model ID", TEST_DATASET_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
-        { TEST_NAME: "With No Value Model ID", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 },
-    ]
-
-    for (const data of POST_TEST_DATASETS) {
-        test(`Upload Test Dataset ${data.TEST_NAME}`, async () => {
-            const form = new FormData()
-            for (const file of data.FILES) {
-                if (data.FILETYPE == "INVALID")
-                    form.append('files', fs.createReadStream(root_path + '/model/' + file.invalidFileName))
-                else if (data.FILETYPE == "FOLDER") {
-                    form.append('files', file.folderName)
-                }
-                else
-                    form.append("files", fs.createReadStream(root_path + '/data/' + file.datasetName))
-            }
-
-            /* Upload Test Dataset */
-            const response = await axios.post(url + ":" + port_number + "/test_datasets/upload",
-                form,
-                {
-                    headers: {
-                        ...form.getHeaders(),
-                        'accept': 'application/json',
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    validateStatus: function (status) {
-                        return status
-                    }
-                })
-
-            /* Assert Upload Dataset */
-            expect.soft(response.data).toMatchObject(data.EXPECTED)
-            expect.soft(response.status).toBe(data.STATUS)
-
-        })
-    }
-
     for (const data of POST_TEST_DATASETS_FOLDER) {
         test(`Upload Test Dataset Folder ${data.TEST_NAME}`, async () => {
             const form = new FormData()
@@ -485,6 +415,26 @@ test.describe('Test Datasets', () => {
         /* Assert Get All Test Datasets */
         expect.soft(response.status).toBe(200)
     })
+
+    const GET_TEST_DATASETS_BY_DATASET_ID = [
+        {
+            TEST_NAME: "With Existing Test Dataset ID", CASE_TYPE: "POSITIVE", DATASET_NAME: "sample_bc_credit_data.sav", EXPECTED: {
+                fileType: 'file',
+                zip_hash: '0b2b85f467f9dce0d1e8b1e072998eb42501e589cf79c25564a17dec2606da08',
+                size: 181224,
+                serializer: 'pickle',
+                dataFormat: 'pandas',
+                numRows: 2500,
+                numCols: 9,
+                status: 'valid'
+            }, STATUS: 200
+        },
+        { TEST_NAME: "With Non-existing Test Dataset ID", TEST_DATASET_ID: 100000000000000, EXPECTED: { detail: "Dataset not found" }, STATUS: 404 },
+        { TEST_NAME: "With String Test Dataset ID", TEST_DATASET_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
+        { TEST_NAME: "With Float Test Dataset ID ", TEST_DATASET_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
+        { TEST_NAME: "With Boolean Test Dataset ID", TEST_DATASET_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
+        { TEST_NAME: "With Null Test Dataset ID", TEST_DATASET_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+    ]
 
     for (const data of GET_TEST_DATASETS_BY_DATASET_ID) {
         test(`Get Test Dataset By Dataset ID ${data.TEST_NAME}`, async () => {
@@ -530,6 +480,36 @@ test.describe('Test Datasets', () => {
             expect.soft(response.status).toBe(data.STATUS)
         })
     }
+
+    const PATCH_TEST_DATASETS_BY_DATASET_ID = [
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "POSITIVE", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { name: "test", description: "test", dataColumns: [{ name: 'file_name', datatype: 'object', label: 'test' }, { name: 'label', datatype: 'uint8', label: 'label' }] }, STATUS: 200 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Integer", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Float", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Boolean", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Empty", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: "", EXPECTED: { dataColumns: [{ name: 'file_name', datatype: 'object', label: '' }, { name: 'label', datatype: 'uint8', label: 'label' }] }, STATUS: 200 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label Null", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_LABEL: null, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Valid Data Column Name With Valid Data Column Label No Value", CASE_TYPE: "DATA_COLUMN_LABEL", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { detail: [{ type: 'missing', msg: 'Field required' }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Float With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Boolean With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Empty With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: "", EXPECTED: { detail: [{ ctx: { "min_length": 1 }, input: "", loc: ["body", "dataColumns", 0, "name"], "msg": "String should have at least 1 character", type: 'string_too_short' }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name Null With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DATA_COLUMN_NAME: null, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: null }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description < 4096 Characters With Data Column Name No Value With Valid Data Column Label", CASE_TYPE: "DATA_COLUMN_NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { detail: [{ type: 'missing', msg: 'Field required' }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description > 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: STRING_4096_CHARACTERS, EXPECTED: { detail: [{ type: 'string_too_long', msg: 'String should have at most 4096 characters', input: STRING_4096_CHARACTERS }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Integer With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Float With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Boolean With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Empty With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: "", EXPECTED: { description: null }, STATUS: 200 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description Null With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", DESCRIPTION: null, EXPECTED: { description: null }, STATUS: 200 },
+        { TEST_NAME: "With Name Character Length Between 1 and 256 Characters With Description No Value With Valid Data Column Name With Valid Data Column Label", CASE_TYPE: "DESCRIPTION", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: { description: null }, STATUS: 200 },
+        { TEST_NAME: "With Name Character Length Between > 256 Characters With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: STRING_4096_CHARACTERS, EXPECTED: { detail: [{ type: 'string_too_long', msg: 'String should have at most 256 characters', input: STRING_4096_CHARACTERS }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Integer With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: intValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Float With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: floatValue, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: 10.1 }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Boolean With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: true, EXPECTED: { detail: [{ type: 'string_type', msg: 'Input should be a valid string', input: true }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Empty With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: "", EXPECTED: { detail: [{ ctx: { "min_length": 1 }, input: "", loc: ["body", "name"], "msg": "String should have at least 1 character", type: 'string_too_short' }] }, STATUS: 422 },
+        { TEST_NAME: "With Name Null With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", NAME: null, EXPECTED: {}, STATUS: 200 },
+        { TEST_NAME: "With Name No Value With Description < 4096 Characters With Data Column Name Integer With Valid Data Column Label", CASE_TYPE: "NAME", DATASET_NAME: "pickle_pandas_fashion_mnist_annotated_labels_10.sav", EXPECTED: {}, STATUS: 200 },
+    ]
 
     for (const data of PATCH_TEST_DATASETS_BY_DATASET_ID) {
         test(`Update Test Dataset By Dataset ID ${data.TEST_NAME}`, async () => {
@@ -635,6 +615,16 @@ test.describe('Test Datasets', () => {
         })
     }
 
+    const DELETE_TEST_DATASETS_BY_DATASET_ID = [
+        { TEST_NAME: "With Existing Test Dataset ID", CASE_TYPE: "POSITIVE", DATASET_NAME: "sample_bc_credit_data.sav", EXPECTED: { message: 'Dataset deleted successfully' }, STATUS: 200 },
+        { TEST_NAME: "With Non-existing Test Dataset ID", TEST_DATASET_ID: 100000000000000, EXPECTED: { detail: 'Dataset not found' }, STATUS: 404 },
+        { TEST_NAME: "With String Test Dataset ID", TEST_DATASET_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
+        { TEST_NAME: "With Float Test Dataset ID ", TEST_DATASET_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
+        { TEST_NAME: "With Boolean Test Datset ID", TEST_DATASET_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
+        { TEST_NAME: "With Null Test Dataset ID", TEST_DATASET_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+        { TEST_NAME: "With No Value Test Dataset ID", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 },
+    ]
+
     for (const data of DELETE_TEST_DATASETS_BY_DATASET_ID) {
         test(`Delete Test Datasets By Dataset ID ${data.TEST_NAME}`, async () => {
 
@@ -679,6 +669,16 @@ test.describe('Test Datasets', () => {
             expect.soft(response.status).toBe(data.STATUS)
         })
     }
+
+    const DOWNLOAD_TEST_DATASETS_BY_DATASET_ID = [
+        { TEST_NAME: "With Existing Model ID", CASE_TYPE: "POSITIVE", DATASET_NAME: "sample_bc_credit_data.sav", STATUS: 200 },
+        { TEST_NAME: "With Non-existing Model ID", TEST_DATASET_ID: 100000000000000, EXPECTED: { detail: 'Test dataset not found' }, STATUS: 404 },
+        { TEST_NAME: "With String Model ID", TEST_DATASET_ID: "test", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'test' }] }, STATUS: 422 },
+        { TEST_NAME: "With Float Model ID ", TEST_DATASET_ID: floatValue, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: '10.1' }] }, STATUS: 422 },
+        { TEST_NAME: "With Boolean Model ID", TEST_DATASET_ID: true, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'true' }] }, STATUS: 422 },
+        { TEST_NAME: "With Null Model ID", TEST_DATASET_ID: null, EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'null' }] }, STATUS: 422 },
+        { TEST_NAME: "With No Value Model ID", EXPECTED: { detail: [{ type: 'int_parsing', msg: 'Input should be a valid integer, unable to parse string as an integer', input: 'undefined' }] }, STATUS: 422 },
+    ]
 
     for (const data of DOWNLOAD_TEST_DATASETS_BY_DATASET_ID) {
         test(`Download Test Datasets By Dataset ID ${data.TEST_NAME}`, async () => {

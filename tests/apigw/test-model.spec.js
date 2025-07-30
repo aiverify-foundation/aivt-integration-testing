@@ -159,17 +159,19 @@ test.describe('Test Models', () => {
         // { TEST_NAME: "With Folder Arrays", FILETYPE: "FOLDER", EXPECTED: {}, FILES: ARRAY_OF_FILES[11], STATUS: 400 }, // Can Upload Folder?
         {
             TEST_NAME: "With Files Non Arrays", EXPECTED:
-            {
-                name: 'sample_bc_credit_sklearn_linear.LogisticRegression_33.sav', // To Update The Number Once Finalised Test Execution
+            [{
+                name: 'sample_bc_credit_sklearn_linear.LogisticRegression_8.sav', // To Update The Number Once Finalised Test Execution
                 mode: 'upload',
                 modelType: 'classification',
                 fileType: 'file',
-                filename: 'sample_bc_credit_sklearn_linear.LogisticRegression_33.sav', // To Update The Number Once Finalised Test Execution
+                filename: 'sample_bc_credit_sklearn_linear.LogisticRegression_8.sav', // To Update The Number Once Finalised Test Execution
                 serializer: "pickle",
                 modelFormat: "sklearn",
-                status: "valid"
+                status: "valid",
+                zip_hash: "7091938136e17b7f726cbdf60cdea04beea32cc8ce1d09fcb02695cd3746bf84"
 
-            }, FILES: ARRAY_OF_FILES[12], STATUS: 200
+            }], FILES: ARRAY_OF_FILES[12], STATUS: 200
+
         },
         { TEST_NAME: "With Valid File Integer Arrays", FILETYPE: "INVALID_FILE", EXPECTED: { detail: [{ type: 'value_error', msg: "Value error, Expected UploadFile, received: <class 'str'>", input: "10" }] }, FILES: ARRAY_OF_FILES[13], STATUS: 422 },
         { TEST_NAME: "With Valid File Float Arrays", FILETYPE: "INVALID_FILE", EXPECTED: { detail: [{ type: 'value_error', msg: "Value error, Expected UploadFile, received: <class 'str'>", input: "10.1" }] }, FILES: ARRAY_OF_FILES[14], STATUS: 422 },
