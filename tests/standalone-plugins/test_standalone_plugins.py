@@ -517,7 +517,7 @@ def test_accumulated_local_effects_zip():
 def test_accumulated_local_effects_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-accumulated-local-effect \
-        -f stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/Dockerfile ."
+        -f stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -527,7 +527,7 @@ def test_accumulated_local_effects_docker():
         --model_path /input/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path /input/data/sample_bc_credit_data.sav \
         --ground_truth default \
-        --model_type CLASSIFICATION "
+        --model_type CLASSIFICATION"
     
     PATH = pwd + "/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/"
 
@@ -536,8 +536,7 @@ def test_accumulated_local_effects_docker():
 
 def test_accumulated_local_effects_docker_error():
 
-    build_plugin_docker_image_command = "docker build -t aiverify-accumulated-local-effect \
-        -f stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/Dockerfile ."
+    build_plugin_docker_image_command = ""
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -547,7 +546,7 @@ def test_accumulated_local_effects_docker_error():
         --model_path /input/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path /input/data/sample_bc_credit_data.sav \
         --ground_truth default \
-        --model_type "
+        --model_type"
     
     PATH = pwd + "/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/"
     errorMessage = "--model_type: expected one argument"
@@ -567,7 +566,7 @@ def test_accumulated_local_effects_docker_zip():
         --model_path /input/model/sample_bc_credit_sklearn_linear.LogisticRegression.sav \
         --ground_truth_path /input/data/sample_bc_credit_data.sav \
         --ground_truth default \
-        --model_type CLASSIFICATION "
+        --model_type CLASSIFICATION && docker image prune -a -y"
     
     PATH = pwd + "/stock-plugins/aiverify.stock.accumulated-local-effect/algorithms/accumulated_local_effect/"
 
