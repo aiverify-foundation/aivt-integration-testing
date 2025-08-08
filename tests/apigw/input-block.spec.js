@@ -315,15 +315,4 @@ test.describe('Input Block', () => {
         })
     }
 
-    test.skip(`Get All Input Blocks Group`, async () => {
-        const response = await axios.get(url + ":" + port_number + "/input_block_data/groups", {
-            validateStatus: function (status) {
-                return status
-            }
-        })
-
-        /* Assert Get Input Block ID */
-        // Add Assertion for Get Input Block Data
-        expect.soft(response.status).toBe(200)
-    })
 })

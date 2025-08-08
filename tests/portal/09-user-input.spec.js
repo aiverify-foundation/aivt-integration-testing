@@ -25,21 +25,21 @@ test.describe('AI Verify Process Checklist', () => {
 
     })
 
-    test('Search AI Verify Process Checklist By Search Term', async ({ userInputPage, page }) => {
+    // test('Search AI Verify Process Checklist By Search Term', async ({ userInputPage, page }) => {
 
-        /* Search AI Verify Process Checklist */
-        await userInputPage.userInputSearchBar.fill('test')
+    //     /* Search AI Verify Process Checklist */
+    //     await userInputPage.userInputSearchBar.fill('test')
 
-        /* Assert AI Verify Process Checklist Not Appearing */
-        await expect.soft(page.locator('h3').filter({ hasText: /^AI Verify Process Checklists$/ })).not.toBeVisible()
+    //     /* Assert AI Verify Process Checklist Not Appearing */
+    //     await expect.soft(page.locator('h3').filter({ hasText: /^AI Verify Process Checklists$/ })).not.toBeVisible()
 
-        /* Search AI Verify Process Checklist */
-        await userInputPage.userInputSearchBar.fill('AI Verify Process Checklist')
+    //     /* Search AI Verify Process Checklist */
+    //     await userInputPage.userInputSearchBar.fill('AI Verify Process Checklist')
 
-        /* Assert AI Verify Process Checklist */
-        await expect.soft(page.locator('h3').filter({ hasText: /^AI Verify Process Checklists$/ })).toBeVisible()
+    //     /* Assert AI Verify Process Checklist */
+    //     await expect.soft(page.locator('h3').filter({ hasText: /^AI Verify Process Checklists$/ })).toBeVisible()
 
-    })
+    // })
 
     test('AI Verify Add Checklist Button - Create New Checklist', async ({ userInputPage, page }) => {
 

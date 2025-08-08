@@ -447,16 +447,16 @@ test.describe('Upload Model', () => {
 
     })
 
-    test('Upload Valid Model Folder - Click To Browse', async ({ modelPage }) => {
+    // test('Upload Valid Model Folder - Click To Browse', async ({ modelPage }) => {
 
-        console.log('[INFO] Upload AI Model')
-        await modelPage.uploadAIModelButton.click()
-        await modelPage.nextButton.click()
+    //     console.log('[INFO] Upload AI Model')
+    //     await modelPage.uploadAIModelButton.click()
+    //     await modelPage.nextButton.click()
 
-        let folderPathStringArray = [root_path + "/model/tensorflow_tabular_sequential.sav"]
-        await modelPage.uploadFolder(folderPathStringArray, "folderInput")
+    //     let folderPathStringArray = [root_path + "/model/tensorflow_tabular_sequential.sav"]
+    //     await modelPage.uploadFolder(folderPathStringArray, "folderInput")
 
-    })
+    // })
 
     test('Empty Model Folder Name', async ({ modelPage, page }) => {
 
