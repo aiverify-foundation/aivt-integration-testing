@@ -322,7 +322,8 @@ def run_test_image_corruption(run_plugin_command, PATH):
     cwd=PATH,
     )
 
-    run_plugin.communicate()
+    output, errors = run_plugin.communicate()
+    assert errors == ""
 
     ## Zip Test Results ##
     zip_test_results = subprocess.Popen("zip -r output.zip results.json temp",
