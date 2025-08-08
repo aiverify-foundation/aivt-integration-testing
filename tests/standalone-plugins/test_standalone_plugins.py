@@ -1401,18 +1401,7 @@ def test_veritas_cm_demo():
 
 def test_veritas_cm_demo_zip():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute CM_demo.ipynb"
+    run_plugin_command = "pip install jupyter && jupyter execute CM_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/customer_marketing_example/"
 
@@ -1421,18 +1410,7 @@ def test_veritas_cm_demo_zip():
 
 def test_veritas_base_classification_demo():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
+    run_plugin_command = "pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
@@ -1441,18 +1419,7 @@ def test_veritas_base_classification_demo():
 
 def test_veritas_base_classification_demo_zip():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate &&  pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
+    run_plugin_command = "pip install jupyter && jupyter execute BaseClassification_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
@@ -1461,18 +1428,7 @@ def test_veritas_base_classification_demo_zip():
 
 def test_veritas_base_regression_demo():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute BaseRegression_demo.ipynb"
+    run_plugin_command = "pip install jupyter && jupyter execute BaseRegression_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
@@ -1481,18 +1437,7 @@ def test_veritas_base_regression_demo():
 
 def test_veritas_base_regression_demo_zip():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute BaseRegression_demo.ipynb"
+    run_plugin_command = "pip install jupyter && jupyter execute BaseRegression_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
@@ -1501,18 +1446,7 @@ def test_veritas_base_regression_demo_zip():
 
 def test_veritas_cs_demo():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command =  "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install imblearn && pip install jupyter && jupyter execute CS_demo.ipynb"
+    run_plugin_command = "pip install imblearn && pip install jupyter && jupyter execute CS_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
@@ -1521,18 +1455,7 @@ def test_veritas_cs_demo():
 
 def test_veritas_cs_demo_zip():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command =  "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install imblearn && pip install jupyter && jupyter execute CS_demo.ipynb"
+    run_plugin_command = "pip install imblearn && pip install jupyter && jupyter execute CS_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
@@ -1541,18 +1464,7 @@ def test_veritas_cs_demo_zip():
 
 def test_veritas_puw_demo():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute PUW_demo.ipynb"
+    run_plugin_command = "pip install jupyter && jupyter execute PUW_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
@@ -1560,19 +1472,8 @@ def test_veritas_puw_demo():
     run_test_veritas(run_plugin_command, PATH, False)
 
 def test_veritas_puw_demo_zip():
-
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    stdin=subprocess.PIPE,
-    shell=True,
-    text=True,
-    cwd=PATH,
-    )
-
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute PUW_demo.ipynb"
+    
+    run_plugin_command = "pip install jupyter && jupyter execute PUW_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/"
 
