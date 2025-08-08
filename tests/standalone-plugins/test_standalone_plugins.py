@@ -1383,18 +1383,16 @@ def test_shap_toolbox_docker_zip():
 
 def test_veritas_cm_demo():
 
-    PATH = pwd + "/aiverify-apigw"
-
-    subprocess.Popen("source .venv/bin/activate && pip install ../stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
+    subprocess.Popen("pip install ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool",
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
     stdin=subprocess.PIPE,
     shell=True,
     text=True,
-    cwd=PATH,
+    cwd=pwd,
     )
 
-    run_plugin_command = "source " + pwd + "/aiverify-apigw/.venv/bin/activate && pip install jupyter && jupyter execute CM_demo.ipynb"
+    run_plugin_command = "pip install jupyter && jupyter execute CM_demo.ipynb"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/examples/customer_marketing_example/"
 
