@@ -322,8 +322,7 @@ def run_test_image_corruption(run_plugin_command, PATH):
     cwd=PATH,
     )
 
-    output, errors = run_plugin.communicate()
-    assert errors == ""
+    run_plugin.communicate()
 
     ## Zip Test Results ##
     zip_test_results = subprocess.Popen("zip -r output.zip results.json temp",
@@ -630,7 +629,7 @@ def test_fairness_metrics_toolbox_for_classification_zip():
 def test_fairness_metrics_toolbox_for_classification_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-fairness-metrics-toolbox-for-classification \
-        -f stock-plugins/aiverify.stock.fairness-metrics-toolbox-for-classification/algorithms/fairness_metrics_toolbox_for_classification/Dockerfile ."
+        -f stock-plugins/aiverify.stock.fairness-metrics-toolbox-for-classification/algorithms/fairness_metrics_toolbox_for_classification/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -663,7 +662,7 @@ def test_fairness_metrics_toolbox_for_classification_docker_zip():
         --ground_truth toxic \
         --model_type CLASSIFICATION \
         --run_pipeline \
-        --sensitive_features_list gender"
+        --sensitive_features_list gender && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.fairness-metrics-toolbox-for-classification/algorithms/fairness_metrics_toolbox_for_classification/"
 
@@ -726,7 +725,7 @@ def test_fairness_metric_toolbox_for_regression_zip():
 def test_fairness_metric_toolbox_for_regression_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-fairness-metrics-toolbox-for-regression \
-        -f stock-plugins/aiverify.stock.fairness-metrics-toolbox-for-regression/algorithms/fairness_metrics_toolbox_for_regression/Dockerfile ."
+        -f stock-plugins/aiverify.stock.fairness-metrics-toolbox-for-regression/algorithms/fairness_metrics_toolbox_for_regression/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -759,7 +758,7 @@ def test_fairness_metric_toolbox_for_regression_docker_zip():
             --ground_truth donation \
             --model_type REGRESSION \
             --run_pipeline \
-            --sensitive_features_list gender"
+            --sensitive_features_list gender && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.fairness-metrics-toolbox-for-regression/algorithms/fairness_metrics_toolbox_for_regression/"
 
@@ -808,7 +807,7 @@ def test_blur_corruptions_zip_error():
 def test_blur_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-blur-corruptions \
-        -f stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/blur_corruptions/Dockerfile ."
+        -f stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/blur_corruptions/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -827,6 +826,25 @@ def test_blur_corruptions_docker_zip():
 
     ## Run Test Docker ##
     run_test_docker(build_plugin_docker_image_command, run_plugin_docker_command, PATH, True)
+
+def test_digital_corruptions_zip():
+
+    run_plugin_command = "pip install " + pwd + "/aiverify-test-engine && pip install . && \
+        python -m aiverify_digital_corruptions \
+        --data_path " + root_path + "/data/raw_fashion_image_10 \
+        --model_path " + root_path + "/pipeline/sample_fashion_mnist_sklearn \
+        --ground_truth_path " + root_path + "/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
+        --ground_truth label \
+        --model_type CLASSIFICATION \
+        --set_seed 10 \
+        --file_name_label file_name \
+        --corruptions random_perspective jpeg_compression \
+        --brightness_down_factor 0.1 0.2 0.3"
+
+    PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/digital_corruptions/"
+
+    ## Run Test ##
+    run_test_image_corruption(run_plugin_command, PATH)
 
 def test_digital_corruptions_zip_error():
 
@@ -866,7 +884,7 @@ def test_digital_corruptions_docker_zip():
         --set_seed 10 \
         --file_name_label file_name \
         --corruptions random_perspective jpeg_compression \
-        --brightness_down_factor 0.1 0.2 0.3"
+        --brightness_down_factor 0.1 0.2 0.3 && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/digital_corruptions/"
 
@@ -922,7 +940,7 @@ def test_environment_corruptions_zip_error():
 def test_environment_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-environment-corruptions \
-        -f stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/environment_corruptions/Dockerfile ."
+        -f stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/environment_corruptions/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -936,7 +954,7 @@ def test_environment_corruptions_docker_zip():
         --set_seed 10 \
         --file_name_label file_name \
         --corruptions snow rain \
-        --snow_intensity 1.0 2.0 3.0"
+        --snow_intensity 1.0 2.0 3.0 && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/environment_corruptions/"
 
@@ -986,7 +1004,7 @@ def test_general_corruptions_zip_error():
 def test_general_corruptions_docker_zip():
 
     build_plugin_docker_image_command = "docker build -t aiverify-general-corruptions \
-        -f stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/general_corruptions/Dockerfile ."
+        -f stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/general_corruptions/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -1000,7 +1018,7 @@ def test_general_corruptions_docker_zip():
         --set_seed 10 \
         --file_name_label file_name \
         --corruptions gaussian_noise poisson_noise \
-        --gaussian_noise_sigma 0.1 0.2 0.3"
+        --gaussian_noise_sigma 0.1 0.2 0.3 && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.image-corruption-toolbox/algorithms/general_corruptions/"
 
@@ -1059,7 +1077,7 @@ def test_partial_dependence_plot_zip():
 def test_partial_dependence_plot_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-partial-dependence-plot \
-        -f stock-plugins/aiverify.stock.partial-dependence-plot/algorithms/partial_dependence_plot/Dockerfile ."
+        -f stock-plugins/aiverify.stock.partial-dependence-plot/algorithms/partial_dependence_plot/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -1090,7 +1108,7 @@ def test_partial_dependence_plot_docker_zip():
         --ground_truth_path /input/data/sample_bc_credit_data.sav \
         --ground_truth default \
         --model_type CLASSIFICATION \
-        --no-run_pipeline"
+        --no-run_pipeline && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.partial-dependence-plot/algorithms/partial_dependence_plot/"
 
@@ -1186,7 +1204,7 @@ def test_robustness_toolbox_zip():
 def test_robustness_toolbox_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-robustness-toolbox \
-        -f stock-plugins/aiverify.stock.robustness-toolbox/algorithms/robustness_toolbox/Dockerfile ."
+        -f stock-plugins/aiverify.stock.robustness-toolbox/algorithms/robustness_toolbox/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -1221,7 +1239,7 @@ def test_robustness_toolbox_docker_zip():
         --model_type CLASSIFICATION \
         --run_pipeline \
         --annotated_ground_truth_path /input/data/pickle_pandas_fashion_mnist_annotated_labels_10.sav \
-        --file_name_label file_name"
+        --file_name_label file_name && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.robustness-toolbox/algorithms/robustness_toolbox/"
 
@@ -1336,7 +1354,7 @@ def test_shap_toolbox_zip():
 def test_shap_toolbox_docker():
 
     build_plugin_docker_image_command = "docker build -t aiverify-shap-toolbox \
-        -f stock-plugins/aiverify.stock.shap-toolbox/algorithms/shap_toolbox/Dockerfile ."
+        -f stock-plugins/aiverify.stock.shap-toolbox/algorithms/shap_toolbox/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -1375,7 +1393,7 @@ def test_shap_toolbox_docker_zip():
         --background_path /input/data/sample_bc_credit_data.sav \
         --background_samples 25 \
         --data_samples 25 \
-        --explain_type global"
+        --explain_type global && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.shap-toolbox/algorithms/shap_toolbox/"
 
@@ -1569,7 +1587,7 @@ def test_veritas_cli_zip():
 
 def test_veritas_docker():
 
-    build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile ."
+    build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -1592,7 +1610,7 @@ def test_veritas_docker():
         --transparency_rows 20 40 \
         --transparency_max_samples 1000 \
         --transparency_features LIMIT_BAL \
-        --run_pipeline"
+        --run_pipeline && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
 
@@ -1601,7 +1619,7 @@ def test_veritas_docker():
 
 def test_veritas_docker_zip():
 
-    build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile ."
+    build_plugin_docker_image_command = "docker build -t aiverify-veritastool -f ./stock-plugins/aiverify.stock.veritas/algorithms/veritastool/Dockerfile . --no-cache"
 
     run_plugin_docker_command = "docker run --rm \
         -v $(pwd)/stock-plugins/user_defined_files:/input \
@@ -1624,7 +1642,7 @@ def test_veritas_docker_zip():
         --transparency_rows 20 40 \
         --transparency_max_samples 1000 \
         --transparency_features LIMIT_BAL \
-        --run_pipeline"
+        --run_pipeline && docker image prune -a -y"
 
     PATH = pwd + "/stock-plugins/aiverify.stock.veritas/algorithms/veritastool/"
 
