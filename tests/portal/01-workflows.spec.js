@@ -690,7 +690,7 @@ test.describe('Report Template Workflows', () => {
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
         /* Select Data */
-        await selectDataPage.selectDataComboBox(arrayofIDs)
+        await selectDataPage.selectDataComboBoxVeritas(arrayofIDs, projectInfo.reportTitle)
 
         /* Canvas Page */
         await canvasPage.zoomInButton.click()
@@ -722,7 +722,7 @@ test.describe('Report Template Workflows', () => {
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
         /* Select Data */
-        await selectDataPage.selectDataComboBox(arrayofIDs)
+        await selectDataPage.selectDataComboBoxVeritas(arrayofIDs, projectInfo.reportTitle)
 
         /* Canvas Page */
         console.log('[INFO] Canvas Page')
@@ -755,7 +755,7 @@ test.describe('Report Template Workflows', () => {
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
         /* Select Data */
-        await selectDataPage.selectDataComboBox(arrayofIDs)
+        await selectDataPage.selectDataComboBoxVeritas(arrayofIDs, projectInfo.reportTitle)
 
         /* Canvas Page */
         console.log('[INFO] Canvas Page')
@@ -788,7 +788,7 @@ test.describe('Report Template Workflows', () => {
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
         /* Select Data */
-        await selectDataPage.selectDataComboBox(arrayofIDs)
+        await selectDataPage.selectDataComboBoxVeritas(arrayofIDs, projectInfo.reportTitle)
 
         /* Canvas Page */
         console.log('[INFO] Canvas Page')
@@ -821,7 +821,7 @@ test.describe('Report Template Workflows', () => {
         await reportTemplatePage.selectReportTemplate(projectInfo.reportTitle)
 
         /* Select Data */
-        await selectDataPage.selectDataComboBox(arrayofIDs)
+        await selectDataPage.selectDataComboBoxVeritas(arrayofIDs, projectInfo.reportTitle)
 
         /* Canvas Page */
         console.log('[INFO] Canvas Page')

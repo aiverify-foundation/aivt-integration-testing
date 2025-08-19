@@ -51,4 +51,24 @@ export class SelectDataPage {
         await this.nextButton.click()
 
     }
+
+     /**
+     * @param { object }
+     */
+    async selectDataComboBoxVeritas(arrayofIDs, reportTemplateName) {
+
+        console.log('[INFO] Select Data');
+        for(let counter = 0; counter < arrayofIDs.length; counter++) {
+            // await expect(this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter])).toBeVisible()
+            await this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
+        }
+
+        await this.page.getByRole('button', { name: 'Back' }).click()
+        await this.page.getByRole('heading', { name: reportTemplateName, exact: true }).click();
+
+        // await expect(this.nextButton).toBeVisible()
+        await this.nextButton.click()
+
+
+    }
 }
