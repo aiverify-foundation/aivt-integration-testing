@@ -5,8 +5,7 @@ import subprocess, requests, pytest, json
 ## python -m pip install jupyter ##
 ## jupyter execute <notebook name>.ipynb ##
 
-# pwd = "/home/ubuntu/actions-runner/_work/aiverify/aiverify" ## To remove hardcode once script is debug completely?
-pwd = "/Users/benedict/Documents/GitHub/aiverify"
+pwd = "/home/ubuntu/actions-runner/_work/aiverify/aiverify" ## To remove hardcode once script is debug completely?
 
 root_path = pwd + "/stock-plugins/user_defined_files"
 
