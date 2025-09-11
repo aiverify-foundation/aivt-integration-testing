@@ -101,7 +101,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input ALE Test Parameters */
         console.log('[INFO] Input ALE Test Parameters')
         const aleParameters = {
-            algorithm: "aiverify_accumulated_local_effect",
+            algorithm: "Accumulated Local Effect",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -126,7 +126,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input FMTC Test Parameters */
         console.log('[INFO] Input FMTC Test Parameters')
         const fmtcParameters = {
-            algorithm: "fairness_metrics_toolbox_for_classification",
+            algorithm: "Fairness Metrics Toolbox for Classification",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -148,7 +148,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input FMTR Test Parameters */
         console.log('[INFO] Input FMTR Test Parameters')
         const fmtrParameters = {
-            algorithm: "fairness_metrics_toolbox_for_regression",
+            algorithm: "Fairness Metrics Toolbox for Regression",
             model: "regression_tabular_donation",
             dataset: "sample_reg_pipeline_data.sav",
             groundTruthDataset: "sample_reg_pipeline_ytest_data.sav",
@@ -168,7 +168,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Blur Corruption Test Parameters */
         console.log('[INFO] Input Blur Corruption Test Parameters')
         const blurCorruptionParameters = {
-            algorithm: "aiverify_blur_corruptions",
+            algorithm: "Blur Corruptions",
             model: "sample_fashion_mnist_sklearn",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -186,7 +186,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Blur Corruption Test Parameters */
         console.log('[INFO] Input Blur Corruption Test Parameters')
         const blurCorruptionParameters = {
-            algorithm: "aiverify_blur_corruptions",
+            algorithm: "Blur Corruptions",
             model: "sample_fashion_mnist_pytorch",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -204,7 +204,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input General Corruption Test Parameters */
         console.log('[INFO] Input General Corruption Test Parameters')
         const generalCorruptionParameters = {
-            algorithm: "aiverify_general_corruptions",
+            algorithm: "General Corruptions",
             model: "sample_fashion_mnist_sklearn",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -222,7 +222,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input General Corruption Test Parameters */
         console.log('[INFO] Input General Corruption Test Parameters')
         const generalCorruptionParameters = {
-            algorithm: "aiverify_general_corruptions",
+            algorithm: "General Corruptions",
             model: "sample_fashion_mnist_pytorch",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -240,7 +240,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input General Corruption Test Parameters */
         console.log('[INFO] Input Environment Corruption Test Parameters')
         const environmentCorruptionParameters = {
-            algorithm: "aiverify_environment_corruptions",
+            algorithm: "Environment Corruptions",
             model: "sample_fashion_mnist_sklearn",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -258,7 +258,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input General Corruption Test Parameters */
         console.log('[INFO] Input Environment Corruption Test Parameters')
         const environmentCorruptionParameters = {
-            algorithm: "aiverify_environment_corruptions",
+            algorithm: "Environment Corruptions",
             model: "sample_fashion_mnist_pytorch",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -276,7 +276,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Digital Corruption Test Parameters */
         console.log('[INFO] Input Digital Corruption Test Parameters')
         const digitalCorruptionParameters = {
-            algorithm: "aiverify_digital_corruptions",
+            algorithm: "Digital Corruptions",
             model: "sample_fashion_mnist_sklearn",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -294,7 +294,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Digital Corruption Test Parameters */
         console.log('[INFO] Input Digital Corruption Test Parameters')
         const digitalCorruptionParameters = {
-            algorithm: "aiverify_digital_corruptions",
+            algorithm: "Digital Corruptions",
             model: "sample_fashion_mnist_pytorch",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -312,7 +312,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -331,7 +331,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Robustness ToolBox Tabular Parameters */
         console.log('[INFO] Input Robustness ToolBox Tabular Test Parameters')
         const robustnessTabularParameters = {
-            algorithm: "aiverify_robustness_toolbox",
+            algorithm: "Robustness Toolbox",
             model: "bc_tabular_credit",
             dataset: "sample_bc_pipeline_credit_data.sav",
             groundTruthDataset: "sample_bc_pipeline_credit_ytest_data.sav",
@@ -352,7 +352,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
         const robustnessImageParameters = {
-            algorithm: "aiverify_robustness_toolbox",
+            algorithm: "Robustness Toolbox",
             model: "mc_image_fashion",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -373,7 +373,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input SHAP ToolBox Test Parameters */
         console.log('[INFO] Input Shap ToolBox Test Parameters')
         const shapParameters = {
-            algorithm: "aiverify_shap_toolbox",
+            algorithm: "SHAP Toolbox for Explainability",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -395,7 +395,7 @@ test.describe('Algorithm Workflows', () => {
         /* Input Veritas Test Parameters */
         console.log('[INFO] Input Veritas Tool Test Parameters')
         const veritasParameters = {
-            algorithm: "veritastool",
+            algorithm: "Veritas fairness & transparency assessment",
             model: "cs_model",
             dataset: "cs_X_test.pkl",
             groundTruthDataset: "cs_y_test.pkl",
