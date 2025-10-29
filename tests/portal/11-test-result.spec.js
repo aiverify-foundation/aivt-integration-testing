@@ -215,7 +215,7 @@ test.describe('Run New Tests', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -239,7 +239,7 @@ test.describe('Run New Tests', () => {
 
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
         }
@@ -313,7 +313,7 @@ test.describe('View Running Tests', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -340,7 +340,7 @@ test.describe('View Running Tests', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -368,7 +368,7 @@ test.describe('View Running Tests', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -394,7 +394,7 @@ test.describe('View Running Tests', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -424,7 +424,7 @@ test.describe('View Running Tests', () => {
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
         const robustnessImageParameters = {
-            algorithm: "aiverify_robustness_toolbox",
+            algorithm: "Robustness Toolbox",
             model: "mc_image_fashion",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -456,7 +456,7 @@ test.describe('View Running Tests', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_credit_data.sav",
             groundTruthDataset: "sample_bc_credit_data.sav",
@@ -483,7 +483,7 @@ test.describe('View Running Tests', () => {
         /* Input Partial Dependence Plot Parameters */
         console.log('[INFO] Input Partial Dependence Plot Test Parameters')
         const pdpParameters = {
-            algorithm: "aiverify_partial_dependence_plot",
+            algorithm: "Partial Dependence Plot",
             model: "sample_bc_credit_sklearn_linear.LogisticRegression.sav",
             dataset: "sample_bc_pipeline_credit_data.sav",
             groundTruthDataset: "sample_bc_pipeline_credit_ytest_data.sav",
@@ -510,7 +510,7 @@ test.describe('View Running Tests', () => {
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
         const robustnessImageParameters = {
-            algorithm: "aiverify_robustness_toolbox",
+            algorithm: "Robustness Toolbox",
             model: "mc_image_fashion",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -542,7 +542,7 @@ test.describe('View Running Tests', () => {
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
         const robustnessImageParameters = {
-            algorithm: "aiverify_robustness_toolbox",
+            algorithm: "Robustness Toolbox",
             model: "mc_image_fashion",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",
@@ -574,7 +574,7 @@ test.describe('View Running Tests', () => {
         /* Input Robustness ToolBox Image Parameters */
         console.log('[INFO] Input Robustness ToolBox Image Test Parameters')
         const robustnessImageParameters = {
-            algorithm: "aiverify_robustness_toolbox",
+            algorithm: "Robustness Toolbox",
             model: "mc_image_fashion",
             dataset: "raw_fashion_image_10",
             groundTruthDataset: "pickle_pandas_fashion_mnist_annotated_labels_10.sav",

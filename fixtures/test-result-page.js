@@ -83,7 +83,7 @@ export class TestResultPage {
     this.brightnessDownFactor = page.locator('#root_brightness_down_factor_0');
 
     /* SHAP ToolBox Specific Parameters */
-    this.backgroundPath = page.getByRole('button', { name: 'Path of the Background Path' });
+    this.backgroundPath = page.getByRole('button', { name: 'Path of the Background Data' });
     this.backgroundSample = page.locator('#root_background_samples');
     this.dataSample = page.locator('#root_data_samples');
 
@@ -122,19 +122,19 @@ export class TestResultPage {
     await this.nameOfImageColumn.fill(parameters.nameOfImageColumn)
     await this.nameOfCorruptionAddButton.click()
     await this.nameOfCorruption.fill(parameters.nameOfCorruption)
-    if (parameters.algorithm == "aiverify_blur_corruptions") {
+    if (parameters.algorithm == "Blur Corruptions") {
       await this.blurSigmaAddButton.click()
       await this.blurSigma.fill(parameters.blurSigma)
     }
-    if (parameters.algorithm == "aiverify_general_corruptions") {
+    if (parameters.algorithm == "General Corruptions") {
       await this.noiseSigmaAddButton.click()
       await this.noiseSigma.fill(parameters.noiseSigma)
     }
-    if (parameters.algorithm == "aiverify_environment_corruptions") {
+    if (parameters.algorithm == "Environment Corruptions") {
       await this.snowIntensityAddButton.click()
       await this.snowIntensity.fill(parameters.snowIntensity)
     }
-    if (parameters.algorithm == "aiverify_digital_corruptiions") {
+    if (parameters.algorithm == "Digital Corruptions") {
       await this.brightnessDownFactorAddButton.click()
       await this.brightnessDownFactor.fill(parameters.brightnessDownFactor)
     }
@@ -162,30 +162,30 @@ export class TestResultPage {
     await this.groundTruthColumnDropDownList.click()
     await this.page.getByRole('option', { name: parameters.groundTruthColumn, exact: true }).click()
 
-    if (parameters.algorithm == "fairness_metrics_toolbox_for_classification") {
+    if (parameters.algorithm == "Fairness Metrics Toolbox for Classification") {
       await this.sensitiveFeature.fill(parameters.sensitiveFeature)
       await this.annotatedLabelsPath.click()
       await this.page.getByRole('option', { name: parameters.annotatedLabelsPath }).click()
       await this.nameOfImageColumn.fill(parameters.nameOfImageColumn)
     }
 
-    if (parameters.algorithm == "fairness_metrics_toolbox_for_regression")
+    if (parameters.algorithm == "Fairness Metrics Toolbox for Regression")
       await this.sensitiveFeature.fill(parameters.sensitiveFeature)
 
-    if (parameters.algorithm == "aiverify_robustness_toolbox") {
+    if (parameters.algorithm == "Robustness Toolbox") {
       await this.annotatedGroundTruthPath.click()
       await this.page.getByRole('option', { name: parameters.annotatedGroundTruthPath, exact: true }).click()
       await this.nameOfImageColumn.click()
       await this.nameOfImageColumn.fill(parameters.nameOfImageColumn)
     }
 
-    if (parameters.algorithm == "aiverify_shap_toolbox") {
+    if (parameters.algorithm == "SHAP Toolbox for Explainability") {
       await this.backgroundPath.click()
       await this.page.getByRole('option', { name: parameters.backgroundPath, exact: true }).click()
       await this.backgroundSample.fill(parameters.backgroundSample)
       await this.dataSample.fill(parameters.dataSample)
     }
-    if (parameters.algorithm == "veritastool") {
+    if (parameters.algorithm == "Veritas fairness & transparency assessment") {
       await this.privilegedGroupAddButton.click()
       await this.privilegedGroup.click()
       await this.privilegedGroup.fill(parameters.privilegedGroup[0][0])
