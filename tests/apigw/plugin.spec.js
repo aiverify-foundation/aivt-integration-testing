@@ -11,8 +11,8 @@ const root_path = process.env.ROOT_PATH
 test.describe('Plugin', () => {
 
     const POST_PLUGIN = [
-        { TEST_NAME: "With Valid Plugin Meta Data", PLUGIN_PATH: root_path + "/third-party-plugins/ccs_plugins/cccs_explainability.zip", PLUGIN_NAME: "ccs_explainability.zip", STATUS: 200 },
-        { TEST_NAME: "With Invalid Plugin Meta Data", PLUGIN_PATH: root_path + "/third-party-plugins/ccs_plugins/corrupted.zip", PLUGIN_NAME: "corrupted.zip", STATUS: 400 }
+        { TEST_NAME: "With Valid Plugin Meta Data", PLUGIN_PATH: root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip", PLUGIN_NAME: "cccs_explainability_2.0.zip", STATUS: 200 },
+        { TEST_NAME: "With Invalid Plugin Meta Data", PLUGIN_PATH: root_path + "/third-party-plugins/cccs_plugins/corrupted.zip", PLUGIN_NAME: "corrupted.zip", STATUS: 400 }
     ]
 
     for (const data of POST_PLUGIN) {
