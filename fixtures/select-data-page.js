@@ -23,52 +23,26 @@ export class SelectDataPage {
     /**
      * @param { object }
      */
-    async selectData(arrayofIDs) {
+    async selectDataComboBox(arrayofOptionLabels) {
 
         /* Select Data */
         console.log('[INFO] Select Data');
-        for(let counter = 0; counter < arrayofIDs.length; counter++) {
-            // await expect(this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter])).toBeVisible()
-            await this.inputDropDownBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
+        for(let counter = 0; counter < arrayofOptionLabels.length; counter++) {
+            const combobox = this.inputComboBox.nth(counter + 1);
+            await expect(combobox).toBeVisible()
+            
+            const searchText = arrayofOptionLabels[counter];
+            const matchingValue = await combobox.locator('option')
+                                                .filter({ hasText: searchText })
+                                                .first()
+                                                .getAttribute('value');
+            await expect(matchingValue).toEqual(expect.any(String));
+            await expect(matchingValue.length).toBeGreaterThan(0);
+
+            console.log('[INFO] Matching Value:', matchingValue, ', Search Text:', searchText);
+            await combobox.selectOption(matchingValue);
         }
-
+        
         await this.nextButton.click()
-    }
-
-    /**
-     * @param { object }
-     */
-
-    async selectDataComboBox(arrayofIDs) {
-
-        /* Select Data */
-        console.log('[INFO] Select Data');
-        for(let counter = 0; counter < arrayofIDs.length; counter++) {
-            // await expect(this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter])).toBeVisible()
-            await this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
-        }
-        // await expect(this.nextButton).toBeVisible()
-        await this.nextButton.click()
-
-    }
-
-     /**
-     * @param { object }
-     */
-    async selectDataComboBoxVeritas(arrayofIDs, reportTemplateName) {
-
-        console.log('[INFO] Select Data');
-        for(let counter = 0; counter < arrayofIDs.length; counter++) {
-            // await expect(this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter])).toBeVisible()
-            await this.inputComboBox.nth(counter + 1).selectOption(arrayofIDs[counter]);
-        }
-
-        await this.page.getByRole('button', { name: 'Back' }).click()
-        await this.page.getByRole('heading', { name: reportTemplateName, exact: true }).click();
-
-        // await expect(this.nextButton).toBeVisible()
-        await this.nextButton.click()
-
-
     }
 }

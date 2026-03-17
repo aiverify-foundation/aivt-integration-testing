@@ -37,7 +37,7 @@ export class HomePage {
 
     /* Validate Project Creation */
     console.log('[INFO] Validate Project Creation')
-    await expect(this.page.getByRole('heading', { name: reportTitle, exact: true })).toBeVisible()
+    await expect(this.page.getByRole('heading', { name: reportTitle, exact: true }).first()).toBeVisible()
     console.log('[INFO] Project Created')
 
   }
