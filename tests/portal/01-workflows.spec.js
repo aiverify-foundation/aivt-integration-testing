@@ -830,7 +830,7 @@ test.describe('Report Template Workflows', () => {
         await homePage.validateProjectCreation(projectInfo.projectName)
     })
 
-    test.only('Veritas Base Classification Report', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
+    test('Veritas Base Classification Report', async ({ homePage, createProjectPage, reportTemplatePage, selectDataPage, canvasPage }) => {
 
         const reportTemplateName = 'Veritas Base Classification Report'
 
