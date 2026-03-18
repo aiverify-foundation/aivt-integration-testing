@@ -44,7 +44,7 @@ export class UserInputPage {
         this.addInputBlock = page.getByRole('button', { name: 'ADD INPUT BLOCK' });
         this.FairnessTreeName = page.getByRole('textbox', { name: 'Name', exact: true });
         this.sensitiveFeatureName = page.getByRole('textbox', { name: 'Sensitive Feature Name(s)*' });
-        this.favourableAllocatedResource = page.getByRole('textbox', { name: 'Favourable Allocated Resource' })
+        this.favourableAllocatedResource = page.getByRole('textbox', { name: 'Favourable Resource / Opportunity Allocated*' })
         this.qualifiedGroup = page.getByRole('textbox', { name: 'Qualified Group*', exact: true })
         this.unqualifiedGroup = page.getByRole('textbox', { name: 'Unqualified Group*' })
         this.nextButton = page.getByRole('button', { name: 'Next' });
