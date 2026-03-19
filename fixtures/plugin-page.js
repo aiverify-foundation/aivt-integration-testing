@@ -36,7 +36,7 @@ export class PluginPage {
       const dataTransfer = await this.page.evaluateHandle(async (data) => {
         const transferData = new DataTransfer();
         const blobData = await fetch(data).then(res => res.blob());
-        const file = new File([blobData], 'cccs_explainability_2.0.zip', { type: 'application/json' });
+        const file = new File([blobData], 'ccs_explainability.zip', { type: 'application/json' });
         transferData.items.add(file);
         return transferData;
       }, 'data:application/octet-stream;base64,' + bufferData);

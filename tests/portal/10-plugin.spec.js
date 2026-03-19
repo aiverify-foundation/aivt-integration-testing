@@ -255,7 +255,7 @@ test.describe('Upload Plugins', () => {
 
         /* Upload Plugin Using Valid Zip Plugin File */
         console.log('[INFO] Upload Plugins')
-        let filePathStringArray = [root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip"]
+        let filePathStringArray = [root_path + "/third-party-plugins/ccs_plugins/ccs_explainability.zip"]
         await pluginPage.dragAndDropFile(filePathStringArray)
         await pluginPage.confirmUploadButton.click()
 
@@ -263,7 +263,7 @@ test.describe('Upload Plugins', () => {
         await expect.soft(page.getByText('Upload Successful!')).toBeVisible({ timeout: 20000 })
         await pluginPage.closeDialogBoxButton.click()
         await pluginPage.backButton.click()
-        await expect.soft(page.getByRole('heading', { name: 'CCCS Explainability Technical' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'CCS Explainability Technical' })).toBeVisible()
         
     })
 
@@ -271,7 +271,7 @@ test.describe('Upload Plugins', () => {
 
         /* Upload Plugin Using Valid Zip Plugin File */
         console.log('[INFO] Upload Plugins')
-        let filePathStringArray = [root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip"]
+        let filePathStringArray = [root_path + "/third-party-plugins/ccs_plugins/ccs_explainability.zip"]
         await pluginPage.uploadFile(filePathStringArray)
         await pluginPage.confirmUploadButton.click()
 
@@ -279,7 +279,7 @@ test.describe('Upload Plugins', () => {
         await expect.soft(page.getByText('Upload Successful!')).toBeVisible({ timeout: 20000 })
         await pluginPage.closeDialogBoxButton.click()
         await pluginPage.backButton.click()
-        await expect.soft(page.getByRole('heading', { name: 'CCCS Explainability Technical' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'CCS Explainability Technical' })).toBeVisible()
         
     })
 
@@ -288,10 +288,10 @@ test.describe('Upload Plugins', () => {
         /* Upload Plugin Using Valid Zip Plugin File */
         console.log('[INFO] Upload Plugins')
         let filePathStringArray = [
-            root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_fairness_classification_2.0.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_process_checklist.zip",
-            root_path + "/third-party-plugins/cccs_plugins/cccs_report_template.zip"
+            root_path + "/third-party-plugins/ccs_plugins/ccs_explainability.zip",
+            root_path + "/third-party-plugins/ccs_plugins/ccs_fairness_classification.zip",
+            root_path + "/third-party-plugins/ccs_plugins/ccs_process_checklist.zip",
+            root_path + "/third-party-plugins/ccs_plugins/ccs_report_template.zip"
         ]
         await pluginPage.uploadFile(filePathStringArray)
         await pluginPage.confirmUploadButton.click()
@@ -300,12 +300,12 @@ test.describe('Upload Plugins', () => {
         await expect.soft(page.getByText('Upload Successful!')).toBeVisible({ timeout: 20000 })
         await pluginPage.closeDialogBoxButton.click()
         await pluginPage.backButton.click()
-        await pluginPage.searchBar.fill('CCCS')
+        await pluginPage.searchBar.fill('CCS')
 
-        await expect.soft(page.getByRole('heading', { name: 'CCCS Explainability Technical' })).toBeVisible()
-        await expect.soft(page.getByRole('heading', { name: 'CCCS Fairness Technical Test' })).toBeVisible()
-        await expect.soft(page.getByRole('heading', { name: 'CCCS Process Checklist' })).toBeVisible()
-        await expect.soft(page.getByRole('heading', { name: 'CCCS AIM toolkit' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'CCS Explainability Technical' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'CCS Fairness Technical Test' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'CCS Process Checklist' })).toBeVisible()
+        await expect.soft(page.getByRole('heading', { name: 'CCS AIM toolkit' })).toBeVisible()
         
     })
 
@@ -314,10 +314,10 @@ test.describe('Upload Plugins', () => {
         await pluginPage.backButton.click()
 
         console.log('[INFO] Uninstall Plugin')
-        await pluginPage.uninstallPlugin('CCCS Process Checklist')
+        await pluginPage.uninstallPlugin('CCS Process Checklist')
 
         /* Assert Uninstalled Plugin */
-        await expect(page.getByText('CCCS Process Checklist')).not.toBeVisible()
+        await expect(page.getByText('CCS Process Checklist')).not.toBeVisible()
 
     })
 
@@ -353,7 +353,7 @@ test.describe('Upload Plugins', () => {
 
         console.log('[INFO] Upload Plugins')
         let filePathStringArray = [
-            root_path + "/third-party-plugins/cccs_plugins/corrupted.zip",
+            root_path + "/third-party-plugins/ccs_plugins/corrupted.zip",
         ]
         await pluginPage.uploadFile(filePathStringArray)
         await pluginPage.confirmUploadButton.click()
@@ -367,12 +367,12 @@ test.describe('Upload Plugins', () => {
 
         /* Upload Plugin Using Valid Zip Plugin File */
         console.log('[INFO] Upload Plugins')
-        let filePathStringArray = [root_path + "/third-party-plugins/cccs_plugins/cccs_explainability_2.0.zip"]
+        let filePathStringArray = [root_path + "/third-party-plugins/ccs_plugins/ccs_explainability.zip"]
         await pluginPage.uploadFile(filePathStringArray)
         await pluginPage.removePluginFileButton.click()
 
         /* Assert Remove Plugin To Be Uploaded */
-        await expect.soft(page.getByText('cccs_explainability_2.0.zip')).not.toBeVisible()
+        await expect.soft(page.getByText('ccs_explainability.zip')).not.toBeVisible()
     })
         
 })
