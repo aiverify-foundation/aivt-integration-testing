@@ -16,8 +16,14 @@ export class ReportTemplatePage {
         this.clearSearchButton = page.getByRole('button', { name: 'Clear' })
         this.editReportTemplateButton = page.locator('.transition-colors')
         this.viewReportTemplateButton = page.locator('.transition-colors').first()
-        this.copyReportTemplateButton = page.locator('.undefined > button:nth-child(2)').first()
+        this.copyReportTemplateButton = page.locator("//div[starts-with(@class, 'card_cardFlexbox')]")
+                                            .filter({ has: page.getByRole('heading', { name: 'AI Verify Summary Report for Regression Model' })})
+                                            .getByRole('button')
+                                            .nth(1);
+        this.copyOfReportTemplateHeader = page.getByRole('header', { name: 'Copy of AI Verify Summary Report for Regression Model' })
         this.reportTemplateName = page.locator('div.card_cardContent__bLyjq h3')
+
+
 
         /* Edit Mode */
         this.editModeButton = page.getByRole('button', { name: 'Switch to Edit Mode' })
