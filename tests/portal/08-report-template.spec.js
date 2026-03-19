@@ -79,7 +79,7 @@ test.describe('View Uploaded Template', () => {
 
     })
 
-    test.only('Copy Report Template Button', async ({ reportTemplatePage, page }) => {
+    test('Copy Report Template Button', async ({ reportTemplatePage, page }) => {
 
         console.log('[INFO] Report Template Page')
 
