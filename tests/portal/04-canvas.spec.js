@@ -69,7 +69,7 @@ test.describe('Canvas', () => {
 
         /* Edit Canvas */
         console.log('[INFO] Edit Project Report Canvas')
-        await homePage.editProjectButton.nth(15).click()
+        await homePage.editProjectButton.click()
         await selectDataPage.backButton.click()
 
     })
@@ -77,6 +77,7 @@ test.describe('Canvas', () => {
     test('Project Name', async ({ page }) => {
 
         /* Assert Project Name */
+        console.log('[INFO] Expect project name')
         await expect(page.getByRole('heading', { name: projectInfo.projectName })).toBeVisible()
 
 
